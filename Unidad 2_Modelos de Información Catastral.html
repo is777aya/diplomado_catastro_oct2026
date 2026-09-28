@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Interactiva: Catastro y LADM en La Paz, Bolivia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f4f7fc; color: #1e2a3a; line-height: 1.6; padding: 20px;
+        }
+        .presentation-container {
+            max-width: 1200px; margin: 0 auto; background: #ffffff;
+            border-radius: 24px; box-shadow: 0 20px 40px rgba(0, 20, 50, 0.1); overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #0b2b4e 0%, #1a4b7a 100%);
+            color: white; padding: 30px 40px; text-align: center;
+        }
+        header h1 { font-size: 2.2rem; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; }
+        header p { font-size: 1.1rem; opacity: 0.9; }
+        .badge {
+            display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 18px;
+            border-radius: 40px; font-size: 0.9rem; margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .tabs {
+            display: flex; background: #eef2f7; border-bottom: 1px solid #d0dbea;
+            padding: 0 20px; flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: transparent; border: none; padding: 18px 28px; font-size: 1rem;
+            font-weight: 500; color: #4a5c72; cursor: pointer; transition: all 0.2s ease;
+            border-bottom: 3px solid transparent; display: flex; align-items: center; gap: 10px;
+        }
+        .tab-btn i { font-size: 1.1rem; }
+        .tab-btn:hover { background: rgba(26, 75, 122, 0.05); color: #1a4b7a; }
+        .tab-btn.active {
+            color: #0b2b4e; border-bottom-color: #1a4b7a; background: white; font-weight: 600;
+        }
+        .tab-content { display: none; padding: 35px 40px; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        h2 { font-size: 1.8rem; color: #0b2b4e; margin-bottom: 10px; font-weight: 600; }
+        h3 { font-size: 1.3rem; color: #1a4b7a; margin: 25px 0 12px 0; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        h4 { font-size: 1.1rem; color: #2c3e50; margin: 18px 0 8px 0; font-weight: 600; }
+        p { margin-bottom: 14px; color: #33445e; }
+
+        /* --- GALERÍA DE IMÁGENES --- */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .image-card {
+            background: #fff;
+            border: 1px solid #dce5ef;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .image-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(11, 43, 78, 0.12);
+        }
+        .image-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            background: #f0f5fb;
+        }
+        .image-card .img-caption {
+            padding: 16px 18px;
+            font-size: 0.9rem;
+            color: #33445e;
+            border-top: 1px solid #eef2f7;
+        }
+        .image-card .img-caption strong {
+            display: block;
+            color: #0b2b4e;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+        .image-card .img-caption .source {
+            font-size: 0.8rem;
+            color: #7a8da0;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* --- DIAGRAMAS SVG --- */
+        .svg-diagram {
+            background: #ffffff;
+            border: 1px solid #dce5ef;
+            border-radius: 16px;
+            padding: 25px 20px;
+            margin: 25px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+        .svg-diagram svg { max-width: 100%; height: auto; }
+        .svg-caption {
+            font-size: 0.9rem;
+            color: #5a6f8a;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* --- TARJETAS --- */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin: 20px 0 30px; }
+        .card {
+            background: #f9fbfe; border: 1px solid #e1e9f2; border-radius: 16px;
+            padding: 24px 20px; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(11, 43, 78, 0.08); border-color: #b8cde0; }
+        .card-icon { font-size: 2rem; color: #1a4b7a; margin-bottom: 12px; }
+        .card h4 { margin-top: 0; margin-bottom: 10px; font-size: 1.15rem; }
+        .card p { font-size: 0.95rem; margin-bottom: 0; }
+
+        .highlight-box {
+            background: #e8f0fe; border-left: 6px solid #1a4b7a; padding: 18px 22px;
+            border-radius: 0 12px 12px 0; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; color: #0b2b4e; }
+        .exercise-box {
+            background: #fff8e7; border: 1px solid #ffe0a3; border-radius: 16px;
+            padding: 22px 26px; margin: 30px 0 10px;
+        }
+        .exercise-box h4 { color: #9e6b00; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .exercise-box ul, .exercise-box ol { margin-left: 22px; color: #4e3e1f; }
+        .exercise-box li { margin-bottom: 8px; }
+        .table-responsive { overflow-x: auto; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e1e9f2; }
+        th { background: #f0f5fb; color: #0b2b4e; font-weight: 600; }
+        tr:hover { background: #f9fbfe; }
+        .map-link {
+            display: inline-block; background: #1a4b7a; color: white; padding: 12px 24px;
+            border-radius: 40px; text-decoration: none; font-weight: 500; margin: 10px 0;
+            transition: background 0.2s;
+        }
+        .map-link:hover { background: #0b2b4e; }
+        .map-link i { margin-right: 8px; }
+        .cta-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin: 15px 0; }
+        footer {
+            background: #f0f5fb; padding: 20px 40px; text-align: center;
+            font-size: 0.9rem; color: #5a6f8a; border-top: 1px solid #dce5ef;
+        }
+        @media (max-width: 768px) {
+            header { padding: 24px 20px; } header h1 { font-size: 1.6rem; }
+            .tabs { padding: 0 10px; } .tab-btn { padding: 14px 16px; font-size: 0.9rem; }
+            .tab-content { padding: 24px 20px; } h2 { font-size: 1.5rem; }
+            .image-gallery { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="presentation-container">
+    <header>
+        <h1><i class="fas fa-map-marked-alt"></i> Modelos de Información Catastral y LADM</h1>
+        <p>Aplicación al catastro del municipio de La Paz, Bolivia</p>
+        <div class="badge"><i class="fas fa-graduation-cap"></i> Presentación Técnica Interactiva · GAMLP</div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')"><i class="fas fa-layer-group"></i> 1. Modelos de Información Catastral</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')"><i class="fas fa-cubes"></i> 2. Componentes del Predio</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab3')"><i class="fas fa-th"></i> 3. Estructura de Parcelas</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab4')"><i class="fas fa-globe"></i> 4. LADM / ISO 19152 en La Paz</button>
+    </div>
+
+    <!-- ==================== TAB 1 ==================== -->
+    <div id="tab1" class="tab-content active">
+        <h2><i class="fas fa-layer-group" style="color:#1a4b7a; margin-right: 12px;"></i>1. Modelos de Información Catastral</h2>
+        <p>El catastro en el municipio de La Paz se rige por la <strong>Ley Municipal Autonómica N° 58 de 30 de diciembre de 2013 (Ley Municipal de Catastro)</strong>, que establece que el catastro es de cumplimiento obligatorio e inexcusable en todo el territorio del Municipio de Nuestra Señora de La Paz. Según el <strong>Reglamento Municipal de Catastro (Decreto Municipal N° 015/2016)</strong>, la Ficha Catastral es el instrumento técnico para el relevamiento en sitio de la información territorial.</p>
+
+        <h3><i class="fas fa-sitemap"></i> Tipos de Catastro Aplicables a La Paz</h3>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                <h4>Catastro Ortodoxo (Fiscal)</h4>
+                <p>Según el Reglamento Nacional de Catastro Urbano de Bolivia, es "el inventario de los predios urbanos del país" que recopila datos geométricos, físicos y económicos, así como sus relaciones de dominio. En La Paz, la base imponible del impuesto predial se constituye por el avalúo fiscal establecido en la jurisdicción municipal.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                <h4>Catastro Jurídico</h4>
+                <p>Registra la relación legal entre el titular y el inmueble. La Ley Municipal de Catastro de La Paz exige que el catastro comprenda la recopilación de datos sobre "titularidad" del bien inmueble, garantizando la seguridad jurídica de la tenencia.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-globe-americas"></i></div>
+                <h4>Catastro Multifinalitario</h4>
+                <p>El GAMLP administra el "registro y servicios catastrales multifinalitarios" integrando información física, jurídica y económica de bienes inmuebles públicos y privados en todo el territorio municipal. Permite planificación urbana, gestión del riesgo y desarrollo sostenible.</p>
+            </div>
+        </div>
+
+        <!-- DIAGRAMA SVG: CICLO DEL CATASTRO -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrow1" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#1a4b7a"/>
+                    </marker>
+                </defs>
+                <rect x="20" y="60" width="160" height="100" rx="12" fill="#0b2b4e" opacity="0.95"/>
+                <text x="100" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="600">LEVANTAMIENTO</text>
+                <text x="100" y="120" text-anchor="middle" fill="#b8cde0" font-size="11">Ficha Catastral</text>
+                <text x="100" y="138" text-anchor="middle" fill="#b8cde0" font-size="11">FDRC / AutoCAD</text>
+
+                <rect x="220" y="60" width="160" height="100" rx="12" fill="#1a4b7a" opacity="0.95"/>
+                <text x="300" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="600">REGISTRO</text>
+                <text x="300" y="120" text-anchor="middle" fill="#b8cde0" font-size="11">Código Catastral</text>
+                <text x="300" y="138" text-anchor="middle" fill="#b8cde0" font-size="11">Base de Datos</text>
+
+                <rect x="420" y="60" width="160" height="100" rx="12" fill="#2c6e9e" opacity="0.95"/>
+                <text x="500" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="600">CERTIFICACIÓN</text>
+                <text x="500" y="120" text-anchor="middle" fill="#d4e4f5" font-size="11">Registro Catastral</text>
+                <text x="500" y="138" text-anchor="middle" fill="#d4e4f5" font-size="11">Trámite Ciudadano</text>
+
+                <rect x="620" y="60" width="160" height="100" rx="12" fill="#3d8ec9" opacity="0.95"/>
+                <text x="700" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="600">TRIBUTACIÓN</text>
+                <text x="700" y="120" text-anchor="middle" fill="#e8f0fe" font-size="11">Avalúo Fiscal</text>
+                <text x="700" y="138" text-anchor="middle" fill="#e8f0fe" font-size="11">Impuesto Predial</text>
+
+                <line x1="180" y1="110" x2="215" y2="110" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrow1)"/>
+                <line x1="380" y1="110" x2="415" y2="110" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrow1)"/>
+                <line x1="580" y1="110" x2="615" y2="110" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrow1)"/>
+
+                <path d="M700 60 Q700 20 400 20 Q100 20 100 55" fill="none" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arrow1)"/>
+                <text x="400" y="14" text-anchor="middle" fill="#1a4b7a" font-size="11" font-style="italic">Actualización permanente</text>
+            </svg>
+            <p class="svg-caption">Figura 1. Ciclo del catastro en el GAMLP: desde el levantamiento en campo hasta la tributación, con retroalimentación continua.</p>
+        </div>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> La codificación catastral vigente en el municipio tiene <strong>6 campos numéricos</strong>. El ejemplo oficial del Atlas Catastral del GAMLP es <code>2 | 01 | 038 | 0549 | 0001 | 0000</code>.</p>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO 1 -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico 1: Identificación de Modelos Catastrales en La Paz</h4>
+            <p>El GAMLP necesita implementar un sistema que permita simultáneamente:</p>
+            <ul>
+                <li>Emitir la <strong>Certificación de Registro Catastral</strong> que los ciudadanos necesitan para trámites de propiedad.</li>
+                <li>Determinar el <strong>avalúo fiscal</strong> para el impuesto predial.</li>
+                <li>Identificar predios en <strong>zonas de riesgo</strong> de deslizamiento en laderas.</li>
+                <li>Alimentar el <strong>Mapa de Uso de Suelos (LUSU)</strong> y el <strong>Mapa de Riesgos</strong> del SIT.</li>
+            </ul>
+            <p><strong>Pregunta:</strong> ¿Qué tipo de catastro satisface TODAS estas necesidades? Justifica citando las herramientas del GAMLP.</p>
+            <p><strong>Respuesta esperada:</strong> El <strong>Catastro Multifinalitario</strong>, porque cumple simultáneamente funciones fiscales (avalúo), jurídicas (certificación) y de planificación territorial (riesgos y uso de suelos). El GAMLP lo gestiona a través de su plataforma SIT y el mapa catastral interactivo.</p>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 2 ==================== -->
+    <div id="tab2" class="tab-content">
+        <h2><i class="fas fa-cubes" style="color:#1a4b7a; margin-right: 12px;"></i>2. Componentes Físico, Jurídico y Económico del Predio</h2>
+        <p>La Ley Municipal de Catastro de La Paz (N° 58/2013) establece que el catastro comprende la recopilación de datos que describen los bienes inmuebles atendiendo a sus características <strong>económicas y jurídicas</strong>, entre las que se encuentran "localización, superficie, representación gráfica, valor catastral y titularidad". Estos son los tres componentes que se registran en la <strong>Ficha Catastral</strong> vigente del GAMLP.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-ruler-combined"></i></div>
+                <h4>Componente Físico</h4>
+                <p>Representación geométrica del predio: linderos, superficie (cabida), coordenadas UTM (WGS-84), áreas construidas y número de plantas. El <strong>Formulario Digital de Registro Catastral (FDRC)</strong> automatiza el dibujo en AutoCAD y permite generar el modelo 3D del inmueble.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-file-signature"></i></div>
+                <h4>Componente Jurídico</h4>
+                <p>Relación legal entre el titular y el predio. La Ficha Catastral del GAMLP registra: propietario/apoderado (nombres, apellidos, N° de documento), matrícula o partida, y número de ficha. Incluye derechos, restricciones y responsabilidades (RRR).</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <h4>Componente Económico</h4>
+                <p>Determinación del <strong>avalúo catastral</strong>: valor del terreno + valor de la construcción, considerando zona homogénea, destino económico y condiciones del mercado. La base imponible del impuesto predial en La Paz es el avalúo fiscal establecido por la jurisdicción municipal.</p>
+            </div>
+        </div>
+
+        <!-- DIAGRAMA SVG: COMPONENTES DEL PREDIO -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 750 280" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="375" cy="140" r="70" fill="#1a4b7a" opacity="0.95"/>
+                <text x="375" y="130" text-anchor="middle" fill="white" font-size="16" font-weight="700">PREDIO</text>
+                <text x="375" y="152" text-anchor="middle" fill="#b8cde0" font-size="12">Unidad Catastral</text>
+
+                <circle cx="160" cy="70" r="55" fill="#0b2b4e"/>
+                <text x="160" y="60" text-anchor="middle" fill="white" font-size="13" font-weight="600">FÍSICO</text>
+                <text x="160" y="78" text-anchor="middle" fill="#b8cde0" font-size="10">Geometría</text>
+                <text x="160" y="92" text-anchor="middle" fill="#b8cde0" font-size="10">Superficie</text>
+
+                <circle cx="590" cy="70" r="55" fill="#2c6e9e"/>
+                <text x="590" y="60" text-anchor="middle" fill="white" font-size="13" font-weight="600">JURÍDICO</text>
+                <text x="590" y="78" text-anchor="middle" fill="#d4e4f5" font-size="10">Titularidad</text>
+                <text x="590" y="92" text-anchor="middle" fill="#d4e4f5" font-size="10">RRR</text>
+
+                <circle cx="375" cy="240" r="55" fill="#3d8ec9"/>
+                <text x="375" y="230" text-anchor="middle" fill="white" font-size="13" font-weight="600">ECONÓMICO</text>
+                <text x="375" y="248" text-anchor="middle" fill="#e8f0fe" font-size="10">Avalúo</text>
+                <text x="375" y="262" text-anchor="middle" fill="#e8f0fe" font-size="10">Impuesto</text>
+
+                <line x1="210" y1="95" x2="310" y2="115" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="6,3"/>
+                <line x1="540" y1="95" x2="440" y2="115" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="6,3"/>
+                <line x1="375" y1="185" x2="375" y2="210" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="6,3"/>
+            </svg>
+            <p class="svg-caption">Figura 2. Los tres componentes del predio se interrelacionan en la Ficha Catastral del GAMLP.</p>
+        </div>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-link" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Interrelación en el proceso real del GAMLP:</strong> El <strong>FDRC</strong> captura los tres componentes en una sola herramienta. El profesional externo ingresa los datos físicos (dibujo AutoCAD), jurídicos (datos del propietario y matrícula) y económicos (características constructivas para el avalúo). El sistema genera el modelo 3D y la Ficha Catastral impresa.</p>
+        </div>
+
+        <h3><i class="fas fa-file-alt"></i> Documentos Oficiales del GAMLP</h3>
+        <p>La Autoridad Catastral Municipal (ACM) del GAMLP ha actualizado las Fichas Catastrales conforme a la <strong>Resolución Administrativa ACM N° 29/2024</strong>. Existen tres tipos según la Resolución Ejecutiva GAMLP N° 316/2021:</p>
+        <div class="table-responsive">
+            <table>
+                <tr><th>Ficha</th><th>Tipo de Propiedad</th><th>Uso</th></tr>
+                <tr><td><strong>Ficha Catastral A</strong></td><td>Propiedad Unifamiliar</td><td>Viviendas individuales.</td></tr>
+                <tr><td><strong>Ficha Catastral B</strong></td><td>Propiedad Horizontal – Matriz</td><td>Edificios y condominios (registro del terreno matriz).</td></tr>
+                <tr><td><strong>Ficha Catastral C</strong></td><td>Propiedad Horizontal – Unidad</td><td>Departamentos u oficinas dentro del régimen de PH.</td></tr>
+            </table>
+        </div>
+        <div class="cta-buttons">
+            <a href="https://sitservicios.lapaz.bo/sit/catastro/fichacatastral/" target="_blank" class="map-link"><i class="fas fa-download"></i> Descargar Fichas Catastrales Oficiales (GAMLP)</a>
+            <a href="https://sitservicios.lapaz.bo/sit/FDRC/descargas.html" target="_blank" class="map-link"><i class="fas fa-laptop-code"></i> Descargar FDRC (Formulario Digital)</a>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO 2 -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico 2: Llenado de Campos en la Ficha Catastral del GAMLP</h4>
+            <p>Un profesional externo debe registrar un departamento en un edificio de Miraflores (La Paz). La Ficha Catastral que debe usar es la <strong>Ficha C (Propiedad Horizontal – Unidad)</strong>. Clasifica los siguientes datos según el componente que corresponda:</p>
+            <ul>
+                <li>Superficie del terreno matriz: 600 m²</li>
+                <li>Propietario: Ana Quispe Mamani (CI: 8765432 LP)</li>
+                <li>Matrícula o Partida: 01023456</li>
+                <li>Valor del avalúo del departamento: Bs. 320.000</li>
+                <li>Coordenadas UTM del vértice 1: 592345 E, 8176543 N (WGS-84)</li>
+                <li>Área construida del departamento: 95 m²</li>
+                <li>Uso del suelo: Residencial (según LUSU)</li>
+                <li>Número de piso: 4</li>
+                <li>Hipoteca a favor del Banco Unión</li>
+            </ul>
+            <div class="table-responsive">
+                <table>
+                    <tr><th>Componente</th><th>Datos</th><th>Ficha / Sección</th></tr>
+                    <tr><td><strong>Físico</strong></td><td>Superficie del terreno matriz, coordenadas UTM, área construida del departamento, número de piso, uso del suelo.</td><td>Ficha C (Unidad) – datos del FDRC en AutoCAD.</td></tr>
+                    <tr><td><strong>Jurídico</strong></td><td>Propietaria, matrícula/partida, hipoteca.</td><td>Ficha C – sección de titular y RRR.</td></tr>
+                    <tr><td><strong>Económico</strong></td><td>Valor del avalúo del departamento.</td><td>Ficha C – sección de avalúo.</td></tr>
+                </table>
+            </div>
+            <p style="margin-top: 10px;"><strong>Respuesta adicional:</strong> Para el <strong>terreno matriz</strong> del edificio se debe usar la <strong>Ficha B (Propiedad Horizontal – Matriz)</strong>.</p>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 3 ==================== -->
+    <div id="tab3" class="tab-content">
+        <h2><i class="fas fa-th" style="color:#1a4b7a; margin-right: 12px;"></i>3. Estructura de Parcelas en el Catastro Paceño</h2>
+        <p>La <strong>parcela</strong> (o predio) es la unidad mínima de registración catastral en La Paz. Su estructura sigue una jerarquía territorial y una codificación numérica normada por el Reglamento Municipal de Catastro.</p>
+
+        <h3><i class="fas fa-sitemap"></i> Jerarquía y Codificación Catastral Oficial del GAMLP</h3>
+        <p>Según el <strong>Atlas Catastral del Municipio de La Paz</strong>, la codificación tiene 6 campos numéricos:</p>
+
+        <!-- DIAGRAMA SVG: CODIFICACIÓN CATASTRAL -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 900 160" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="40" width="120" height="60" rx="8" fill="#0b2b4e"/>
+                <text x="80" y="70" text-anchor="middle" fill="white" font-size="20" font-weight="700">2</text>
+                <text x="80" y="90" text-anchor="middle" fill="#b8cde0" font-size="10">DEPARTAMENTO</text>
+                <text x="80" y="115" text-anchor="middle" fill="#4a5c72" font-size="9">La Paz = 2</text>
+
+                <rect x="160" y="40" width="120" height="60" rx="8" fill="#1a4b7a"/>
+                <text x="220" y="70" text-anchor="middle" fill="white" font-size="20" font-weight="700">01</text>
+                <text x="220" y="90" text-anchor="middle" fill="#b8cde0" font-size="10">MUNICIPIO</text>
+                <text x="220" y="115" text-anchor="middle" fill="#4a5c72" font-size="9">La Paz = 01</text>
+
+                <rect x="300" y="40" width="120" height="60" rx="8" fill="#2c6e9e"/>
+                <text x="360" y="70" text-anchor="middle" fill="white" font-size="20" font-weight="700">038</text>
+                <text x="360" y="90" text-anchor="middle" fill="#d4e4f5" font-size="10">DISTRITO</text>
+                <text x="360" y="115" text-anchor="middle" fill="#4a5c72" font-size="9">Catastral</text>
+
+                <rect x="440" y="40" width="120" height="60" rx="8" fill="#3d8ec9"/>
+                <text x="500" y="70" text-anchor="middle" fill="white" font-size="20" font-weight="700">0549</text>
+                <text x="500" y="90" text-anchor="middle" fill="#e8f0fe" font-size="10">MANZANA</text>
+                <text x="500" y="115" text-anchor="middle" fill="#4a5c72" font-size="9">4 dígitos</text>
+
+                <rect x="580" y="40" width="120" height="60" rx="8" fill="#5ba3d9"/>
+                <text x="640" y="70" text-anchor="middle" fill="white" font-size="20" font-weight="700">0001</text>
+                <text x="640" y="90" text-anchor="middle" fill="#e8f0fe" font-size="10">PREDIO</text>
+                <text x="640" y="115" text-anchor="middle" fill="#4a5c72" font-size="9">4 dígitos</text>
+
+                <rect x="720" y="40" width="120" height="60" rx="8" fill="#7bb8e8"/>
+                <text x="780" y="70" text-anchor="middle" fill="#0b2b4e" font-size="20" font-weight="700">0000</text>
+                <text x="780" y="90" text-anchor="middle" fill="#1a4b7a" font-size="10">SUBREDIO</text>
+                <text x="780" y="115" text-anchor="middle" fill="#4a5c72" font-size="9">Prop. Horizontal</text>
+
+                <text x="450" y="20" text-anchor="middle" fill="#0b2b4e" font-size="12" font-weight="600">Código Catastral completo del GAMLP (Atlas Catastral)</text>
+                <text x="450" y="150" text-anchor="middle" fill="#5a6f8a" font-size="11" font-style="italic">Ejemplo: 2|01|038|0549|0001|0000</text>
+            </svg>
+            <p class="svg-caption">Figura 3. Estructura de la codificación catastral del Municipio de La Paz.</p>
+        </div>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-info-circle" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato histórico:</strong> La codificación de distritos catastrales fue determinada por el entonces Ministerio de Asuntos Urbanos. Originalmente se conformaron <strong>48 distritos catastrales</strong>, pero los distritos 39, 40, 41, 42, 43 y 48 pasaron al municipio de El Alto tras su creación en 1987. Desde entonces, <strong>La Paz cuenta con 42 distritos catastrales</strong> dentro de su jurisdicción.</p>
+        </div>
+
+        <!-- DIAGRAMA SVG: ELEMENTOS DE UNA PARCELA -->
+        <h3><i class="fas fa-draw-polygon"></i> Elementos Geométricos de una Parcela</h3>
+        <div class="svg-diagram">
+            <svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="120,80 380,60 420,240 200,280 100,200" fill="#e8f0fe" stroke="#1a4b7a" stroke-width="3"/>
+                <circle cx="120" cy="80" r="8" fill="#0b2b4e"/>
+                <text x="95" y="70" fill="#0b2b4e" font-size="13" font-weight="700">V1</text>
+                <circle cx="380" cy="60" r="8" fill="#0b2b4e"/>
+                <text x="390" y="55" fill="#0b2b4e" font-size="13" font-weight="700">V2</text>
+                <circle cx="420" cy="240" r="8" fill="#0b2b4e"/>
+                <text x="435" y="248" fill="#0b2b4e" font-size="13" font-weight="700">V3</text>
+                <circle cx="200" cy="280" r="8" fill="#0b2b4e"/>
+                <text x="185" y="305" fill="#0b2b4e" font-size="13" font-weight="700">V4</text>
+                <circle cx="100" cy="200" r="8" fill="#0b2b4e"/>
+                <text x="65" y="205" fill="#0b2b4e" font-size="13" font-weight="700">V5</text>
+
+                <line x1="120" y1="80" x2="380" y2="60" stroke="#2c6e9e" stroke-width="2"/>
+                <text x="230" y="62" fill="#2c6e9e" font-size="11" font-weight="600">L1 = 260.5 m</text>
+                <line x1="380" y1="60" x2="420" y2="240" stroke="#2c6e9e" stroke-width="2"/>
+                <text x="410" y="155" fill="#2c6e9e" font-size="11" font-weight="600" transform="rotate(75,410,155)">L2 = 183.7 m</text>
+                <line x1="420" y1="240" x2="200" y2="280" stroke="#2c6e9e" stroke-width="2"/>
+                <text x="290" y="275" fill="#2c6e9e" font-size="11" font-weight="600">L3 = 223.6 m</text>
+                <line x1="200" y1="280" x2="100" y2="200" stroke="#2c6e9e" stroke-width="2"/>
+                <text x="130" y="255" fill="#2c6e9e" font-size="11" font-weight="600">L4 = 128.1 m</text>
+                <line x1="100" y1="200" x2="120" y2="80" stroke="#2c6e9e" stroke-width="2"/>
+                <text x="90" y="140" fill="#2c6e9e" font-size="11" font-weight="600" transform="rotate(-75,90,140)">L5 = 121.7 m</text>
+
+                <circle cx="255" cy="175" r="6" fill="#9e6b00"/>
+                <text x="255" y="165" text-anchor="middle" fill="#9e6b00" font-size="10" font-weight="600">CENTROIDE</text>
+
+                <text x="250" y="330" text-anchor="middle" fill="#5a6f8a" font-size="12" font-style="italic">Polígono de parcela con vértices (V1-V5), lados (L1-L5) y centroide</text>
+            </svg>
+            <p class="svg-caption">Figura 4. Elementos geométricos de una parcela catastral: vértices, lados/linderos y centroide.</p>
+        </div>
+
+        <h3><i class="fas fa-search"></i> Consulta por Código Catastral en La Paz</h3>
+        <p>El Mapa Catastral del GAMLP permite buscar un predio de dos formas:</p>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-hashtag"></i></div>
+                <h4>Búsqueda por Código Catastral</h4>
+                <p>Formato simplificado: <code>distrito-mzna-predio</code>. Ejemplo real del GAMLP: <code>5-6-7</code> (predio 7, manzana 6, distrito 5).</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-map-pin"></i></div>
+                <h4>Búsqueda por Dirección</h4>
+                <p>Ingresando la dirección o número de puerta. Ejemplo real: <code>Av. Mercado # 220</code>.</p>
+            </div>
+        </div>
+        <div class="cta-buttons">
+            <a href="http://sitservicios.lapaz.bo/sit/catastro/" target="_blank" class="map-link"><i class="fas fa-external-link-alt"></i> Abrir Mapa Catastral de La Paz (GAMLP)</a>
+            <a href="http://sitservicios.lapaz.bo/LUSU/index.html" target="_blank" class="map-link"><i class="fas fa-layer-group"></i> Ver Mapa de Uso de Suelos (LUSU)</a>
+            <a href="http://sitservicios.lapaz.bo/riesgos/index.html" target="_blank" class="map-link"><i class="fas fa-exclamation-triangle"></i> Ver Mapa de Riesgos</a>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO 3 -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico 3: Interpretación del Código Catastral Paceño</h4>
+            <p>Se te proporcionan dos códigos catastrales reales del sistema del GAMLP:</p>
+            <ol>
+                <li><strong>Código completo (Atlas Catastral):</strong> <code>2|01|015|0327|0012|0000</code></li>
+                <li><strong>Código simplificado (Mapa Catastral):</strong> <code>7-12-5</code></li>
+            </ol>
+            <p><strong>Preguntas:</strong></p>
+            <ul>
+                <li>a) Descompón el código completo en sus 6 campos. ¿La Paz es el departamento 2 y el municipio 01?</li>
+                <li>b) Para <code>7-12-5</code>: ¿Cuál es el distrito, la manzana y el predio?</li>
+                <li>c) Si el distrito 7 tiene 15 manzanas y la manzana 12 tiene 8 predios, ¿cuál es el número máximo de predios que podría contener?</li>
+                <li>d) ¿Qué campo se usa exclusivamente para departamentos en propiedad horizontal?</li>
+            </ul>
+            <p><strong>Respuestas:</strong></p>
+            <ul>
+                <li>a) 2 = Departamento de La Paz; 01 = Municipio de La Paz; 015 = Distrito Catastral; 0327 = Manzana; 0012 = Predio; 0000 = Subpredio (vacío, propiedad unifamiliar).</li>
+                <li>b) Distrito 7, manzana 12, predio 5.</li>
+                <li>c) Máximo 8 predios.</li>
+                <li>d) El <strong>Subpredio</strong> (último campo de 4 dígitos).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 4 ==================== -->
+    <div id="tab4" class="tab-content">
+        <h2><i class="fas fa-globe" style="color:#1a4b7a; margin-right: 12px;"></i>4. Introducción al Estándar LADM / ISO 19152 Aplicado al Catastro de La Paz</h2>
+        <p>El <strong>Land Administration Domain Model (LADM)</strong> es el estándar internacional <strong>ISO 19152:2012</strong>. Según la Guía Nacional de Catastro de Bolivia, "es el estándar desarrollado para la administración de tierras, consiste en un modelo conceptual que esquematiza la relación entre la gente y la tierra; estandariza lo que pareciera en cada país es diferente y especializado".</p>
+
+        <h3><i class="fas fa-puzzle-piece"></i> ¿Por qué LADM es Relevante para el Catastro de La Paz?</h3>
+        <p>El GAMLP está en un proceso activo de modernización catastral. En julio de 2026 se presentó el <strong>Sistema de Inteligencia Territorial y Estrategia Catastral (SITEC)</strong>, que integra imágenes satelitales de alta resolución, drones e inteligencia geoespacial para actualizar permanentemente la información del territorio paceño, con capacidad de relevar aproximadamente <strong>140 hectáreas por día</strong>. La adopción de LADM complementaría estas iniciativas al proporcionar:</p>
+        <ul>
+            <li><strong>Interoperabilidad:</strong> Facilitar la comunicación con Derechos Reales y el catastro rural (INRA).</li>
+            <li><strong>Consistencia semántica:</strong> Asegurar que los datos catastrales sigan una estructura común y claramente definida.</li>
+            <li><strong>Escalabilidad hacia 3D:</strong> LADM tiene extensiones para representaciones 3D, alineadas con el objetivo del SITEC.</li>
+            <li><strong>Estandarización internacional:</strong> Alinearse con las mejores prácticas globales en administración de tierras.</li>
+        </ul>
+
+        <!-- DIAGRAMA SVG: PAQUETES LADM -->
+        <h3><i class="fas fa-cubes"></i> Estructura del Modelo LADM</h3>
+        <div class="svg-diagram">
+            <svg viewBox="0 0 850 300" xmlns="http://www.w3.org/2000/svg">
+                <rect x="30" y="30" width="240" height="110" rx="14" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="150" y="65" text-anchor="middle" fill="#2e7d32" font-size="15" font-weight="700">LA_Party</text>
+                <text x="150" y="88" text-anchor="middle" fill="#4e6e50" font-size="11">Personas o grupos con</text>
+                <text x="150" y="105" text-anchor="middle" fill="#4e6e50" font-size="11">interés sobre la tierra</text>
+                <text x="150" y="125" text-anchor="middle" fill="#2e7d32" font-size="10" font-style="italic">Ej: Propietario, poseedor</text>
+
+                <rect x="310" y="30" width="240" height="110" rx="14" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+                <text x="430" y="65" text-anchor="middle" fill="#f57f17" font-size="15" font-weight="700">LA_RRR</text>
+                <text x="430" y="88" text-anchor="middle" fill="#6d5a1e" font-size="11">Derechos, Restricciones</text>
+                <text x="430" y="105" text-anchor="middle" fill="#6d5a1e" font-size="11">y Responsabilidades</text>
+                <text x="430" y="125" text-anchor="middle" fill="#f57f17" font-size="10" font-style="italic">Ej: Propiedad, hipoteca, servidumbre</text>
+
+                <rect x="590" y="30" width="230" height="110" rx="14" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="705" y="65" text-anchor="middle" fill="#0d47a1" font-size="15" font-weight="700">LA_BAUnit</text>
+                <text x="705" y="88" text-anchor="middle" fill="#3a5a7a" font-size="11">Unidad Administrativa Básica</text>
+                <text x="705" y="105" text-anchor="middle" fill="#3a5a7a" font-size="11">Objeto de los derechos</text>
+                <text x="705" y="125" text-anchor="middle" fill="#0d47a1" font-size="10" font-style="italic">Ej: Predio catastral</text>
+
+                <rect x="170" y="180" width="240" height="100" rx="14" fill="#fce4ec" stroke="#c62828" stroke-width="2"/>
+                <text x="290" y="215" text-anchor="middle" fill="#b71c1c" font-size="15" font-weight="700">LA_SpatialUnit</text>
+                <text x="290" y="238" text-anchor="middle" fill="#7a3a3a" font-size="11">Representación geométrica</text>
+                <text x="290" y="255" text-anchor="middle" fill="#7a3a3a" font-size="11">de la parcela</text>
+                <text x="290" y="272" text-anchor="middle" fill="#b71c1c" font-size="10" font-style="italic">Ej: Polígono UTM, volumen 3D</text>
+
+                <rect x="470" y="180" width="240" height="100" rx="14" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+                <text x="590" y="215" text-anchor="middle" fill="#4a148c" font-size="15" font-weight="700">Surveying &amp; Representation</text>
+                <text x="590" y="238" text-anchor="middle" fill="#5a3a6a" font-size="11">Topografía y representación</text>
+                <text x="590" y="255" text-anchor="middle" fill="#5a3a6a" font-size="11">gráfica de las unidades</text>
+                <text x="590" y="272" text-anchor="middle" fill="#4a148c" font-size="10" font-style="italic">Ej: Puntos de medición, planos</text>
+
+                <line x1="270" y1="85" x2="305" y2="85" stroke="#4a5c72" stroke-width="2"/>
+                <line x1="550" y1="85" x2="585" y2="85" stroke="#4a5c72" stroke-width="2"/>
+                <line x1="430" y1="140" x2="430" y2="175" stroke="#4a5c72" stroke-width="2" stroke-dasharray="5,3"/>
+                <line x1="590" y1="140" x2="590" y2="175" stroke="#4a5c72" stroke-width="2" stroke-dasharray="5,3"/>
+            </svg>
+            <p class="svg-caption">Figura 5. Paquetes principales del estándar LADM (ISO 19152:2012) y su relación con el catastro paceño.</p>
+        </div>
+
+        <h3><i class="fas fa-cubes"></i> Estructura del Modelo LADM Aplicada a un Predio Paceño</h3>
+        <div class="table-responsive">
+            <table>
+                <tr><th>Clase LADM</th><th>Descripción</th><th>Ejemplo real en La Paz</th></tr>
+                <tr><td><strong>LA_Party</strong></td><td>Personas o grupos con interés sobre la tierra.</td><td>Ana Quispe Mamani, propietaria de un departamento en Miraflores (Ficha C, PH – Unidad).</td></tr>
+                <tr><td><strong>LA_RRR</strong></td><td>Derechos, Restricciones y Responsabilidades.</td><td>Derecho de propiedad sobre el departamento; hipoteca a favor del Banco Unión; servidumbre de paso sobre el terreno matriz.</td></tr>
+                <tr><td><strong>LA_BAUnit</strong></td><td>Unidad Administrativa Básica: el objeto sobre el que recaen los derechos.</td><td>El predio con código catastral <code>2|01|038|0549|0001|0001</code>.</td></tr>
+                <tr><td><strong>LA_SpatialUnit</strong></td><td>Unidad Espacial: representación geométrica de la parcela.</td><td>El polígono del terreno matriz de 600 m² con coordenadas UTM WGS-84, más la representación 3D del volumen del departamento.</td></tr>
+            </table>
+        </div>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-map-marked-alt" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Herramientas oficiales del GAMLP para consulta catastral:</strong></p>
+            <div class="cta-buttons">
+                <a href="http://sitservicios.lapaz.bo/sit/catastro/" target="_blank" class="map-link"><i class="fas fa-map"></i> Mapa Catastral Interactivo (GAMLP)</a>
+                <a href="https://sitservicios.lapaz.bo/sit/catastro/atlas/mosaico-catastral.html" target="_blank" class="map-link"><i class="fas fa-book"></i> Atlas Catastral Digital</a>
+            </div>
+            <p style="margin-top: 12px;">La plataforma permite visualizar la cartografía catastral y superponer capas del Sistema de Información Territorial (SIT) como el <strong>Mapa de Uso de Suelos (LUSU)</strong> y el <strong>Mapa de Riesgos</strong>.</p>
+        </div>
+
+        <h3><i class="fas fa-file-alt"></i> Ejemplo Real: Registro de una Propiedad Horizontal en La Paz</h3>
+        <p>Imagina un edificio de 5 pisos en la Zona Central de La Paz, con 10 departamentos. El proceso catastral real con las herramientas del GAMLP sería:</p>
+        <ol>
+            <li><strong>Ficha B (Matriz):</strong> Se registra el terreno matriz de 600 m² con código <code>2|01|038|0549|0001|0000</code>. Se usa el FDRC para dibujar el polígono del terreno en AutoCAD y generar el modelo 3D.</li>
+            <li><strong>Ficha C (Unidad):</strong> Se registra cada departamento con su subpredio correspondiente: <code>...0001|0001</code>, <code>...0001|0002</code>, etc.</li>
+            <li><strong>Componente jurídico:</strong> Se registra la matrícula o partida, el propietario y los RRR (hipotecas, servidumbres).</li>
+            <li><strong>Componente económico:</strong> Se calcula el avalúo de cada unidad y del terreno matriz.</li>
+        </ol>
+
+        <!-- EJERCICIO PRÁCTICO 4 -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico 4: Modelado LADM de un Predio Paceño Real</h4>
+            <p>Usando el ejemplo anterior del edificio en Zona Central, completa las instancias LADM para el <strong>departamento 3 del piso 2</strong>:</p>
+            <div class="table-responsive">
+                <table>
+                    <tr><th>Clase LADM</th><th>Instancia para el departamento 3, piso 2</th></tr>
+                    <tr><td><strong>LA_Party</strong></td><td>Ana Quispe Mamani (CI: 8765432 LP)</td></tr>
+                    <tr><td><strong>LA_RRR</strong></td><td>Derecho de propiedad (100%); hipoteca a favor del Banco Unión</td></tr>
+                    <tr><td><strong>LA_BAUnit</strong></td><td>Predio <code>2|01|038|0549|0001|0003</code></td></tr>
+                    <tr><td><strong>LA_SpatialUnit</strong></td><td>Polígono de 95 m² (Ficha C) + volumen 3D del departamento</td></tr>
+                </table>
+            </div>
+            <p><strong>Pregunta adicional:</strong> Si el edificio tuviera una <strong>servidumbre de paso</strong> sobre el terreno del vecino, ¿cómo modelarías esta situación usando LADM?</p>
+            <p><strong>Respuesta esperada:</strong> Se crearía una instancia adicional de <strong>LA_RRR</strong> con tipo "servidumbre de paso", asociada al <code>LA_BAUnit</code> del predio beneficiario y al <code>LA_BAUnit</code> del predio sirviente.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p><i class="fas fa-info-circle"></i> Presentación elaborada con fines educativos. Fuentes oficiales: Ley Municipal Autonómica N° 58/2013 (Ley Municipal de Catastro de La Paz), Decreto Municipal N° 015/2016 (Reglamento Municipal de Catastro), Resolución Ejecutiva GAMLP N° 316/2021, Resolución Administrativa ACM N° 29/2024, Atlas Catastral del Municipio de La Paz, Mapa Catastral del GAMLP, SITEC (2026) y la Guía Nacional de Catastro de Bolivia.</p>
+        <p style="margin-top: 8px;">Los enlaces a fichas catastrales, mapas interactivos y el FDRC son recursos oficiales del Gobierno Autónomo Municipal de La Paz (GAMLP).</p>
+    </footer>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabContent, tabBtn;
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) { tabContent[i].classList.remove("active"); }
+        tabBtn = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tabBtn.length; i++) { tabBtn[i].classList.remove("active"); }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.tab-btn').classList.add('active');
+        document.querySelector('.tab-content').classList.add('active');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catastro Multifinalitario y Gestión de Riesgos · La Paz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f4f7fc; color: #1e2a3a; line-height: 1.6; padding: 20px;
+        }
+        .presentation-container {
+            max-width: 1200px; margin: 0 auto; background: #ffffff;
+            border-radius: 24px; box-shadow: 0 20px 40px rgba(0, 20, 50, 0.1); overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #0b2b4e 0%, #1a4b7a 100%);
+            color: white; padding: 30px 40px; text-align: center;
+        }
+        header h1 { font-size: 2.2rem; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; }
+        header p { font-size: 1.1rem; opacity: 0.9; }
+        .badge {
+            display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 18px;
+            border-radius: 40px; font-size: 0.9rem; margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .tabs {
+            display: flex; background: #eef2f7; border-bottom: 1px solid #d0dbea;
+            padding: 0 20px; flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: transparent; border: none; padding: 18px 28px; font-size: 1rem;
+            font-weight: 500; color: #4a5c72; cursor: pointer; transition: all 0.2s ease;
+            border-bottom: 3px solid transparent; display: flex; align-items: center; gap: 10px;
+        }
+        .tab-btn i { font-size: 1.1rem; }
+        .tab-btn:hover { background: rgba(26, 75, 122, 0.05); color: #1a4b7a; }
+        .tab-btn.active {
+            color: #0b2b4e; border-bottom-color: #1a4b7a; background: white; font-weight: 600;
+        }
+        .tab-content { display: none; padding: 35px 40px; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        h2 { font-size: 1.8rem; color: #0b2b4e; margin-bottom: 10px; font-weight: 600; }
+        h3 { font-size: 1.3rem; color: #1a4b7a; margin: 25px 0 12px 0; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        h4 { font-size: 1.1rem; color: #2c3e50; margin: 18px 0 8px 0; font-weight: 600; }
+        p { margin-bottom: 14px; color: #33445e; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin: 20px 0 30px; }
+        .card {
+            background: #f9fbfe; border: 1px solid #e1e9f2; border-radius: 16px;
+            padding: 24px 20px; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(11, 43, 78, 0.08); border-color: #b8cde0; }
+        .card-icon { font-size: 2rem; color: #1a4b7a; margin-bottom: 12px; }
+        .card h4 { margin-top: 0; margin-bottom: 10px; font-size: 1.15rem; }
+        .card p { font-size: 0.95rem; margin-bottom: 0; }
+        .highlight-box {
+            background: #e8f0fe; border-left: 6px solid #1a4b7a; padding: 18px 22px;
+            border-radius: 0 12px 12px 0; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; color: #0b2b4e; }
+        .alert-box {
+            background: #fdecea; border-left: 6px solid #c62828; padding: 18px 22px;
+            border-radius: 0 12px 12px 0; margin: 20px 0;
+        }
+        .alert-box p { margin-bottom: 0; color: #7f1d1d; }
+        .exercise-box {
+            background: #fff8e7; border: 1px solid #ffe0a3; border-radius: 16px;
+            padding: 22px 26px; margin: 30px 0 10px;
+        }
+        .exercise-box h4 { color: #9e6b00; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .exercise-box ul, .exercise-box ol { margin-left: 22px; color: #4e3e1f; }
+        .exercise-box li { margin-bottom: 8px; }
+        .svg-diagram {
+            background: #ffffff; border: 1px solid #dce5ef; border-radius: 16px;
+            padding: 25px 20px; margin: 25px 0; text-align: center; overflow-x: auto;
+        }
+        .svg-diagram svg { max-width: 100%; height: auto; }
+        .svg-caption { font-size: 0.9rem; color: #5a6f8a; margin-top: 15px; font-style: italic; }
+        .table-responsive { overflow-x: auto; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e1e9f2; }
+        th { background: #f0f5fb; color: #0b2b4e; font-weight: 600; }
+        tr:hover { background: #f9fbfe; }
+        .map-link {
+            display: inline-block; background: #1a4b7a; color: white; padding: 12px 24px;
+            border-radius: 40px; text-decoration: none; font-weight: 500; margin: 10px 0;
+            transition: background 0.2s;
+        }
+        .map-link:hover { background: #0b2b4e; }
+        .map-link i { margin-right: 8px; }
+        .cta-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin: 15px 0; }
+        .risk-legend {
+            display: flex; flex-wrap: wrap; gap: 12px; margin: 15px 0; justify-content: center;
+        }
+        .risk-item {
+            display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 500;
+        }
+        .risk-color {
+            width: 20px; height: 20px; border-radius: 4px;
+        }
+        footer {
+            background: #f0f5fb; padding: 20px 40px; text-align: center;
+            font-size: 0.9rem; color: #5a6f8a; border-top: 1px solid #dce5ef;
+        }
+        @media (max-width: 768px) {
+            header { padding: 24px 20px; } header h1 { font-size: 1.6rem; }
+            .tabs { padding: 0 10px; } .tab-btn { padding: 14px 16px; font-size: 0.9rem; }
+            .tab-content { padding: 24px 20px; } h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="presentation-container">
+    <header>
+        <h1><i class="fas fa-city"></i> Catastro Multifinalitario y Gestión de Riesgos</h1>
+        <p>Aplicación al municipio de La Paz, Bolivia</p>
+        <div class="badge"><i class="fas fa-shield-halved"></i> Presentación Técnica Interactiva · GAMLP</div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'tabA')"><i class="fas fa-layer-group"></i> 1. Catastro Multifinalitario y Territorio</button>
+        <button class="tab-btn" onclick="openTab(event, 'tabB')"><i class="fas fa-mountain"></i> 2. Catastro y Gestión de Riesgos</button>
+    </div>
+
+    <!-- ==================== TAB A: CATASTRO MULTIFINALITARIO ==================== -->
+    <div id="tabA" class="tab-content active">
+        <h2><i class="fas fa-layer-group" style="color:#1a4b7a; margin-right: 12px;"></i>1. Catastro Multifinalitario y Territorio</h2>
+
+        <p>El GAMLP ha dado un paso fundamental con la creación de la <strong>Unidad de Catastro Multifinalitario (UCM)</strong>, dependiente de la Dirección de Catastro y Saneamiento de la Propiedad. Según el Manual de Organización y Funciones 2026, su objetivo es "administrar el registro y servicios catastrales multifinalitario a través de la creación y actualización de los registros catastrales y la emisión de las Certificaciones de Registro Catastral de la propiedad de bienes inmuebles públicos y privados en el territorio del Municipio de La Paz, integrando información física, jurídica, económica, tributaria, territorial y geoespacial de los predios para apoyar la planificación, gestión urbana, administración tributaria, inversión pública y servicios ciudadanos"[reference:0].</p>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Diferencia clave:</strong> Un catastro tradicional solo registra datos para cobrar impuestos. El <strong>catastro multifinalitario</strong> integra <strong>seis dimensiones</strong> de información (física, jurídica, económica, tributaria, territorial y geoespacial) para servir a múltiples fines: planificación, riesgo, inversión y servicios al ciudadano.</p>
+        </div>
+
+        <h3><i class="fas fa-cubes"></i> Las 6 Dimensiones del Catastro Multifinalitario del GAMLP</h3>
+
+        <!-- DIAGRAMA SVG: 6 DIMENSIONES -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 850 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Centro -->
+                <circle cx="425" cy="200" r="65" fill="#0b2b4e"/>
+                <text x="425" y="192" text-anchor="middle" fill="white" font-size="14" font-weight="700">PREDIO</text>
+                <text x="425" y="212" text-anchor="middle" fill="#b8cde0" font-size="11">Multifinalitario</text>
+
+                <!-- Dimensión 1: Física -->
+                <rect x="30" y="30" width="180" height="80" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="120" y="60" text-anchor="middle" fill="#2e7d32" font-size="13" font-weight="700">FÍSICA</text>
+                <text x="120" y="80" text-anchor="middle" fill="#4e6e50" font-size="10">Geometría, superficie,</text>
+                <text x="120" y="95" text-anchor="middle" fill="#4e6e50" font-size="10">linderos, construcciones</text>
+
+                <!-- Dimensión 2: Jurídica -->
+                <rect x="640" y="30" width="180" height="80" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="730" y="60" text-anchor="middle" fill="#0d47a1" font-size="13" font-weight="700">JURÍDICA</text>
+                <text x="730" y="80" text-anchor="middle" fill="#3a5a7a" font-size="10">Titularidad, matrícula,</text>
+                <text x="730" y="95" text-anchor="middle" fill="#3a5a7a" font-size="10">RRR (derechos, restricciones)</text>
+
+                <!-- Dimensión 3: Económica -->
+                <rect x="30" y="290" width="180" height="80" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+                <text x="120" y="320" text-anchor="middle" fill="#f57f17" font-size="13" font-weight="700">ECONÓMICA</text>
+                <text x="120" y="340" text-anchor="middle" fill="#6d5a1e" font-size="10">Avalúo catastral,</text>
+                <text x="120" y="355" text-anchor="middle" fill="#6d5a1e" font-size="10">valor del terreno + construcción</text>
+
+                <!-- Dimensión 4: Tributaria -->
+                <rect x="640" y="290" width="180" height="80" rx="12" fill="#fce4ec" stroke="#c62828" stroke-width="2"/>
+                <text x="730" y="320" text-anchor="middle" fill="#b71c1c" font-size="13" font-weight="700">TRIBUTARIA</text>
+                <text x="730" y="340" text-anchor="middle" fill="#7a3a3a" font-size="10">Base imponible,</text>
+                <text x="730" y="355" text-anchor="middle" fill="#7a3a3a" font-size="10">impuesto predial</text>
+
+                <!-- Dimensión 5: Territorial -->
+                <rect x="335" y="30" width="180" height="80" rx="12" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+                <text x="425" y="60" text-anchor="middle" fill="#4a148c" font-size="13" font-weight="700">TERRITORIAL</text>
+                <text x="425" y="80" text-anchor="middle" fill="#5a3a6a" font-size="10">Uso de suelos (LUSU),</text>
+                <text x="425" y="95" text-anchor="middle" fill="#5a3a6a" font-size="10">zonificación, planificación</text>
+
+                <!-- Dimensión 6: Geoespacial -->
+                <rect x="335" y="290" width="180" height="80" rx="12" fill="#e0f2f1" stroke="#00695c" stroke-width="2"/>
+                <text x="425" y="320" text-anchor="middle" fill="#004d40" font-size="13" font-weight="700">GEOESPACIAL</text>
+                <text x="425" y="340" text-anchor="middle" fill="#2e5a52" font-size="10">Coordenadas UTM,</text>
+                <text x="425" y="355" text-anchor="middle" fill="#2e5a52" font-size="10">capas SIG, SITEC 3D</text>
+
+                <!-- Líneas conectoras -->
+                <line x1="120" y1="110" x2="370" y2="160" stroke="#4a5c72" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <line x1="730" y1="110" x2="480" y2="160" stroke="#4a5c72" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <line x1="120" y1="290" x2="370" y2="240" stroke="#4a5c72" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <line x1="730" y1="290" x2="480" y2="240" stroke="#4a5c72" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <line x1="425" y1="110" x2="425" y2="135" stroke="#4a5c72" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <line x1="425" y1="290" x2="425" y2="265" stroke="#4a5c72" stroke-width="1.5" stroke-dasharray="5,3"/>
+            </svg>
+            <p class="svg-caption">Figura 1. Las 6 dimensiones del catastro multifinalitario del GAMLP, integradas en el Sistema de Información Territorial (SIT).</p>
+        </div>
+
+        <h3><i class="fas fa-tools"></i> Herramientas del Catastro Multifinalitario en La Paz</h3>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-map"></i></div>
+                <h4>Mapa Catastral Interactivo</h4>
+                <p>Permite buscar predios por código catastral (ej. <code>5-6-7</code>) o dirección, y superponer capas del SIT como el <strong>Mapa de Uso de Suelos (LUSU)</strong> y el <strong>Mapa de Riesgos</strong>[reference:1].</p>
+                <a href="http://sitservicios.lapaz.bo/sit/catastro/" target="_blank" class="map-link"><i class="fas fa-external-link-alt"></i> Abrir Mapa Catastral</a>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-draw-polygon"></i></div>
+                <h4>LUSU (Ley de Uso de Suelos Urbanos)</h4>
+                <p>Norma el uso del suelo en el municipio. Delimita áreas edificables y no edificables, gestionando riesgos geológicos, condiciones geotécnicas y dinámica hídrica[reference:2].</p>
+                <a href="http://sitservicios.lapaz.bo/LUSU/index.html" target="_blank" class="map-link"><i class="fas fa-external-link-alt"></i> Ver Mapa LUSU</a>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-mountain"></i></div>
+                <h4>Mapa de Riesgos / Atlas Integral</h4>
+                <p>El <strong>Atlas Integral del Riesgo</strong> (2025) es una plataforma interactiva con más de 100 capas que permite consultar riesgo por manzano, lote o edificación[reference:3].</p>
+                <a href="http://sitservicios.lapaz.bo/riesgos/index.html" target="_blank" class="map-link"><i class="fas fa-external-link-alt"></i> Ver Mapa de Riesgos</a>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-satellite"></i></div>
+                <h4>SITEC (Sistema de Inteligencia Territorial)</h4>
+                <p>Plataforma que integra imágenes satelitales de alta resolución, drones e inteligencia geoespacial. Permite relevar <strong>140 hectáreas por día</strong> y trabajar con información 3D[reference:4].</p>
+            </div>
+        </div>
+
+        <h3><i class="fas fa-flask"></i> Aplicaciones Prácticas del Catastro Multifinalitario</h3>
+
+        <div class="svg-diagram">
+            <svg viewBox="0 0 850 180" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowA" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#1a4b7a"/>
+                    </marker>
+                </defs>
+                <!-- Caja base -->
+                <rect x="30" y="60" width="170" height="60" rx="12" fill="#0b2b4e"/>
+                <text x="115" y="88" text-anchor="middle" fill="white" font-size="12" font-weight="600">CATASTRO</text>
+                <text x="115" y="105" text-anchor="middle" fill="#b8cde0" font-size="10">Multifinalitario</text>
+
+                <!-- Flechas y usos -->
+                <line x1="200" y1="90" x2="240" y2="40" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowA)"/>
+                <line x1="200" y1="90" x2="240" y2="90" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowA)"/>
+                <line x1="200" y1="90" x2="240" y2="140" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowA)"/>
+
+                <rect x="260" y="15" width="200" height="50" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="360" y="38" text-anchor="middle" fill="#2e7d32" font-size="11" font-weight="600">PLANIFICACIÓN URBANA</text>
+                <text x="360" y="55" text-anchor="middle" fill="#4e6e50" font-size="9">LUSU, inversión pública</text>
+
+                <rect x="260" y="70" width="200" height="50" rx="10" fill="#fdecea" stroke="#c62828" stroke-width="2"/>
+                <text x="360" y="93" text-anchor="middle" fill="#b71c1c" font-size="11" font-weight="600">GESTIÓN DE RIESGOS</text>
+                <text x="360" y="110" text-anchor="middle" fill="#7a3a3a" font-size="9">Predios en zonas peligrosas</text>
+
+                <rect x="260" y="125" width="200" height="50" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="360" y="148" text-anchor="middle" fill="#0d47a1" font-size="11" font-weight="600">ADMINISTRACIÓN TRIBUTARIA</text>
+                <text x="360" y="165" text-anchor="middle" fill="#3a5a7a" font-size="9">Avalúo, impuesto predial</text>
+
+                <rect x="520" y="55" width="300" height="80" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2" stroke-dasharray="6,3"/>
+                <text x="670" y="85" text-anchor="middle" fill="#f57f17" font-size="12" font-weight="700">SERVICIOS CIUDADANOS</text>
+                <text x="670" y="105" text-anchor="middle" fill="#6d5a1e" font-size="10">Certificación de Registro Catastral</text>
+                <text x="670" y="120" text-anchor="middle" fill="#6d5a1e" font-size="10">Trámites de propiedad y construcción</text>
+            </svg>
+            <p class="svg-caption">Figura 2. El catastro multifinalitario alimenta múltiples aplicaciones en el GAMLP.</p>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO A -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico A: Catastro Multifinalitario en Acción</h4>
+            <p><strong>Caso real:</strong> El GAMLP planea construir un nuevo hospital en la zona Sur. Antes de decidir el terreno, el equipo técnico necesita evaluar tres predios candidatos. El catastro multifinalitario permite cruzar información de varias dimensiones para tomar la mejor decisión.</p>
+            <p><strong>Predios candidatos:</strong></p>
+            <div class="table-responsive">
+                <table>
+                    <tr><th>Predio</th><th>Superficie</th><th>Uso de Suelo (LUSU)</th><th>Riesgo (Atlas)</th><th>Valor Catastral</th><th>Titularidad</th></tr>
+                    <tr><td><strong>A</strong></td><td>5.000 m²</td><td>Residencial</td><td>Muy Alto</td><td>Bs. 800.000</td><td>Privado (1 dueño)</td></tr>
+                    <tr><td><strong>B</strong></td><td>8.000 m²</td><td>Equipamiento</td><td>Bajo</td><td>Bs. 1.200.000</td><td>Municipal</td></tr>
+                    <tr><td><strong>C</strong></td><td>6.000 m²</td><td>Residencial</td><td>Medio</td><td>Bs. 950.000</td><td>Privado (3 dueños)</td></tr>
+                </table>
+            </div>
+            <p><strong>Preguntas:</strong></p>
+            <ol>
+                <li>¿Qué dimensiones del catastro multifinalitario se están usando para evaluar los predios? Nombra al menos cuatro.</li>
+                <li>¿Cuál predio recomendarías para el hospital? Justifica considerando riesgo, uso de suelo y titularidad.</li>
+                <li>Si el predio A tuviera una <strong>hipoteca</strong> a favor de un banco, ¿cómo aparecería esta información en el catastro multifinalitario? ¿En qué dimensión se registra?</li>
+            </ol>
+            <p><strong>Respuestas esperadas:</strong></p>
+            <ul>
+                <li>1. Física (superficie), territorial (uso de suelo), geoespacial (riesgo), económica (valor catastral), jurídica (titularidad).</li>
+                <li>2. El <strong>Predio B</strong> es el más adecuado: es municipal (evita expropiación), tiene uso de equipamiento (compatible con hospital) y riesgo bajo. El Predio A es riesgoso y el C tiene múltiples dueños (complejidad legal).</li>
+                <li>3. La hipoteca se registra en la <strong>dimensión jurídica</strong> como una <strong>Restricción</strong> dentro de los RRR (Derechos, Restricciones y Responsabilidades).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ==================== TAB B: GESTIÓN DE RIESGOS ==================== -->
+    <div id="tabB" class="tab-content">
+        <h2><i class="fas fa-mountain" style="color:#1a4b7a; margin-right: 12px;"></i>2. Catastro y Gestión de Riesgos en La Paz</h2>
+
+        <p>La Paz es una ciudad construida en un valle estrecho, rodeada de laderas con alta susceptibilidad a deslizamientos. Según el inventario georreferenciado de movimientos en masa de la <strong>Secretaría Municipal de Resiliencia y Gestión de Vulnerabilidades (SMRGV)</strong>, entre 2011 y 2025 se registraron <strong>más de 53 eventos relevantes</strong>, con superficies afectadas que van desde 140 m² hasta aproximadamente 140 hectáreas[reference:5]. El <strong>18,4% de los inmuebles registrados</strong> está en zonas de "alto" y "muy alto" riesgo, según datos municipales[reference:6].</p>
+
+        <div class="alert-box">
+            <p><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> <strong>Eventos emblemáticos:</strong> El deslizamiento de <strong>Pampahasi-Callapa (2011)</strong> afectó 140 hectáreas y comprometió aproximadamente 1.500 viviendas. El deslizamiento del <strong>exbotadero de Sopocachi (Kantutani, 2019)</strong> afectó 8 hectáreas y a 180 familias. En <strong>noviembre de 2024</strong>, un deslizamiento en <strong>Bajo Llojeta</strong> destruyó 24 viviendas y afectó 40 más por inundación[reference:7][reference:8].</p>
+        </div>
+
+        <h3><i class="fas fa-map-marked-alt"></i> El Atlas Integral del Riesgo: La Herramienta Clave</h3>
+
+        <p>En noviembre de 2025, el GAMLP presentó el <strong>Atlas Integral del Riesgo</strong>, una plataforma digital interactiva que reemplaza al mapa estático de 2011. Según el Secretario de Resiliencia y Gestión de Vulnerabilidades, <em>"no es un mapa, es una plataforma web interactiva con más de 100 capas de información integradas"</em>[reference:9]. Permite consultar información por <strong>zona, manzano, lote o edificación</strong>, mostrando vías, servicios básicos, densidad poblacional, pendientes, características del suelo y otras variables[reference:10].</p>
+
+        <div class="risk-legend">
+            <div class="risk-item"><div class="risk-color" style="background:#a5d6a7;"></div> Muy Bajo</div>
+            <div class="risk-item"><div class="risk-color" style="background:#66bb6a;"></div> Bajo</div>
+            <div class="risk-item"><div class="risk-color" style="background:#ffeb3b;"></div> Medio</div>
+            <div class="risk-item"><div class="risk-color" style="background:#ff9800;"></div> Alto</div>
+            <div class="risk-item"><div class="risk-color" style="background:#f44336;"></div> Muy Alto</div>
+        </div>
+
+        <div class="cta-buttons">
+            <a href="http://sitservicios.lapaz.bo/riesgos/index.html" target="_blank" class="map-link"><i class="fas fa-external-link-alt"></i> Abrir Atlas Integral del Riesgo (GAMLP)</a>
+            <a href="http://sitservicios.lapaz.bo/mapa-geologico/" target="_blank" class="map-link"><i class="fas fa-layer-group"></i> Ver Cartografía Geológica 2025</a>
+        </div>
+
+        <h3><i class="fas fa-link"></i> ¿Cómo se Integra el Catastro con la Gestión de Riesgos?</h3>
+
+        <!-- DIAGRAMA SVG: FLUJO CATASTRO-RIESGO -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowB" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#c62828"/>
+                    </marker>
+                    <marker id="arrowC" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#1a4b7a"/>
+                    </marker>
+                </defs>
+
+                <!-- Fila superior: Catastro -->
+                <rect x="30" y="30" width="200" height="70" rx="12" fill="#0b2b4e"/>
+                <text x="130" y="58" text-anchor="middle" fill="white" font-size="12" font-weight="600">CATASTRO</text>
+                <text x="130" y="78" text-anchor="middle" fill="#b8cde0" font-size="10">Código catastral, geometría,</text>
+                <text x="130" y="92" text-anchor="middle" fill="#b8cde0" font-size="10">titularidad, uso de suelo</text>
+
+                <!-- Flecha 1 -->
+                <line x1="230" y1="65" x2="290" y2="65" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowC)"/>
+
+                <!-- Fila superior: Cruce -->
+                <rect x="310" y="30" width="220" height="70" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+                <text x="420" y="58" text-anchor="middle" fill="#f57f17" font-size="12" font-weight="600">CRUCE DE CAPAS</text>
+                <text x="420" y="78" text-anchor="middle" fill="#6d5a1e" font-size="10">Catastro + Atlas de Riesgo</text>
+                <text x="420" y="92" text-anchor="middle" fill="#6d5a1e" font-size="10">+ Cartografía Geológica</text>
+
+                <!-- Flecha 2 -->
+                <line x1="530" y1="65" x2="590" y2="65" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowC)"/>
+
+                <!-- Fila superior: Resultado -->
+                <rect x="610" y="30" width="260" height="70" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="740" y="58" text-anchor="middle" fill="#2e7d32" font-size="12" font-weight="600">CLASIFICACIÓN DE PREDIOS</text>
+                <text x="740" y="78" text-anchor="middle" fill="#4e6e50" font-size="10">Predios en riesgo Muy Alto / Alto / Medio / Bajo</text>
+
+                <!-- Fila inferior: Acciones -->
+                <rect x="30" y="180" width="200" height="100" rx="12" fill="#fdecea" stroke="#c62828" stroke-width="2"/>
+                <text x="130" y="210" text-anchor="middle" fill="#b71c1c" font-size="12" font-weight="600">ALERTA TEMPRANA</text>
+                <text x="130" y="235" text-anchor="middle" fill="#7a3a3a" font-size="10">Identificar predios</text>
+                <text x="130" y="250" text-anchor="middle" fill="#7a3a3a" font-size="10">en zona de riesgo</text>
+                <text x="130" y="268" text-anchor="middle" fill="#7a3a3a" font-size="10">Notificar a propietarios</text>
+
+                <rect x="310" y="180" width="220" height="100" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="420" y="210" text-anchor="middle" fill="#0d47a1" font-size="12" font-weight="600">RESTRICCIÓN CATASTRAL</text>
+                <text x="420" y="235" text-anchor="middle" fill="#3a5a7a" font-size="10">Denegar certificación</text>
+                <text x="420" y="250" text-anchor="middle" fill="#3a5a7a" font-size="10">para construcción en</text>
+                <text x="420" y="268" text-anchor="middle" fill="#3a5a7a" font-size="10">zonas Muy Alto riesgo</text>
+
+                <rect x="610" y="180" width="260" height="100" rx="12" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+                <text x="740" y="210" text-anchor="middle" fill="#4a148c" font-size="12" font-weight="600">PLANIFICACIÓN</text>
+                <text x="740" y="235" text-anchor="middle" fill="#5a3a6a" font-size="10">Reasentamiento, obras</text>
+                <text x="740" y="250" text-anchor="middle" fill="#5a3a6a" font-size="10">de mitigación, inversión</text>
+                <text x="740" y="268" text-anchor="middle" fill="#5a3a6a" font-size="10">en zonas seguras</text>
+
+                <!-- Flechas hacia abajo -->
+                <line x1="420" y1="100" x2="130" y2="175" stroke="#c62828" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowB)"/>
+                <line x1="420" y1="100" x2="420" y2="175" stroke="#c62828" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowB)"/>
+                <line x1="420" y1="100" x2="740" y2="175" stroke="#c62828" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowB)"/>
+            </svg>
+            <p class="svg-caption">Figura 3. Flujo de integración entre el catastro multifinalitario y la gestión de riesgos en el GAMLP.</p>
+        </div>
+
+        <h3><i class="fas fa-map-pin"></i> Zonas de Riesgo Identificadas en La Paz</h3>
+
+        <p>El Mapa de Riesgos 2011 y el Atlas Integral 2025 han identificado numerosas zonas con riesgo de deslizamiento. Algunas de las más críticas son:</p>
+
+        <div class="table-responsive">
+            <table>
+                <tr><th>Zona / Sector</th><th>Macrodistrito</th><th>Nivel de Riesgo</th><th>Observaciones</th></tr>
+                <tr><td><strong>Pampahasi-Callapa</strong></td><td>Sur</td><td>Muy Alto</td><td>Deslizamiento complejo de 2011, 140 ha afectadas[reference:11].</td></tr>
+                <tr><td><strong>Kantutani (exbotadero)</strong></td><td>Sur</td><td>Muy Alto</td><td>Deslizamiento de 2019, 8 ha, 180 familias afectadas[reference:12].</td></tr>
+                <tr><td><strong>Bajo Llojeta</strong></td><td>Sur / Cotahuma</td><td>Muy Alto</td><td>Deslizamiento de 2024, 24 viviendas destruidas[reference:13].</td></tr>
+                <tr><td><strong>Ladera Este (Valle de las Flores)</strong></td><td>Sur</td><td>Muy Alto</td><td>Múltiples factores, incluye Cervecería y Bajo Salome[reference:14].</td></tr>
+                <tr><td><strong>Cota Cota (Calles 32-35)</strong></td><td>Sur</td><td>Muy Alto</td><td>Problemas de aguas subterráneas[reference:15].</td></tr>
+                <tr><td><strong>Alto La Florida</strong></td><td>Sur</td><td>Alto</td><td>Caída de talud en 2025, viviendas y antena en riesgo[reference:16].</td></tr>
+                <tr><td><strong>Codavisa / Señor de Mayo</strong></td><td>Sur</td><td>Alto</td><td>Deslizamiento en 2025, decenas de familias afectadas[reference:17].</td></tr>
+                <tr><td><strong>Bajo San Isidro</strong></td><td>Sur</td><td>Alto</td><td>Colapso de viviendas por lluvias en 2025[reference:18].</td></tr>
+            </table>
+        </div>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-info-circle" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave:</strong> La <strong>Cartografía Geológica 2025</strong> deberá ser utilizada como insumo técnico en el proceso de actualización del Mapa de Amenazas y del Mapa de Riesgos del municipio. Se recomienda que la <strong>Unidad de Reducción del Riesgo Geodinámico (URRG)</strong> lidere su actualización permanente[reference:19].</p>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO B -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico B: Catastro y Riesgo en un Predio Real</h4>
+            <p><strong>Caso real:</strong> Una familia desea comprar un lote en la zona de <strong>Bajo Llojeta</strong>, donde ocurrió el deslizamiento de noviembre de 2024. El lote tiene código catastral <code>2|01|025|0180|0007|0000</code>.</p>
+            <p><strong>Preguntas:</strong></p>
+            <ol>
+                <li>¿Cómo puede el catastro multifinalitario ayudar a esta familia a tomar una decisión informada antes de comprar?</li>
+                <li>Si el lote está clasificado como <strong>Muy Alto Riesgo</strong> en el Atlas Integral, ¿qué tipo de certificación catastral podría emitir el GAMLP? ¿Se permitiría la construcción?</li>
+                <li>Si la familia ya vive en el predio y el Atlas clasifica la zona como <strong>Alto Riesgo</strong>, ¿qué acciones de gestión de riesgos podría tomar el GAMLP? Menciona al menos dos.</li>
+            </ol>
+            <p><strong>Respuestas esperadas:</strong></p>
+            <ul>
+                <li>1. La familia puede consultar el <strong>Mapa Catastral</strong> y el <strong>Atlas Integral del Riesgo</strong> ingresando el código catastral o la dirección. El sistema mostrará el nivel de riesgo del lote, el uso de suelo permitido (LUSU) y si el predio está en una zona restringida.</li>
+                <li>2. El GAMLP podría <strong>denegar la certificación catastral</strong> para construcción en zonas de Muy Alto Riesgo, conforme a la LUSU que delimita áreas no edificables. La certificación podría emitirse solo con restricciones o como "predio en zona de riesgo no edificable".</li>
+                <li>3. El GAMLP podría: (a) emitir <strong>alertas tempranas</strong> a los propietarios; (b) ejecutar <strong>obras de mitigación</strong> (drenaje, muros de contención); (c) planificar <strong>reasentamiento</strong> de familias en zonas seguras; (d) restringir nuevas construcciones en el área.</li>
+            </ul>
+        </div>
+
+        <h3><i class="fas fa-chart-bar"></i> Estadísticas de Riesgo en La Paz</h3>
+
+        <div class="svg-diagram">
+            <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+                <text x="350" y="25" text-anchor="middle" fill="#0b2b4e" font-size="14" font-weight="600">Inmuebles registrados por nivel de riesgo</text>
+
+                <!-- Barras -->
+                <rect x="80" y="180" width="80" height="40" fill="#a5d6a7" rx="4"/>
+                <text x="120" y="205" text-anchor="middle" fill="#1e2a3a" font-size="11" font-weight="600">37,6%</text>
+                <text x="120" y="235" text-anchor="middle" fill="#4a5c72" font-size="10">Muy Bajo / Bajo</text>
+
+                <rect x="200" y="120" width="80" height="100" fill="#ffeb3b" rx="4"/>
+                <text x="240" y="145" text-anchor="middle" fill="#1e2a3a" font-size="11" font-weight="600">44%</text>
+                <text x="240" y="235" text-anchor="middle" fill="#4a5c72" font-size="10">Medio</text>
+
+                <rect x="320" y="80" width="80" height="140" fill="#ff9800" rx="4"/>
+                <text x="360" y="105" text-anchor="middle" fill="#1e2a3a" font-size="11" font-weight="600">14,9%</text>
+                <text x="360" y="235" text-anchor="middle" fill="#4a5c72" font-size="10">Alto</text>
+
+                <rect x="440" y="130" width="80" height="90" fill="#f44336" rx="4"/>
+                <text x="480" y="155" text-anchor="middle" fill="white" font-size="11" font-weight="600">3,5%</text>
+                <text x="480" y="235" text-anchor="middle" fill="#4a5c72" font-size="10">Muy Alto</text>
+
+                <!-- Línea base -->
+                <line x1="50" y1="220" x2="650" y2="220" stroke="#d0dbea" stroke-width="1"/>
+                <text x="600" y="240" text-anchor="middle" fill="#7a8da0" font-size="9" font-style="italic">Fuente: GAMLP, 2025</text>
+            </svg>
+            <p class="svg-caption">Figura 4. Distribución de inmuebles registrados según nivel de riesgo en La Paz (datos aproximados según fuentes municipales).</p>
+        </div>
+
+        <div class="cta-buttons">
+            <a href="http://sitservicios.lapaz.bo/sit/catastro/" target="_blank" class="map-link"><i class="fas fa-map"></i> Consultar Mapa Catastral</a>
+            <a href="http://sitservicios.lapaz.bo/riesgos/index.html" target="_blank" class="map-link"><i class="fas fa-exclamation-triangle"></i> Consultar Atlas de Riesgo</a>
+            <a href="http://sitservicios.lapaz.bo/mapa-geologico/" target="_blank" class="map-link"><i class="fas fa-mountain"></i> Ver Cartografía Geológica 2025</a>
+        </div>
+    </div>
+
+    <footer>
+        <p><i class="fas fa-info-circle"></i> Presentación elaborada con fines educativos. Fuentes oficiales: GAMLP (Manual de Organización y Funciones 2026, Unidad de Catastro Multifinalitario), SMRGV (Secretaría Municipal de Resiliencia y Gestión de Vulnerabilidades), Atlas Integral del Riesgo (2025), Cartografía Geológica del Municipio de La Paz 2025, Mapa de Riesgos 2011, Ley Municipal de Uso de Suelos Urbanos (LUSU), y reportes de eventos de deslizamiento 2011-2025.</p>
+        <p style="margin-top: 8px;">Los enlaces a mapas interactivos y plataformas son recursos oficiales del Gobierno Autónomo Municipal de La Paz (GAMLP).</p>
+    </footer>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabContent, tabBtn;
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) { tabContent[i].classList.remove("active"); }
+        tabBtn = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tabBtn.length; i++) { tabBtn[i].classList.remove("active"); }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.tab-btn').classList.add('active');
+        document.querySelector('.tab-content').classList.add('active');
+    });
+</script>
+</body>
+</html>

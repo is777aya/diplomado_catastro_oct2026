@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bases de Datos Espaciales y Gestión Predial · La Paz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f4f7fc; color: #1e2a3a; line-height: 1.6; padding: 20px;
+        }
+        .presentation-container {
+            max-width: 1200px; margin: 0 auto; background: #ffffff;
+            border-radius: 24px; box-shadow: 0 20px 40px rgba(0, 20, 50, 0.1); overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #0b2b4e 0%, #1a4b7a 100%);
+            color: white; padding: 30px 40px; text-align: center;
+        }
+        header h1 { font-size: 2.2rem; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; }
+        header p { font-size: 1.1rem; opacity: 0.9; }
+        .badge {
+            display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 18px;
+            border-radius: 40px; font-size: 0.9rem; margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .tabs {
+            display: flex; background: #eef2f7; border-bottom: 1px solid #d0dbea;
+            padding: 0 20px; flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: transparent; border: none; padding: 18px 24px; font-size: 0.95rem;
+            font-weight: 500; color: #4a5c72; cursor: pointer; transition: all 0.2s ease;
+            border-bottom: 3px solid transparent; display: flex; align-items: center; gap: 8px;
+        }
+        .tab-btn i { font-size: 1rem; }
+        .tab-btn:hover { background: rgba(26, 75, 122, 0.05); color: #1a4b7a; }
+        .tab-btn.active {
+            color: #0b2b4e; border-bottom-color: #1a4b7a; background: white; font-weight: 600;
+        }
+        .tab-content { display: none; padding: 35px 40px; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        h2 { font-size: 1.7rem; color: #0b2b4e; margin-bottom: 10px; font-weight: 600; }
+        h3 { font-size: 1.25rem; color: #1a4b7a; margin: 25px 0 12px 0; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        h4 { font-size: 1.1rem; color: #2c3e50; margin: 18px 0 8px 0; font-weight: 600; }
+        p { margin-bottom: 14px; color: #33445e; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin: 20px 0 30px; }
+        .card {
+            background: #f9fbfe; border: 1px solid #e1e9f2; border-radius: 16px;
+            padding: 24px 20px; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(11, 43, 78, 0.08); border-color: #b8cde0; }
+        .card-icon { font-size: 2rem; color: #1a4b7a; margin-bottom: 12px; }
+        .card h4 { margin-top: 0; margin-bottom: 10px; font-size: 1.15rem; }
+        .card p { font-size: 0.95rem; margin-bottom: 0; }
+        .highlight-box {
+            background: #e8f0fe; border-left: 6px solid #1a4b7a; padding: 18px 22px;
+            border-radius: 0 12px 12px 0; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; color: #0b2b4e; }
+        .exercise-box {
+            background: #fff8e7; border: 1px solid #ffe0a3; border-radius: 16px;
+            padding: 22px 26px; margin: 30px 0 10px;
+        }
+        .exercise-box h4 { color: #9e6b00; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .exercise-box ul, .exercise-box ol { margin-left: 22px; color: #4e3e1f; }
+        .exercise-box li { margin-bottom: 8px; }
+        .svg-diagram {
+            background: #ffffff; border: 1px solid #dce5ef; border-radius: 16px;
+            padding: 25px 20px; margin: 25px 0; text-align: center; overflow-x: auto;
+        }
+        .svg-diagram svg { max-width: 100%; height: auto; }
+        .svg-caption { font-size: 0.9rem; color: #5a6f8a; margin-top: 15px; font-style: italic; }
+        .table-responsive { overflow-x: auto; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e1e9f2; }
+        th { background: #f0f5fb; color: #0b2b4e; font-weight: 600; }
+        tr:hover { background: #f9fbfe; }
+        .map-link {
+            display: inline-block; background: #1a4b7a; color: white; padding: 12px 24px;
+            border-radius: 40px; text-decoration: none; font-weight: 500; margin: 10px 0;
+            transition: background 0.2s;
+        }
+        .map-link:hover { background: #0b2b4e; }
+        .map-link i { margin-right: 8px; }
+        .cta-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin: 15px 0; }
+        .code-block {
+            background: #0b2b4e; color: #b8cde0; padding: 16px 20px; border-radius: 10px;
+            font-family: 'Courier New', monospace; font-size: 0.9rem; margin: 15px 0;
+            overflow-x: auto; line-height: 1.8;
+        }
+        .code-block .hl { color: #ffd54f; }
+        footer {
+            background: #f0f5fb; padding: 20px 40px; text-align: center;
+            font-size: 0.9rem; color: #5a6f8a; border-top: 1px solid #dce5ef;
+        }
+        @media (max-width: 768px) {
+            header { padding: 24px 20px; } header h1 { font-size: 1.6rem; }
+            .tabs { padding: 0 10px; } .tab-btn { padding: 14px 14px; font-size: 0.85rem; }
+            .tab-content { padding: 24px 20px; } h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="presentation-container">
+    <header>
+        <h1><i class="fas fa-database"></i> Bases de Datos Espaciales y Gestión Predial</h1>
+        <p>Aplicación al catastro del municipio de La Paz, Bolivia</p>
+        <div class="badge"><i class="fas fa-server"></i> Presentación Técnica Interactiva · GAMLP</div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'tabA')"><i class="fas fa-database"></i> 1. Bases de Datos Espaciales</button>
+        <button class="tab-btn" onclick="openTab(event, 'tabB')"><i class="fas fa-layer-group"></i> 2. Geodatabases</button>
+        <button class="tab-btn" onclick="openTab(event, 'tabC')"><i class="fas fa-project-diagram"></i> 3. Modelo de Datos Predial</button>
+        <button class="tab-btn" onclick="openTab(event, 'tabD')"><i class="fas fa-check-double"></i> 4. Integridad y Actualización</button>
+    </div>
+
+    <!-- ==================== TAB A: BASES DE DATOS ESPACIALES ==================== -->
+    <div id="tabA" class="tab-content active">
+        <h2><i class="fas fa-database" style="color:#1a4b7a; margin-right: 12px;"></i>1. Bases de Datos Espaciales y Gestión Predial</h2>
+
+        <p>Una <strong>base de datos espacial</strong> es un sistema que almacena y gestiona información geográfica (geometrías de predios, manzanas, distritos) junto con información alfanumérica (titulares, avalúos, códigos catastrales). A diferencia de una base de datos tradicional, una base de datos espacial permite realizar consultas como "¿qué predios están a menos de 100 metros de un río?" o "¿qué manzanas tienen más de 50 predios?"[reference:0].</p>
+
+        <p>En el GAMLP, la gestión predial se apoya en el <strong>Sistema de Información Territorial (SIT)</strong>, una herramienta informática modular y de acceso simultáneo, dinámico e inmediato que permite realizar los procesos de administración territorial con celeridad y oportunidad. El SIT cuenta con módulos específicos para catastro, administración territorial, riesgos, levantamientos y estadísticas municipales[reference:1].</p>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> La <strong>geodatabase catastral</strong> del GAMLP es el almacenamiento físico de la información geográfica cuyo propósito es permitir la ubicación espacial y georreferenciada de los predios. Es la base sobre la cual operan el Mapa Catastral, el FDRC y el SITEC[reference:2].</p>
+        </div>
+
+        <h3><i class="fas fa-cubes"></i> Componentes de una Base de Datos Espacial Catastral</h3>
+
+        <!-- DIAGRAMA SVG: COMPONENTES DE UNA BD ESPACIAL -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 850 350" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowDB" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#1a4b7a"/>
+                    </marker>
+                </defs>
+
+                <!-- Componente gráfico -->
+                <rect x="30" y="40" width="230" height="120" rx="14" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="145" y="70" text-anchor="middle" fill="#0d47a1" font-size="14" font-weight="700">COMPONENTE GRÁFICO</text>
+                <text x="145" y="95" text-anchor="middle" fill="#3a5a7a" font-size="11">Polígonos de predios</text>
+                <text x="145" y="113" text-anchor="middle" fill="#3a5a7a" font-size="11">Manzanas, distritos</text>
+                <text x="145" y="131" text-anchor="middle" fill="#3a5a7a" font-size="11">Coordenadas UTM WGS-84</text>
+                <text x="145" y="149" text-anchor="middle" fill="#0d47a1" font-size="10" font-style="italic">Geometría vectorial</text>
+
+                <!-- Componente alfanumérico -->
+                <rect x="310" y="40" width="230" height="120" rx="14" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+                <text x="425" y="70" text-anchor="middle" fill="#f57f17" font-size="14" font-weight="700">COMPONENTE ALFANUMÉRICO</text>
+                <text x="425" y="95" text-anchor="middle" fill="#6d5a1e" font-size="11">Código catastral</text>
+                <text x="425" y="113" text-anchor="middle" fill="#6d5a1e" font-size="11">Titular, matrícula</text>
+                <text x="425" y="131" text-anchor="middle" fill="#6d5a1e" font-size="11">Avalúo, uso de suelo</text>
+                <text x="425" y="149" text-anchor="middle" fill="#f57f17" font-size="10" font-style="italic">Tablas relacionales</text>
+
+                <!-- Componente de metadatos -->
+                <rect x="590" y="40" width="230" height="120" rx="14" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="705" y="70" text-anchor="middle" fill="#2e7d32" font-size="14" font-weight="700">METADATOS</text>
+                <text x="705" y="95" text-anchor="middle" fill="#4e6e50" font-size="11">Fecha de levantamiento</text>
+                <text x="705" y="113" text-anchor="middle" fill="#4e6e50" font-size="11">Profesional responsable</text>
+                <text x="705" y="131" text-anchor="middle" fill="#4e6e50" font-size="11">Fuente de datos</text>
+                <text x="705" y="149" text-anchor="middle" fill="#2e7d32" font-size="10" font-style="italic">Trazabilidad</text>
+
+                <!-- Flechas hacia el SIT -->
+                <line x1="145" y1="160" x2="300" y2="230" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowDB)"/>
+                <line x1="425" y1="160" x2="425" y2="225" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowDB)"/>
+                <line x1="705" y1="160" x2="550" y2="230" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowDB)"/>
+
+                <!-- SIT -->
+                <rect x="250" y="240" width="350" height="70" rx="14" fill="#0b2b4e"/>
+                <text x="425" y="270" text-anchor="middle" fill="white" font-size="15" font-weight="700">SISTEMA DE INFORMACIÓN TERRITORIAL (SIT)</text>
+                <text x="425" y="292" text-anchor="middle" fill="#b8cde0" font-size="11">Integra los tres componentes en una sola plataforma</text>
+            </svg>
+            <p class="svg-caption">Figura 1. Componentes de una base de datos espacial catastral: gráfico, alfanumérico y metadatos, integrados en el SIT del GAMLP.</p>
+        </div>
+
+        <h3><i class="fas fa-tasks"></i> Gestión Predial: Del Levantamiento al Registro</h3>
+
+        <p>La gestión predial en el GAMLP sigue un flujo estructurado que comienza con el levantamiento en campo y culmina con la incorporación del predio a la base de datos catastral. El <strong>Formulario Digital de Registro Catastral (FDRC)</strong> es la herramienta que automatiza el dibujo en AutoCAD y facilita el registro catastral, permitiendo adjuntar información técnica, legal y gráfica (mapa y fotografías). A partir de estos datos se puede generar el modelo 3D y la impresión de la Ficha Catastral vigente[reference:3].</p>
+
+        <div class="table-responsive">
+            <table>
+                <tr><th>Etapa</th><th>Herramienta</th><th>Producto</th></tr>
+                <tr><td><strong>1. Levantamiento en campo</strong></td><td>Estación Total + GNSS + Red Geodésica Satelital La Paz</td><td>Puntos de control con coordenadas UTM</td></tr>
+                <tr><td><strong>2. Procesamiento digital</strong></td><td>FDRC (Formulario Digital de Registro Catastral) v2.0.7</td><td>Dibujo en AutoCAD georreferenciado + modelo 3D</td></tr>
+                <tr><td><strong>3. Registro catastral</strong></td><td>SERCATv2 / SIT</td><td>Predio incorporado a la geodatabase catastral</td></tr>
+                <tr><td><strong>4. Certificación</strong></td><td>Plataforma de Atención Catastral</td><td>Certificado de Registro Catastral</td></tr>
+            </table>
+        </div>
+
+        <div class="cta-buttons">
+            <a href="http://sitservicios.lapaz.bo/" target="_blank" class="map-link"><i class="fas fa-external-link-alt"></i> Abrir SIT (GAMLP)</a>
+            <a href="http://sitservicios.lapaz.bo/sit/catastro/" target="_blank" class="map-link"><i class="fas fa-map"></i> Abrir Mapa Catastral</a>
+            <a href="http://sitservicios.lapaz.bo/sit/FDRC/index.html" target="_blank" class="map-link"><i class="fas fa-laptop-code"></i> Descargar FDRC</a>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO A -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico A: Bases de Datos Espaciales y Gestión Predial</h4>
+            <p><strong>Caso real:</strong> Eres el responsable técnico de la Unidad de Catastro del GAMLP. Un ciudadano solicita el <strong>Certificado de Registro Catastral</strong> de su predio en la zona de Miraflores. Al verificar el sistema, encuentras que el predio tiene geometría registrada pero <strong>no tiene titular asignado</strong> en la base de datos alfanumérica.</p>
+            <p><strong>Preguntas:</strong></p>
+            <ol>
+                <li>¿Qué componente de la base de datos espacial está incompleto? ¿Por qué es importante que ambos componentes estén vinculados?</li>
+                <li>¿Qué herramienta del GAMLP debes usar para verificar la geometría del predio y su ubicación exacta?</li>
+                <li>¿Qué herramienta permite al profesional externo adjuntar información técnica, legal y gráfica del predio?</li>
+                <li>Si el predio estuviera sujeto a régimen de <strong>Propiedad Horizontal</strong>, ¿qué tipo de Ficha Catastral se usaría y qué campo adicional de la codificación se activaría?</li>
+            </ol>
+            <p><strong>Respuestas esperadas:</strong></p>
+            <ul>
+                <li>1. El <strong>componente alfanumérico</strong> está incompleto (falta el titular). Ambos componentes deben estar vinculados porque la geometría sin titularidad no permite emitir certificación catastral. La Ley Municipal de Catastro exige que el catastro comprenda datos económicos y jurídicos, incluyendo titularidad[reference:4].</li>
+                <li>2. El <strong>Mapa Catastral del GAMLP</strong>, que permite buscar por código catastral o dirección y superponer capas del SIT[reference:5].</li>
+                <li>3. El <strong>FDRC (Formulario Digital de Registro Catastral)</strong>, que permite adjuntar información técnica, legal y gráfica (mapa y fotografías)[reference:6].</li>
+                <li>4. Se usaría la <strong>Ficha C (Propiedad Horizontal – Unidad)</strong> y se activaría el campo de <strong>Subpredio</strong> (últimos 4 dígitos de la codificación catastral)[reference:7].</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ==================== TAB B: GEODATABASES ==================== -->
+    <div id="tabB" class="tab-content">
+        <h2><i class="fas fa-layer-group" style="color:#1a4b7a; margin-right: 12px;"></i>2. Geodatabases</h2>
+
+        <p>Una <strong>geodatabase</strong> (base de datos geográfica) es una estructura de almacenamiento que organiza datos espaciales y alfanuméricos en un sistema gestor de bases de datos relacionales. A diferencia de un simple archivo shapefile, una geodatabase permite definir <strong>reglas de integridad topológica</strong>, crear <strong>relaciones entre tablas</strong>, gestionar <strong>dominios de valores</strong> y mantener <strong>metadatos</strong> asociados a cada elemento[reference:8].</p>
+
+        <p>En el contexto del catastro paceño, la geodatabase catastral es el almacenamiento físico de la información geográfica cuyo propósito es permitir la ubicación espacial y georreferenciada de los predios. Es la base sobre la cual operan el Mapa Catastral, el FDRC y el SITEC[reference:9].</p>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Diferencia clave:</strong> Un <strong>shapefile</strong> almacena solo geometría y una tabla de atributos plana. Una <strong>geodatabase</strong> almacena geometría, atributos, relaciones entre tablas, reglas de integridad, dominios de valores y metadatos. Para un catastro multifinalitario como el del GAMLP, la geodatabase es indispensable.</p>
+        </div>
+
+        <h3><i class="fas fa-cubes"></i> Estructura de la Geodatabase Catastral del GAMLP</h3>
+
+        <!-- DIAGRAMA SVG: ESTRUCTURA GEODATABASE -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 850 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Contenedor principal -->
+                <rect x="30" y="30" width="790" height="340" rx="16" fill="#f0f5fb" stroke="#d0dbea" stroke-width="2"/>
+                <text x="425" y="60" text-anchor="middle" fill="#0b2b4e" font-size="15" font-weight="700">GEODATABASE CATASTRAL GAMLP</text>
+
+                <!-- Feature Dataset: Catastro -->
+                <rect x="60" y="80" width="340" height="120" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="230" y="108" text-anchor="middle" fill="#0d47a1" font-size="13" font-weight="700">FEATURE DATASET: CATASTRO</text>
+                <text x="230" y="132" text-anchor="middle" fill="#3a5a7a" font-size="11">Predios (polígonos)</text>
+                <text x="230" y="152" text-anchor="middle" fill="#3a5a7a" font-size="11">Manzanas (polígonos)</text>
+                <text x="230" y="172" text-anchor="middle" fill="#3a5a7a" font-size="11">Distritos Catastrales (polígonos)</text>
+                <text x="230" y="192" text-anchor="middle" fill="#0d47a1" font-size="10" font-style="italic">Topología: no superposición, no huecos</text>
+
+                <!-- Feature Dataset: Riesgos -->
+                <rect x="450" y="80" width="340" height="120" rx="12" fill="#fdecea" stroke="#c62828" stroke-width="2"/>
+                <text x="620" y="108" text-anchor="middle" fill="#b71c1c" font-size="13" font-weight="700">FEATURE DATASET: RIESGOS</text>
+                <text x="620" y="132" text-anchor="middle" fill="#7a3a3a" font-size="11">Zonas de riesgo (polígonos)</text>
+                <text x="620" y="152" text-anchor="middle" fill="#7a3a3a" font-size="11">Deslizamientos históricos (polígonos)</text>
+                <text x="620" y="172" text-anchor="middle" fill="#7a3a3a" font-size="11">Pendientes (ráster)</text>
+                <text x="620" y="192" text-anchor="middle" fill="#b71c1c" font-size="10" font-style="italic">Integración con Atlas Integral del Riesgo</text>
+
+                <!-- Tabla relacional -->
+                <rect x="60" y="230" width="730" height="110" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+                <text x="425" y="258" text-anchor="middle" fill="#f57f17" font-size="13" font-weight="700">TABLA RELACIONAL: FICHA CATASTRAL</text>
+                <text x="200" y="285" text-anchor="middle" fill="#6d5a1e" font-size="11">Código Catastral (PK)</text>
+                <text x="200" y="305" text-anchor="middle" fill="#6d5a1e" font-size="11">Titular</text>
+                <text x="200" y="325" text-anchor="middle" fill="#6d5a1e" font-size="11">Matrícula</text>
+                <text x="500" y="285" text-anchor="middle" fill="#6d5a1e" font-size="11">Avalúo</text>
+                <text x="500" y="305" text-anchor="middle" fill="#6d5a1e" font-size="11">Uso de Suelo (LUSU)</text>
+                <text x="500" y="325" text-anchor="middle" fill="#6d5a1e" font-size="11">Nivel de Riesgo</text>
+
+                <!-- Relación -->
+                <line x1="230" y1="200" x2="230" y2="225" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="5,3"/>
+                <line x1="620" y1="200" x2="620" y2="225" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="5,3"/>
+                <text x="425" y="220" text-anchor="middle" fill="#1a4b7a" font-size="10" font-style="italic">Relación 1:1 por Código Catastral</text>
+            </svg>
+            <p class="svg-caption">Figura 2. Estructura de la geodatabase catastral del GAMLP: feature datasets de catastro y riesgos, vinculados a la tabla relacional de Ficha Catastral.</p>
+        </div>
+
+        <h3><i class="fas fa-shield-halved"></i> Reglas de Integridad Topológica en la Geodatabase</h3>
+
+        <p>Una de las ventajas fundamentales de trabajar con una geodatabase es la posibilidad de definir <strong>reglas de integridad topológica</strong> que garantizan la coherencia geométrica de los datos catastrales. Estas reglas se verifican automáticamente cada vez que se modifica o agrega un predio[reference:10].</p>
+
+        <div class="table-responsive">
+            <table>
+                <tr><th>Regla Topológica</th><th>Descripción</th><th>Ejemplo en La Paz</th></tr>
+                <tr><td><strong>No superposición</strong></td><td>Dos predios no pueden ocupar la misma área.</td><td>El predio 5-6-7 y el 5-6-8 no pueden solaparse.</td></tr>
+                <tr><td><strong>No huecos</strong></td><td>No deben existir espacios vacíos entre predios.</td><td>La manzana 0549 debe estar completamente cubierta por predios.</td></tr>
+                <tr><td><strong>Contenido dentro</strong></td><td>Cada predio debe estar contenido dentro de su manzana.</td><td>El predio 5-6-7 debe estar dentro de la manzana 6 del distrito 5.</td></tr>
+                <tr><td><strong>Linderos coincidentes</strong></td><td>Los límites entre predios vecinos deben coincidir exactamente.</td><td>El lado norte del predio 5-6-7 coincide con el lado sur del 5-6-8.</td></tr>
+                <tr><td><strong>Conectividad</strong></td><td>Los vértices de predios adyacentes deben estar conectados.</td><td>El vértice V2 del predio 5-6-7 es el mismo que el V1 del 5-6-8.</td></tr>
+            </table>
+        </div>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-info-circle" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave:</strong> La <strong>tolerancia topológica</strong> estándar en geodatabases catastrales es de <strong>0.001 metros</strong>. Esto significa que dos vértices separados por menos de 1 milímetro se consideran el mismo punto[reference:11].</p>
+        </div>
+
+        <h3><i class="fas fa-database"></i> Gestores de Bases de Datos Utilizados</h3>
+
+        <p>Las geodatabases catastrales pueden implementarse sobre diferentes gestores de bases de datos. Los más utilizados en el contexto catastral latinoamericano son:</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-elephant"></i></div>
+                <h4>PostgreSQL + PostGIS</h4>
+                <p>El estándar de facto para bases de datos espaciales de código abierto. PostGIS añade soporte para objetos geográficos, permitiendo almacenar y consultar geometrías de predios, manzanas y distritos. Compatible con QGIS y AutoCAD Map 3D[reference:12].</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-building"></i></div>
+                <h4>Oracle Spatial</h4>
+                <p>Utilizado en catastro de gran escala. Ofrece potentes capacidades de análisis espacial y gestión de grandes volúmenes de datos.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-map"></i></div>
+                <h4>Esri Geodatabase</h4>
+                <p>Estructura propietaria de Esri que organiza datos espaciales en feature datasets, con reglas topológicas avanzadas. Ampliamente utilizada en municipios.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-cloud"></i></div>
+                <h4>SQL Server Spatial</h4>
+                <p>Alternativa empresarial que integra datos espaciales con aplicaciones de gestión municipal existentes.</p>
+            </div>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO B -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico B: Diseño de Geodatabase Catastral</h4>
+            <p><strong>Caso real:</strong> El GAMLP te contrata para diseñar la geodatabase catastral del <strong>Distrito 7</strong> (zona Sur), que incluye 15 manzanas y aproximadamente 800 predios. Debes definir la estructura de la geodatabase.</p>
+            <p><strong>Preguntas:</strong></p>
+            <ol>
+                <li>¿Qué <strong>feature datasets</strong> incluirías en la geodatabase? Nombra al menos tres.</li>
+                <li>¿Qué <strong>reglas topológicas</strong> aplicarías a la capa de predios? Menciona al menos tres.</li>
+                <li>Si un profesional externo dibuja un predio que se superpone en un 5% con el predio vecino, ¿qué regla topológica se estaría violando? ¿Qué debería hacer el sistema?</li>
+                <li>¿Qué gestor de base de datos recomendarías para implementar esta geodatabase y por qué?</li>
+            </ol>
+            <p><strong>Respuestas esperadas:</strong></p>
+            <ul>
+                <li>1. Feature datasets: <strong>Catastro</strong> (predios, manzanas, distritos), <strong>Riesgos</strong> (zonas de riesgo, deslizamientos históricos), <strong>Red Geodésica</strong> (vértices geodésicos), <strong>Servicios</strong> (vías, redes de agua, alcantarillado).</li>
+                <li>2. Reglas topológicas: <strong>No superposición</strong> (predios no se solapan), <strong>No huecos</strong> (no hay espacios vacíos entre predios), <strong>Contenido dentro</strong> (predio dentro de manzana), <strong>Linderos coincidentes</strong> (límites entre vecinos coinciden).</li>
+                <li>3. Se viola la regla de <strong>No superposición</strong>. El sistema debería <strong>rechazar</strong> la incorporación del predio y emitir un error indicando que la geometría se superpone con el predio vecino. El profesional externo debe corregir el dibujo antes de reintentar.</li>
+                <li>4. Se recomendaría <strong>PostgreSQL + PostGIS</strong> por ser de código abierto, compatible con QGIS y AutoCAD Map 3D, y ampliamente utilizado en catastro latinoamericano[reference:13].</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ==================== TAB C: MODELO DE DATOS PREDIAL ==================== -->
+    <div id="tabC" class="tab-content">
+        <h2><i class="fas fa-project-diagram" style="color:#1a4b7a; margin-right: 12px;"></i>3. Modelo de Datos Predial</h2>
+
+        <p>El <strong>modelo de datos predial</strong> es la representación estructurada de toda la información que describe un predio: su geometría, su titularidad, su valor económico, su uso de suelo y su nivel de riesgo. En el GAMLP, el modelo de datos predial se materializa en la <strong>Ficha Catastral</strong>, que recoge los componentes físico, jurídico y económico del inmueble[reference:14].</p>
+
+        <p>El modelo de datos predial del GAMLP se estructura en torno a la <strong>codificación catastral de 6 campos</strong>, que actúa como clave primaria (PK) en la base de datos y permite vincular todas las tablas relacionadas[reference:15].</p>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> La codificación catastral oficial del GAMLP tiene <strong>6 campos numéricos</strong>: <code>2 | 01 | 038 | 0549 | 0001 | 0000</code>. Esta codificación es la <strong>clave primaria</strong> que vincula la geometría del predio con toda su información alfanumérica (titular, avalúo, uso de suelo, riesgo).</p>
+        </div>
+
+        <h3><i class="fas fa-sitemap"></i> Estructura del Modelo de Datos Predial del GAMLP</h3>
+
+        <!-- DIAGRAMA SVG: MODELO DE DATOS PREDIAL -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 900 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Tabla principal: PREDIO -->
+                <rect x="320" y="30" width="260" height="140" rx="12" fill="#0b2b4e"/>
+                <text x="450" y="58" text-anchor="middle" fill="white" font-size="14" font-weight="700">PREDIO</text>
+                <line x1="340" y1="68" x2="560" y2="68" stroke="#b8cde0" stroke-width="1"/>
+                <text x="340" y="88" fill="#ffd54f" font-size="11" font-weight="600">PK</text>
+                <text x="370" y="88" fill="white" font-size="11">Código Catastral (6 campos)</text>
+                <text x="340" y="108" fill="#b8cde0" font-size="11">FK</text>
+                <text x="370" y="108" fill="#b8cde0" font-size="11">ID Ficha Catastral</text>
+                <text x="340" y="128" fill="#b8cde0" font-size="11">FK</text>
+                <text x="370" y="128" fill="#b8cde0" font-size="11">ID Zona Homogénea</text>
+                <text x="340" y="148" fill="#b8cde0" font-size="11">FK</text>
+                <text x="370" y="148" fill="#b8cde0" font-size="11">ID Uso de Suelo</text>
+                <text x="340" y="168" fill="#b8cde0" font-size="11">FK</text>
+                <text x="370" y="168" fill="#b8cde0" font-size="11">ID Nivel de Riesgo</text>
+
+                <!-- Tabla: TITULAR -->
+                <rect x="30" y="30" width="240" height="120" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="150" y="58" text-anchor="middle" fill="#0d47a1" font-size="13" font-weight="700">TITULAR</text>
+                <line x1="50" y1="68" x2="250" y2="68" stroke="#90caf9" stroke-width="1"/>
+                <text x="50" y="88" fill="#0d47a1" font-size="11" font-weight="600">PK</text>
+                <text x="80" y="88" fill="#3a5a7a" font-size="11">ID Titular</text>
+                <text x="50" y="108" fill="#3a5a7a" font-size="11">Nombre, Apellido</text>
+                <text x="50" y="128" fill="#3a5a7a" font-size="11">CI / NIT</text>
+                <text x="50" y="148" fill="#3a5a7a" font-size="11">Teléfono, Dirección</text>
+
+                <!-- Tabla: FICHA CATASTRAL -->
+                <rect x="630" y="30" width="240" height="140" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+                <text x="750" y="58" text-anchor="middle" fill="#f57f17" font-size="13" font-weight="700">FICHA CATASTRAL</text>
+                <line x1="650" y1="68" x2="850" y2="68" stroke="#ffe082" stroke-width="1"/>
+                <text x="650" y="88" fill="#f57f17" font-size="11" font-weight="600">PK</text>
+                <text x="680" y="88" fill="#6d5a1e" font-size="11">ID Ficha</text>
+                <text x="650" y="108" fill="#6d5a1e" font-size="11">Tipo (A/B/C)</text>
+                <text x="650" y="128" fill="#6d5a1e" font-size="11">Superficie terreno</text>
+                <text x="650" y="148" fill="#6d5a1e" font-size="11">Área construida</text>
+                <text x="650" y="168" fill="#6d5a1e" font-size="11">N° plantas</text>
+
+                <!-- Tabla: ZONA HOMOGÉNEA -->
+                <rect x="30" y="200" width="240" height="120" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="150" y="228" text-anchor="middle" fill="#2e7d32" font-size="13" font-weight="700">ZONA HOMOGÉNEA</text>
+                <line x1="50" y1="238" x2="250" y2="238" stroke="#a5d6a7" stroke-width="1"/>
+                <text x="50" y="258" fill="#2e7d32" font-size="11" font-weight="600">PK</text>
+                <text x="80" y="258" fill="#4e6e50" font-size="11">ID Zona</text>
+                <text x="50" y="278" fill="#4e6e50" font-size="11">Valor por m²</text>
+                <text x="50" y="298" fill="#4e6e50" font-size="11">Categoría</text>
+
+                <!-- Tabla: USO DE SUELO -->
+                <rect x="320" y="200" width="260" height="120" rx="12" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+                <text x="450" y="228" text-anchor="middle" fill="#4a148c" font-size="13" font-weight="700">USO DE SUELO (LUSU)</text>
+                <line x1="340" y1="238" x2="560" y2="238" stroke="#ce93d8" stroke-width="1"/>
+                <text x="340" y="258" fill="#4a148c" font-size="11" font-weight="600">PK</text>
+                <text x="370" y="258" fill="#5a3a6a" font-size="11">ID Uso</text>
+                <text x="340" y="278" fill="#5a3a6a" font-size="11">Categoría (Residencial,</text>
+                <text x="340" y="298" fill="#5a3a6a" font-size="11">Equipamiento, etc.)</text>
+
+                <!-- Tabla: RIESGO -->
+                <rect x="630" y="200" width="240" height="120" rx="12" fill="#fdecea" stroke="#c62828" stroke-width="2"/>
+                <text x="750" y="228" text-anchor="middle" fill="#b71c1c" font-size="13" font-weight="700">NIVEL DE RIESGO</text>
+                <line x1="650" y1="238" x2="850" y2="238" stroke="#ef9a9a" stroke-width="1"/>
+                <text x="650" y="258" fill="#b71c1c" font-size="11" font-weight="600">PK</text>
+                <text x="680" y="258" fill="#7a3a3a" font-size="11">ID Nivel</text>
+                <text x="650" y="278" fill="#7a3a3a" font-size="11">Categoría (Muy Alto,</text>
+                <text x="650" y="298" fill="#7a3a3a" font-size="11">Alto, Medio, Bajo)</text>
+
+                <!-- Relaciones -->
+                <line x1="270" y1="90" x2="315" y2="90" stroke="#1a4b7a" stroke-width="2"/>
+                <text x="293" y="82" text-anchor="middle" fill="#1a4b7a" font-size="9">1:N</text>
+                <line x1="585" y1="90" x2="625" y2="90" stroke="#1a4b7a" stroke-width="2"/>
+                <text x="605" y="82" text-anchor="middle" fill="#1a4b7a" font-size="9">1:1</text>
+                <line x1="450" y1="175" x2="450" y2="195" stroke="#1a4b7a" stroke-width="2"/>
+                <text x="462" y="190" fill="#1a4b7a" font-size="9">1:N</text>
+                <line x1="270" y1="260" x2="315" y2="260" stroke="#1a4b7a" stroke-width="2"/>
+                <text x="293" y="252" text-anchor="middle" fill="#1a4b7a" font-size="9">1:N</text>
+                <line x1="585" y1="260" x2="625" y2="260" stroke="#1a4b7a" stroke-width="2"/>
+                <text x="605" y="252" text-anchor="middle" fill="#1a4b7a" font-size="9">1:N</text>
+
+                <!-- Leyenda -->
+                <rect x="320" y="360" width="260" height="60" rx="8" fill="#f0f5fb" stroke="#d0dbea" stroke-width="1"/>
+                <text x="450" y="382" text-anchor="middle" fill="#0b2b4e" font-size="11" font-weight="600">PK = Clave Primaria</text>
+                <text x="450" y="402" text-anchor="middle" fill="#0b2b4e" font-size="11">FK = Clave Foránea</text>
+            </svg>
+            <p class="svg-caption">Figura 3. Modelo de datos predial del GAMLP: tablas relacionadas mediante claves primarias (PK) y foráneas (FK), con el Código Catastral como identificador único.</p>
+        </div>
+
+        <h3><i class="fas fa-table"></i> Diccionario de Datos del Modelo Predial</h3>
+
+        <p>El diccionario de datos define cada campo del modelo, su tipo, su dominio de valores y su obligatoriedad. A continuación se presenta un extracto del diccionario de datos de la Ficha Catastral del GAMLP:</p>
+
+        <div class="table-responsive">
+            <table>
+                <tr><th>Campo</th><th>Tipo</th><th>Dominio / Formato</th><th>Obligatorio</th><th>Descripción</th></tr>
+                <tr><td><strong>Código Catastral</strong></td><td>Numérico (14 dígitos)</td><td>6 campos: 2|01|038|0549|0001|0000</td><td>Sí</td><td>Clave primaria. Identificador único del predio.</td></tr>
+                <tr><td><strong>Tipo de Ficha</strong></td><td>Texto</td><td>A, B, C</td><td>Sí</td><td>A=Unifamiliar, B=PH Matriz, C=PH Unidad.</td></tr>
+                <tr><td><strong>Superficie Terreno</strong></td><td>Numérico (decimal)</td><td>Mayor a 0, en m²</td><td>Sí</td><td>Área del terreno según levantamiento.</td></tr>
+                <tr><td><strong>Área Construida</strong></td><td>Numérico (decimal)</td><td>Mayor o igual a 0, en m²</td><td>Sí</td><td>Suma de áreas construidas en todas las plantas.</td></tr>
+                <tr><td><strong>N° Plantas</strong></td><td>Numérico (entero)</td><td>1 a 50</td><td>Sí</td><td>Número de pisos de la edificación.</td></tr>
+                <tr><td><strong>Titular</strong></td><td>Texto</td><td>Nombre completo, CI</td><td>Sí</td><td>Propietario registrado en Derechos Reales.</td></tr>
+                <tr><td><strong>Matrícula</strong></td><td>Texto</td><td>Formato DDRR</td><td>Sí</td><td>Número de matrícula o partida.</td></tr>
+                <tr><td><strong>Avalúo</strong></td><td>Numérico (decimal)</td><td>Mayor a 0, en Bs.</td><td>Sí</td><td>Valor catastral = valor terreno + construcción.</td></tr>
+                <tr><td><strong>Uso de Suelo</strong></td><td>Texto</td><td>Dominio LUSU</td><td>Sí</td><td>Residencial, Equipamiento, Área Verde, etc.</td></tr>
+                <tr><td><strong>Nivel de Riesgo</strong></td><td>Texto</td><td>Muy Alto, Alto, Medio, Bajo</td><td>Sí</td><td>Según Atlas Integral del Riesgo.</td></tr>
+            </table>
+        </div>
+
+        <h3><i class="fas fa-file-alt"></i> Ejemplo de Registro en el Modelo de Datos</h3>
+
+        <p>A continuación se muestra cómo se vería un registro completo del predio <code>2|01|038|0549|0001|0000</code> en el modelo de datos predial:</p>
+
+        <div class="code-block">
+            <span class="hl">PREDIO:</span> 2|01|038|0549|0001|0000<br>
+            <span class="hl">FICHA:</span> A (Unifamiliar)<br>
+            <span class="hl">SUPERFICIE TERRENO:</span> 250.00 m²<br>
+            <span class="hl">ÁREA CONSTRUIDA:</span> 180.00 m²<br>
+            <span class="hl">N° PLANTAS:</span> 2<br>
+            <span class="hl">TITULAR:</span> Ana Quispe Mamani (CI: 8765432 LP)<br>
+            <span class="hl">MATRÍCULA:</span> 01023456<br>
+            <span class="hl">AVALÚO:</span> Bs. 450.000<br>
+            <span class="hl">USO DE SUELO:</span> Residencial<br>
+            <span class="hl">NIVEL DE RIESGO:</span> Medio
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO C -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico C: Diseño del Modelo de Datos Predial</h4>
+            <p><strong>Caso real:</strong> El GAMLP te pide ampliar el modelo de datos predial para incluir el <strong>régimen de Propiedad Horizontal</strong>. Un edificio en la Zona Central tiene 10 departamentos y un terreno matriz de 600 m². Cada departamento tiene su propio titular, matrícula y avalúo.</p>
+            <p><strong>Preguntas:</strong></p>
+            <ol>
+                <li>¿Qué campo de la codificación catastral se activa para identificar cada departamento? ¿Cómo se numerarían los subpredios?</li>
+                <li>¿Qué tabla adicional necesitarías crear en el modelo de datos para gestionar la Propiedad Horizontal? ¿Qué campos incluiría?</li>
+                <li>Si el departamento 3 del piso 2 tiene una <strong>hipoteca</strong> a favor del Banco Unión, ¿en qué tabla del modelo de datos se registraría esta restricción? ¿Cómo se vincularía con el predio?</li>
+                <li>¿Qué tipo de relación existiría entre la tabla de <strong>Titular</strong> y la tabla de <strong>Predio</strong> en el caso de un edificio en PH? ¿Cambiaría respecto a una vivienda unifamiliar?</li>
+            </ol>
+            <p><strong>Respuestas esperadas:</strong></p>
+            <ul>
+                <li>1. Se activa el campo de <strong>Subpredio</strong> (últimos 4 dígitos). Los subpredios se numerarían <code>0001</code>, <code>0002</code>, ..., <code>0010</code> para los 10 departamentos[reference:16].</li>
+                <li>2. Se crearía una tabla adicional de <strong>Propiedad Horizontal</strong> con campos: ID PH (PK), Código Catastral Matriz (FK), N° de unidades, Superficie total construida, Coeficiente de copropiedad, etc.</li>
+                <li>3. La hipoteca se registraría en la tabla de <strong>Restricciones (RRR)</strong>, vinculada al <code>LA_BAUnit</code> del departamento mediante el Código Catastral completo (<code>...0003</code>). La restricción tiene tipo "Hipoteca", beneficiario "Banco Unión" y fecha de inscripción.</li>
+                <li>4. En una vivienda unifamiliar, la relación Titular-Predio es <strong>1:N</strong> (un titular puede tener varios predios). En un edificio en PH, la relación es <strong>N:M</strong> (varios titulares comparten el mismo terreno matriz, pero cada uno es propietario exclusivo de su unidad). Esto requiere una tabla intermedia de <strong>copropiedad</strong>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ==================== TAB D: INTEGRIDAD Y ACTUALIZACIÓN ==================== -->
+    <div id="tabD" class="tab-content">
+        <h2><i class="fas fa-check-double" style="color:#1a4b7a; margin-right: 12px;"></i>4. Integridad y Actualización de Información Catastral</h2>
+
+        <p>La <strong>integridad</strong> de la información catastral se refiere a la coherencia, exactitud y completitud de los datos. La <strong>actualización</strong> es el proceso continuo de mantener la base de datos catastral alineada con la realidad del territorio. Ambos conceptos son fundamentales para que el catastro cumpla su función multifinalitaria.</p>
+
+        <p>La Ley Municipal de Catastro de La Paz (N° 58/2013) establece en su Artículo 4, inciso c), que una de las características del catastro es que "comprende la recopilación, procesamiento y conservación de los datos necesarios para organizar y mantener actualizados el conjunto de datos que describen los bienes inmuebles, atendiendo a sus características económicas y jurídicas"[reference:17].</p>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> El <strong>SITEC</strong> (Sistema de Inteligencia Territorial y Estrategia Catastral), presentado en julio de 2026, permite relevar aproximadamente <strong>140 hectáreas por día</strong> mediante imágenes satelitales de alta resolución y drones. Esta información se contrasta con los registros catastrales existentes para identificar con precisión las características reales de cada inmueble y garantizar una administración tributaria basada en criterios de equidad[reference:18].</p>
+        </div>
+
+        <h3><i class="fas fa-shield-halved"></i> Dimensiones de la Integridad Catastral</h3>
+
+        <!-- DIAGRAMA SVG: DIMENSIONES DE INTEGRIDAD -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 850 350" xmlns="http://www.w3.org/2000/svg">
+                <!-- Centro -->
+                <circle cx="425" cy="175" r="60" fill="#0b2b4e"/>
+                <text x="425" y="168" text-anchor="middle" fill="white" font-size="13" font-weight="700">INTEGRIDAD</text>
+                <text x="425" y="188" text-anchor="middle" fill="#b8cde0" font-size="11">Catastral</text>
+
+                <!-- Dimensión 1: Exactitud -->
+                <rect x="30" y="30" width="200" height="90" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="130" y="58" text-anchor="middle" fill="#0d47a1" font-size="13" font-weight="700">EXACTITUD</text>
+                <text x="130" y="80" text-anchor="middle" fill="#3a5a7a" font-size="10">Geometría y atributos</text>
+                <text x="130" y="98" text-anchor="middle" fill="#3a5a7a" font-size="10">correctos según realidad</text>
+                <text x="130" y="115" text-anchor="middle" fill="#0d47a1" font-size="9" font-style="italic">Error ≤ 40 cm en planimetría</text>
+
+                <!-- Dimensión 2: Completitud -->
+                <rect x="620" y="30" width="200" height="90" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="720" y="58" text-anchor="middle" fill="#2e7d32" font-size="13" font-weight="700">COMPLETITUD</text>
+                <text x="720" y="80" text-anchor="middle" fill="#4e6e50" font-size="10">Todos los predios</text>
+                <text x="720" y="98" text-anchor="middle" fill="#4e6e50" font-size="10">registrados en el SIT</text>
+                <text x="720" y="115" text-anchor="middle" fill="#2e7d32" font-size="9" font-style="italic">Cobertura total del municipio</text>
+
+                <!-- Dimensión 3: Consistencia -->
+                <rect x="30" y="230" width="200" height="90" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+                <text x="130" y="258" text-anchor="middle" fill="#f57f17" font-size="13" font-weight="700">CONSISTENCIA</text>
+                <text x="130" y="280" text-anchor="middle" fill="#6d5a1e" font-size="10">Coherencia entre tablas</text>
+                <text x="130" y="298" text-anchor="middle" fill="#6d5a1e" font-size="10">y capas del sistema</text>
+                <text x="130" y="315" text-anchor="middle" fill="#f57f17" font-size="9" font-style="italic">Sin contradicciones internas</text>
+
+                <!-- Dimensión 4: Actualidad -->
+                <rect x="620" y="230" width="200" height="90" rx="12" fill="#fce4ec" stroke="#c62828" stroke-width="2"/>
+                <text x="720" y="258" text-anchor="middle" fill="#b71c1c" font-size="13" font-weight="700">ACTUALIDAD</text>
+                <text x="720" y="280" text-anchor="middle" fill="#7a3a3a" font-size="10">Datos reflejan la realidad</text>
+                <text x="720" y="298" text-anchor="middle" fill="#7a3a3a" font-size="10">en tiempo real</text>
+                <text x="720" y="315" text-anchor="middle" fill="#b71c1c" font-size="9" font-style="italic">SITEC: 140 ha/día</text>
+
+                <!-- Flechas -->
+                <line x1="230" y1="75" x2="370" y2="145" stroke="#1a4b7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <line x1="620" y1="75" x2="480" y2="145" stroke="#1a4b7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <line x1="230" y1="275" x2="370" y2="205" stroke="#1a4b7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <line x1="620" y1="275" x2="480" y2="205" stroke="#1a4b7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+            </svg>
+            <p class="svg-caption">Figura 4. Las cuatro dimensiones de la integridad catastral: exactitud, completitud, consistencia y actualidad.</p>
+        </div>
+
+        <h3><i class="fas fa-sync-alt"></i> Mecanismos de Actualización Catastral en el GAMLP</h3>
+
+        <p>El GAMLP cuenta con múltiples mecanismos para mantener actualizada la información catastral:</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-satellite"></i></div>
+                <h4>SITEC (2026)</h4>
+                <p>Sistema de Inteligencia Territorial y Estrategia Catastral que integra imágenes satelitales de alta resolución, drones e inteligencia geoespacial. Permite relevar <strong>140 hectáreas por día</strong> y contrastar la información con los registros catastrales existentes[reference:19].</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-file-signature"></i></div>
+                <h4>FDRC v2.0.7</h4>
+                <p>Formulario Digital de Registro Catastral actualizado al 16 de enero de 2024. Permite a profesionales externos registrar predios con información técnica, legal y gráfica, generando el modelo 3D y la Ficha Catastral[reference:20].</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-edit"></i></div>
+                <h4>Modificación de Datos</h4>
+                <p>Trámite que permite a los propietarios actualizar la información de sus predios cuando existen mutaciones o transformaciones físicas (nuevas construcciones, ampliaciones, demoliciones) o modificaciones legales[reference:21].</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                <h4>Actualización Anual de Zonas</h4>
+                <p>El GAMLP actualiza y mantiene anualmente el <strong>Plano de Zonas Homogéneas y Zonas de Valor</strong>, que se utiliza para el cálculo del valor catastral dentro del área urbana del municipio[reference:22].</p>
+            </div>
+        </div>
+
+        <h3><i class="fas fa-exchange-alt"></i> Proceso de Actualización Catastral con SITEC</h3>
+
+        <!-- DIAGRAMA SVG: FLUJO SITEC -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 900 250" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowS" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#1a4b7a"/>
+                    </marker>
+                </defs>
+
+                <rect x="30" y="80" width="160" height="80" rx="12" fill="#0b2b4e"/>
+                <text x="110" y="110" text-anchor="middle" fill="white" font-size="12" font-weight="600">CAPTURA</text>
+                <text x="110" y="130" text-anchor="middle" fill="#b8cde0" font-size="10">Imágenes satelitales</text>
+                <text x="110" y="148" text-anchor="middle" fill="#b8cde0" font-size="10">+ Drones</text>
+
+                <line x1="190" y1="120" x2="230" y2="120" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowS)"/>
+
+                <rect x="240" y="80" width="160" height="80" rx="12" fill="#1a4b7a"/>
+                <text x="320" y="110" text-anchor="middle" fill="white" font-size="12" font-weight="600">PROCESAMIENTO</text>
+                <text x="320" y="130" text-anchor="middle" fill="#b8cde0" font-size="10">Inteligencia</text>
+                <text x="320" y="148" text-anchor="middle" fill="#b8cde0" font-size="10">geoespacial + IA</text>
+
+                <line x1="400" y1="120" x2="440" y2="120" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowS)"/>
+
+                <rect x="450" y="80" width="160" height="80" rx="12" fill="#2c6e9e"/>
+                <text x="530" y="110" text-anchor="middle" fill="white" font-size="12" font-weight="600">CONTRASTE</text>
+                <text x="530" y="130" text-anchor="middle" fill="#d4e4f5" font-size="10">vs. Registros</text>
+                <text x="530" y="148" text-anchor="middle" fill="#d4e4f5" font-size="10">catastrales actuales</text>
+
+                <line x1="610" y1="120" x2="650" y2="120" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowS)"/>
+
+                <rect x="660" y="80" width="210" height="80" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="765" y="110" text-anchor="middle" fill="#2e7d32" font-size="12" font-weight="600">ACTUALIZACIÓN</text>
+                <text x="765" y="130" text-anchor="middle" fill="#4e6e50" font-size="10">Geodatabase + Ficha</text>
+                <text x="765" y="148" text-anchor="middle" fill="#4e6e50" font-size="10">Catastral actualizada</text>
+
+                <text x="450" y="210" text-anchor="middle" fill="#5a6f8a" font-size="11" font-style="italic">Capacidad: 140 hectáreas por día · Información 3D · Digitalización integral del catastro</text>
+            </svg>
+            <p class="svg-caption">Figura 5. Flujo de actualización catastral con SITEC: captura con satélites y drones, procesamiento con IA, contraste con registros existentes y actualización de la geodatabase.</p>
+        </div>
+
+        <h3><i class="fas fa-exclamation-triangle"></i> Problemas Comunes de Integridad y sus Soluciones</h3>
+
+        <div class="table-responsive">
+            <table>
+                <tr><th>Problema</th><th>Causa</th><th>Solución en el GAMLP</th></tr>
+                <tr><td><strong>Predios superpuestos</strong></td><td>Errores en levantamientos topográficos o digitalización.</td><td>Reglas topológicas de <strong>No superposición</strong> en la geodatabase.</td></tr>
+                <tr><td><strong>Huecos entre predios</strong></td><td>Linderos no coincidentes o predios no registrados.</td><td>Regla topológica de <strong>No huecos</strong> + verificación con imágenes satelitales.</td></tr>
+                <tr><td><strong>Datos desactualizados</strong></td><td>Construcciones nuevas no declaradas o demoliciones.</td><td>Contraste con imágenes de <strong>SITEC</strong> + trámite de <strong>Modificación de Datos</strong>.</td></tr>
+                <tr><td><strong>Inconsistencia entre catastro y DDRR</strong></td><td>Diferencias entre el registro catastral y el registro de derechos.</td><td>Acta de Consensos GAMLP-DDRR y Acta de Entendimiento GAMLP-DDRR[reference:23].</td></tr>
+                <tr><td><strong>Titulares fallecidos o datos incorrectos</strong></td><td>Falta de actualización del componente jurídico.</td><td>Trámite de <strong>Modificación de Datos</strong> con documentación legal actualizada.</td></tr>
+            </table>
+        </div>
+
+        <div class="cta-buttons">
+            <a href="http://sitservicios.lapaz.bo/sit/catastro/" target="_blank" class="map-link"><i class="fas fa-map"></i> Verificar Predios en Mapa Catastral</a>
+            <a href="https://lapaz.bo/la-paz-moderniza-su-gestion-con-el-relanzamiento-de-la-plataforma-catastral-y-la-presentacion-del-sistema-geoespacial-sitec/" target="_blank" class="map-link"><i class="fas fa-satellite"></i> Leer sobre SITEC (GAMLP)</a>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO D -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico D: Integridad y Actualización Catastral</h4>
+            <p><strong>Caso real:</strong> Eres el supervisor catastral del GAMLP. Durante una auditoría interna, detectas los siguientes problemas en la geodatabase del Distrito 5:</p>
+            <ul>
+                <li><strong>Predio 5-6-7:</strong> Su geometría se superpone en un 8% con el predio 5-6-8.</li>
+                <li><strong>Predio 5-6-12:</strong> Su titular falleció hace 3 años y el predio sigue a su nombre.</li>
+                <li><strong>Manzana 6:</strong> Existe un hueco de 15 m² entre los predios 5-6-9 y 5-6-10.</li>
+                <li><strong>Predio 5-6-15:</strong> Tiene un área construida registrada de 80 m², pero en la imagen satelital del SITEC se observa una ampliación que llega a 120 m².</li>
+            </ul>
+            <p><strong>Preguntas:</strong></p>
+            <ol>
+                <li>¿Qué <strong>regla de integridad</strong> se viola en cada caso? Clasifica cada problema según la dimensión (exactitud, completitud, consistencia, actualidad).</li>
+                <li>Para el predio 5-6-7, ¿qué debería hacer el sistema automáticamente al detectar la superposición? ¿Qué herramienta del GAMLP permite corregir la geometría?</li>
+                <li>Para el predio 5-6-15, ¿qué mecanismo de actualización del GAMLP permitiría detectar y corregir la diferencia entre el área registrada y el área real?</li>
+                <li>Para el caso del titular fallecido, ¿qué trámite debe iniciar el heredero y qué documentos debe presentar?</li>
+            </ol>
+            <p><strong>Respuestas esperadas:</strong></p>
+            <ul>
+                <li>1. <strong>5-6-7:</strong> Violación de <strong>No superposición</strong> (dimensión: consistencia). <strong>5-6-12:</strong> Violación de <strong>Exactitud jurídica</strong> (dimensión: actualidad). <strong>Manzana 6:</strong> Violación de <strong>No huecos</strong> (dimensión: completitud). <strong>5-6-15:</strong> Violación de <strong>Exactitud física</strong> (dimensión: actualidad).</li>
+                <li>2. El sistema debería <strong>rechazar</strong> cualquier modificación que genere la superposición y emitir un error. La corrección se realiza en el <strong>FDRC</strong> o en AutoCAD, ajustando los vértices del predio para que los linderos coincidan.</li>
+                <li>3. El <strong>SITEC</strong> permite contrastar las imágenes satelitales con los registros catastrales. Al detectar la diferencia, se genera una alerta y se notifica al propietario para que inicie el trámite de <strong>Modificación de Datos</strong>[reference:24].</li>
+                <li>4. El heredero debe iniciar el trámite de <strong>Modificación de Datos (Bienes Inmuebles)</strong> presentando: Testimonio de propiedad o título ejecutorial, Certificado Catastral, y documentación legal que acredite la sucesión (declaratoria de herederos)[reference:25].</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p><i class="fas fa-info-circle"></i> Presentación elaborada con fines educativos. Fuentes oficiales: GAMLP (Sistema de Información Territorial, Memoria Institucional 2010-2020, Formulario Digital de Registro Catastral v2.0.7, Resolución Ejecutiva N° 316/2021, Resolución Administrativa ACM N° 29/2024), Ley Municipal Autonómica N° 58/2013 (Ley de Catastro), Decreto Municipal N° 015/2016, Atlas Catastral del Municipio de La Paz, SITEC (2026), y Acta de Consensos GAMLP-DDRR.</p>
+        <p style="margin-top: 8px;">Los enlaces a mapas interactivos, plataformas y documentos son recursos oficiales del Gobierno Autónomo Municipal de La Paz (GAMLP).</p>
+    </footer>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabContent, tabBtn;
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) { tabContent[i].classList.remove("active"); }
+        tabBtn = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tabBtn.length; i++) { tabBtn[i].classList.remove("active"); }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.tab-btn').classList.add('active');
+        document.querySelector('.tab-content').classList.add('active');
+    });
+</script>
+</body>
+</html>

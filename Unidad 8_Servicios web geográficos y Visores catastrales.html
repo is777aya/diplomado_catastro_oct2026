@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataformas SIG, Servicios Web y Gemelos Digitales · La Paz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f4f7fc; color: #1e2a3a; line-height: 1.6; padding: 20px;
+        }
+        .presentation-container {
+            max-width: 1200px; margin: 0 auto; background: #ffffff;
+            border-radius: 24px; box-shadow: 0 20px 40px rgba(0, 20, 50, 0.1); overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #0b2b4e 0%, #1a4b7a 100%);
+            color: white; padding: 30px 40px; text-align: center;
+        }
+        header h1 { font-size: 2.2rem; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; }
+        header p { font-size: 1.1rem; opacity: 0.9; }
+        .badge {
+            display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 18px;
+            border-radius: 40px; font-size: 0.9rem; margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .tabs {
+            display: flex; background: #eef2f7; border-bottom: 1px solid #d0dbea;
+            padding: 0 20px; flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: transparent; border: none; padding: 18px 24px; font-size: 0.95rem;
+            font-weight: 500; color: #4a5c72; cursor: pointer; transition: all 0.2s ease;
+            border-bottom: 3px solid transparent; display: flex; align-items: center; gap: 8px;
+        }
+        .tab-btn i { font-size: 1rem; }
+        .tab-btn:hover { background: rgba(26, 75, 122, 0.05); color: #1a4b7a; }
+        .tab-btn.active {
+            color: #0b2b4e; border-bottom-color: #1a4b7a; background: white; font-weight: 600;
+        }
+        .tab-content { display: none; padding: 35px 40px; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        h2 { font-size: 1.7rem; color: #0b2b4e; margin-bottom: 10px; font-weight: 600; }
+        h3 { font-size: 1.25rem; color: #1a4b7a; margin: 25px 0 12px 0; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        h4 { font-size: 1.1rem; color: #2c3e50; margin: 18px 0 8px 0; font-weight: 600; }
+        p { margin-bottom: 14px; color: #33445e; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin: 20px 0 30px; }
+        .card {
+            background: #f9fbfe; border: 1px solid #e1e9f2; border-radius: 16px;
+            padding: 24px 20px; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(11, 43, 78, 0.08); border-color: #b8cde0; }
+        .card-icon { font-size: 2rem; color: #1a4b7a; margin-bottom: 12px; }
+        .card h4 { margin-top: 0; margin-bottom: 10px; font-size: 1.15rem; }
+        .card p { font-size: 0.95rem; margin-bottom: 0; }
+        .highlight-box {
+            background: #e8f0fe; border-left: 6px solid #1a4b7a; padding: 18px 22px;
+            border-radius: 0 12px 12px 0; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; color: #0b2b4e; }
+        .exercise-box {
+            background: #fff8e7; border: 1px solid #ffe0a3; border-radius: 16px;
+            padding: 22px 26px; margin: 30px 0 10px;
+        }
+        .exercise-box h4 { color: #9e6b00; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .exercise-box ul, .exercise-box ol { margin-left: 22px; color: #4e3e1f; }
+        .exercise-box li { margin-bottom: 8px; }
+        .svg-diagram {
+            background: #ffffff; border: 1px solid #dce5ef; border-radius: 16px;
+            padding: 25px 20px; margin: 25px 0; text-align: center; overflow-x: auto;
+        }
+        .svg-diagram svg { max-width: 100%; height: auto; }
+        .svg-caption { font-size: 0.9rem; color: #5a6f8a; margin-top: 15px; font-style: italic; }
+        .table-responsive { overflow-x: auto; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e1e9f2; }
+        th { background: #f0f5fb; color: #0b2b4e; font-weight: 600; }
+        tr:hover { background: #f9fbfe; }
+        .map-link {
+            display: inline-block; background: #1a4b7a; color: white; padding: 12px 24px;
+            border-radius: 40px; text-decoration: none; font-weight: 500; margin: 10px 0;
+            transition: background 0.2s;
+        }
+        .map-link:hover { background: #0b2b4e; }
+        .map-link i { margin-right: 8px; }
+        .cta-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin: 15px 0; }
+        .code-block {
+            background: #0b2b4e; color: #b8cde0; padding: 16px 20px; border-radius: 10px;
+            font-family: 'Courier New', monospace; font-size: 0.85rem; margin: 15px 0;
+            overflow-x: auto; line-height: 1.8;
+        }
+        .code-block .hl { color: #ffd54f; }
+        footer {
+            background: #f0f5fb; padding: 20px 40px; text-align: center;
+            font-size: 0.9rem; color: #5a6f8a; border-top: 1px solid #dce5ef;
+        }
+        @media (max-width: 768px) {
+            header { padding: 24px 20px; } header h1 { font-size: 1.6rem; }
+            .tabs { padding: 0 10px; } .tab-btn { padding: 14px 14px; font-size: 0.85rem; }
+            .tab-content { padding: 24px 20px; } h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="presentation-container">
+    <header>
+        <h1><i class="fas fa-cloud"></i> Plataformas SIG, Servicios Web y Gemelos Digitales</h1>
+        <p>Aplicación al catastro del municipio de La Paz, Bolivia</p>
+        <div class="badge"><i class="fas fa-cube"></i> Presentación Técnica Interactiva · GAMLP</div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'tabA')"><i class="fas fa-desktop"></i> 1. Plataformas SIG Catastrales</button>
+        <button class="tab-btn" onclick="openTab(event, 'tabB')"><i class="fas fa-globe"></i> 2. Servicios Web Geográficos</button>
+        <button class="tab-btn" onclick="openTab(event, 'tabC')"><i class="fas fa-cube"></i> 3. Gemelos Digitales</button>
+    </div>
+
+    <!-- ==================== TAB A: PLATAFORMAS SIG CATASTRALES ==================== -->
+    <div id="tabA" class="tab-content active">
+        <h2><i class="fas fa-desktop" style="color:#1a4b7a; margin-right: 12px;"></i>1. Plataformas SIG Catastrales</h2>
+
+        <p>Una <strong>plataforma SIG catastral</strong> es un sistema informático que integra datos geográficos (geometrías de predios, manzanas, distritos) con datos alfanuméricos (titulares, avalúos, códigos catastrales) para permitir la consulta, el análisis y la gestión del territorio. En el GAMLP, este ecosistema se articula en torno a tres plataformas principales que operan de forma integrada.</p>
+
+        <h3><i class="fas fa-cubes"></i> Ecosistema de Plataformas SIG del GAMLP</h3>
+
+        <!-- DIAGRAMA SVG: ECOSISTEMA DE PLATAFORMAS -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowP" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#1a4b7a"/>
+                    </marker>
+                </defs>
+
+                <!-- Núcleo: SIT -->
+                <rect x="330" y="30" width="240" height="90" rx="14" fill="#0b2b4e"/>
+                <text x="450" y="60" text-anchor="middle" fill="white" font-size="15" font-weight="700">SIT</text>
+                <text x="450" y="82" text-anchor="middle" fill="#b8cde0" font-size="11">Sistema de Información Territorial</text>
+                <text x="450" y="100" text-anchor="middle" fill="#b8cde0" font-size="10">18 módulos · Base de datos catastral</text>
+
+                <!-- Plataforma 1 -->
+                <rect x="50" y="180" width="220" height="90" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="160" y="210" text-anchor="middle" fill="#0d47a1" font-size="13" font-weight="700">MAPA CATASTRAL</text>
+                <text x="160" y="232" text-anchor="middle" fill="#3a5a7a" font-size="10">Consulta interactiva</text>
+                <text x="160" y="248" text-anchor="middle" fill="#3a5a7a" font-size="10">Búsqueda por código o dirección</text>
+                <text x="160" y="264" text-anchor="middle" fill="#0d47a1" font-size="9" font-style="italic">sitservicios.lapaz.bo/sit/catastro</text>
+
+                <!-- Plataforma 2 -->
+                <rect x="340" y="180" width="220" height="90" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+                <text x="450" y="210" text-anchor="middle" fill="#f57f17" font-size="13" font-weight="700">PLATAFORMA CATASTRAL</text>
+                <text x="450" y="232" text-anchor="middle" fill="#6d5a1e" font-size="10">Atención presencial</text>
+                <text x="450" y="248" text-anchor="middle" fill="#6d5a1e" font-size="10">Zona Central y Zona Sur</text>
+                <text x="450" y="264" text-anchor="middle" fill="#f57f17" font-size="9" font-style="italic">Trámites catastrales</text>
+
+                <!-- Plataforma 3 -->
+                <rect x="630" y="180" width="220" height="90" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="740" y="210" text-anchor="middle" fill="#2e7d32" font-size="13" font-weight="700">SITEC</text>
+                <text x="740" y="232" text-anchor="middle" fill="#4e6e50" font-size="10">Inteligencia Territorial</text>
+                <text x="740" y="248" text-anchor="middle" fill="#4e6e50" font-size="10">Satélites + Drones + IA</text>
+                <text x="740" y="264" text-anchor="middle" fill="#2e7d32" font-size="9" font-style="italic">140 ha/día · 3D</text>
+
+                <!-- Flechas -->
+                <line x1="420" y1="120" x2="200" y2="175" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowP)"/>
+                <line x1="450" y1="120" x2="450" y2="175" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowP)"/>
+                <line x1="480" y1="120" x2="700" y2="175" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowP)"/>
+
+                <!-- Datos -->
+                <rect x="50" y="310" width="800" height="80" rx="12" fill="#f0f5fb" stroke="#d0dbea" stroke-width="1"/>
+                <text x="450" y="338" text-anchor="middle" fill="#0b2b4e" font-size="12" font-weight="600">DATOS QUE ALIMENTAN LAS PLATAFORMAS</text>
+                <text x="160" y="365" text-anchor="middle" fill="#4a5c72" font-size="10">Ficha Catastral</text>
+                <text x="160" y="380" text-anchor="middle" fill="#4a5c72" font-size="10">FDRC v2.0.7</text>
+                <text x="450" y="365" text-anchor="middle" fill="#4a5c72" font-size="10">Red Geodésica Satelital</text>
+                <text x="450" y="380" text-anchor="middle" fill="#4a5c72" font-size="10">365 vértices + EPLP</text>
+                <text x="740" y="365" text-anchor="middle" fill="#4a5c72" font-size="10">Atlas de Riesgo</text>
+                <text x="740" y="380" text-anchor="middle" fill="#4a5c72" font-size="10">LUSU · Geología 2025</text>
+            </svg>
+            <p class="svg-caption">Figura 1. Ecosistema de plataformas SIG del GAMLP: SIT como núcleo, con Mapa Catastral, Plataforma de Atención y SITEC como capas de servicio.</p>
+        </div>
+
+        <h3><i class="fas fa-server"></i> El SIT: Núcleo del Sistema</h3>
+
+        <p>El <strong>Sistema de Información Territorial (SIT)</strong> es una herramienta informática modular y de acceso simultáneo, dinámico e inmediato, que permite realizar los procesos de administración territorial con celeridad y oportunidad, constituyéndose en un instrumento importante para la desconcentración de servicios relacionados a la gestión del territorio. En el periodo 2010 al 2020 se desarrollaron y consolidaron <strong>18 módulos</strong>.</p>
+
+        <div class="table-responsive">
+            <table>
+                <tr><th>Módulo del SIT</th><th>Función</th><th>Usuario</th></tr>
+                <tr><td><strong>Catastro</strong></td><td>Registro y consulta de predios, fichas catastrales, códigos.</td><td>Funcionarios, profesionales externos</td></tr>
+                <tr><td><strong>Administración Territorial</strong></td><td>Uso de suelos, patrones de asentamiento, permisos de construcción.</td><td>Planificación urbana</td></tr>
+                <tr><td><strong>Riesgos</strong></td><td>Consulta de zonas de riesgo, deslizamientos, inundaciones.</td><td>SMRGV, ciudadanía</td></tr>
+                <tr><td><strong>Levantamientos</strong></td><td>Registro de levantamientos topográficos georreferenciados.</td><td>Topógrafos externos</td></tr>
+                <tr><td><strong>Estadísticas Municipales</strong></td><td>Indicadores, datos demográficos, información para decisiones.</td><td>Autoridades, planificación</td></tr>
+            </table>
+        </div>
+
+        <h3><i class="fas fa-map"></i> Mapa Catastral: Consulta Ciudadana</h3>
+
+        <p>El <strong>Mapa Catastral de La Paz</strong> es la plataforma de acceso público que permite a cualquier ciudadano consultar información catastral de forma interactiva. Según el portal oficial, incluye certificación catastral, códigos y fichas específicas para Propiedad Unifamiliar y Propiedad Horizontal (PH), además de la normativa vigente en materia de catastro. El mapa también permite interactuar con otras capas del SIT, como el Mapa de Uso de Suelos (LUSU) y el Mapa de Riesgos.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-search"></i></div>
+                <h4>Búsqueda por Código Catastral</h4>
+                <p>Formato simplificado: <code>distrito-mzna-predio</code>. Ejemplo: <code>5-6-7</code>. El sistema localiza el predio y muestra su ficha.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-map-pin"></i></div>
+                <h4>Búsqueda por Dirección</h4>
+                <p>Ingresando la dirección o número de puerta. Ejemplo real: <code>Av. Mercado # 220</code>.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                <h4>Superposición de Capas</h4>
+                <p>Permite activar capas del SIT: LUSU, Riesgos, Geología 2025, Red Geodésica.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-file-download"></i></div>
+                <h4>Descarga de Fichas</h4>
+                <p>Descarga de Fichas Catastrales en formatos AutoCAD y PDF, Resolución Administrativa ACM Nº 29/2024.</p>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> El <strong>SITEC</strong> (Sistema de Inteligencia Territorial y Estrategia Catastral), presentado en julio de 2026, integra imágenes satelitales de alta resolución, drones e inteligencia geoespacial para actualizar permanentemente la información del territorio paceño. Permite relevar aproximadamente <strong>140 hectáreas por día</strong> y trabajar con información territorial <strong>tridimensional (3D)</strong>.</p>
+        </div>
+
+        <div class="cta-buttons">
+            <a href="http://sitservicios.lapaz.bo/sit/catastro/" target="_blank" class="map-link"><i class="fas fa-map"></i> Abrir Mapa Catastral (GAMLP)</a>
+            <a href="http://sitservicios.lapaz.bo/" target="_blank" class="map-link"><i class="fas fa-external-link-alt"></i> Abrir SIT (GAMLP)</a>
+            <a href="https://lapaz.bo/la-paz-moderniza-su-gestion-con-el-relanzamiento-de-la-plataforma-catastral-y-la-presentacion-del-sistema-geoespacial-sitec/" target="_blank" class="map-link"><i class="fas fa-satellite"></i> Leer sobre SITEC (GAMLP)</a>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO A -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico A: Plataformas SIG Catastrales</h4>
+            <p><strong>Caso real:</strong> Un ciudadano llega a la Plataforma de Atención Catastral de la Zona Central (Calle Potosí N° 1285, Edificio Tobía) para solicitar el Certificado de Registro Catastral de su vivienda en el Distrito 5. El funcionario debe usar el SIT para verificar la información.</p>
+            <p><strong>Preguntas:</strong></p>
+            <ol>
+                <li>¿Qué plataforma del GAMLP usaría el funcionario para consultar la información del predio? ¿Qué datos puede obtener de ella?</li>
+                <li>Si el ciudadano no recuerda su código catastral, ¿qué otra forma de búsqueda puede usar el funcionario en el Mapa Catastral?</li>
+                <li>El funcionario necesita verificar si el predio está en zona de riesgo de deslizamiento. ¿Qué capa del SIT debe activar en el Mapa Catastral?</li>
+                <li>Si el predio estuviera en régimen de Propiedad Horizontal, ¿qué tipo de ficha catastral debería consultar el funcionario y qué campo adicional de la codificación se activaría?</li>
+            </ol>
+            <p><strong>Respuestas esperadas:</strong></p>
+            <ul>
+                <li>1. El funcionario usaría el <strong>SIT</strong> (Sistema de Información Territorial), específicamente el <strong>Módulo de Catastro</strong>, para consultar la información del predio: código catastral, titular, matrícula, avalúo, uso de suelo y ficha catastral.</li>
+                <li>2. Puede usar la <strong>búsqueda por dirección</strong> en el Mapa Catastral, ingresando la dirección o número de puerta del predio (ej. <code>Av. Mercado # 220</code>).</li>
+                <li>3. Debe activar la capa de <strong>Riesgos</strong> del SIT, que muestra el <strong>Atlas Integral del Riesgo</strong> con los niveles de Muy Alto, Alto, Medio y Bajo.</li>
+                <li>4. Debería consultar la <strong>Ficha C (Propiedad Horizontal – Unidad)</strong> y se activaría el campo de <strong>Subpredio</strong> (últimos 4 dígitos de la codificación catastral).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ==================== TAB B: SERVICIOS WEB GEOGRÁFICOS ==================== -->
+    <div id="tabB" class="tab-content">
+        <h2><i class="fas fa-globe" style="color:#1a4b7a; margin-right: 12px;"></i>2. Servicios Web Geográficos</h2>
+
+        <p>Un <strong>servicio web geográfico</strong> es un componente de software que permite a diferentes aplicaciones intercambiar información geoespacial a través de Internet, sin necesidad de que el usuario tenga instalado un software SIG en su computadora. Los servicios web geográficos son la base de la <strong>interoperabilidad</strong> entre sistemas, permitiendo que el catastro del GAMLP se comunique con otras instituciones (Derechos Reales, INRA, Impuestos Internos) y con plataformas de datos abiertos.</p>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> El GAMLP ha implementado su propio <strong>servidor de mapas GeoServer</strong>, accesible desde el SIT. Este servidor publica los servicios web geográficos oficiales (WMS, WFS, WCS) que alimentan el Mapa Catastral, el SIT y las aplicaciones externas que consumen datos del municipio. Puede consultarse en: <code>sitservicios.lapaz.bo/geoserver/web/</code></p>
+        </div>
+
+        <h3><i class="fas fa-sitemap"></i> Tipos de Servicios Web Geográficos del OGC</h3>
+
+        <!-- DIAGRAMA SVG: SERVICIOS OGC -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowW" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#1a4b7a"/>
+                    </marker>
+                </defs>
+
+                <!-- Servidor -->
+                <rect x="330" y="30" width="240" height="70" rx="12" fill="#0b2b4e"/>
+                <text x="450" y="58" text-anchor="middle" fill="white" font-size="13" font-weight="700">GEOSERVER DEL GAMLP</text>
+                <text x="450" y="78" text-anchor="middle" fill="#b8cde0" font-size="10">sitservicios.lapaz.bo/geoserver</text>
+
+                <!-- Servicios -->
+                <rect x="50" y="160" width="200" height="100" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="150" y="190" text-anchor="middle" fill="#0d47a1" font-size="14" font-weight="700">WMS</text>
+                <text x="150" y="212" text-anchor="middle" fill="#3a5a7a" font-size="10">Web Map Service</text>
+                <text x="150" y="230" text-anchor="middle" fill="#3a5a7a" font-size="10">Devuelve una imagen</text>
+                <text x="150" y="248" text-anchor="middle" fill="#3a5a7a" font-size="10">(mapa visual)</text>
+
+                <rect x="280" y="160" width="200" height="100" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+                <text x="380" y="190" text-anchor="middle" fill="#f57f17" font-size="14" font-weight="700">WFS</text>
+                <text x="380" y="212" text-anchor="middle" fill="#6d5a1e" font-size="10">Web Feature Service</text>
+                <text x="380" y="230" text-anchor="middle" fill="#6d5a1e" font-size="10">Devuelve vectores</text>
+                <text x="380" y="248" text-anchor="middle" fill="#6d5a1e" font-size="10">(geometrías + atributos)</text>
+
+                <rect x="510" y="160" width="200" height="100" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="610" y="190" text-anchor="middle" fill="#2e7d32" font-size="14" font-weight="700">WCS</text>
+                <text x="610" y="212" text-anchor="middle" fill="#4e6e50" font-size="10">Web Coverage Service</text>
+                <text x="610" y="230" text-anchor="middle" fill="#4e6e50" font-size="10">Devuelve ráster</text>
+                <text x="610" y="248" text-anchor="middle" fill="#4e6e50" font-size="10">(imágenes satelitales)</text>
+
+                <rect x="740" y="160" width="140" height="100" rx="12" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+                <text x="810" y="190" text-anchor="middle" fill="#4a148c" font-size="14" font-weight="700">CSW</text>
+                <text x="810" y="212" text-anchor="middle" fill="#5a3a6a" font-size="10">Catálogo</text>
+                <text x="810" y="230" text-anchor="middle" fill="#5a3a6a" font-size="10">Metadatos</text>
+
+                <!-- Flechas -->
+                <line x1="400" y1="100" x2="200" y2="155" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowW)"/>
+                <line x1="430" y1="100" x2="400" y2="155" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowW)"/>
+                <line x1="470" y1="100" x2="600" y2="155" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowW)"/>
+                <line x1="500" y1="100" x2="780" y2="155" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowW)"/>
+
+                <!-- Clientes -->
+                <rect x="100" y="300" width="250" height="60" rx="10" fill="#f0f5fb" stroke="#d0dbea" stroke-width="1"/>
+                <text x="225" y="325" text-anchor="middle" fill="#0b2b4e" font-size="11" font-weight="600">Clientes SIG</text>
+                <text x="225" y="345" text-anchor="middle" fill="#4a5c72" font-size="10">QGIS · ArcGIS · AutoCAD Map</text>
+
+                <rect x="400" y="300" width="250" height="60" rx="10" fill="#f0f5fb" stroke="#d0dbea" stroke-width="1"/>
+                <text x="525" y="325" text-anchor="middle" fill="#0b2b4e" font-size="11" font-weight="600">Navegadores Web</text>
+                <text x="525" y="345" text-anchor="middle" fill="#4a5c72" font-size="10">Mapa Catastral · SIT</text>
+
+                <rect x="700" y="300" width="180" height="60" rx="10" fill="#f0f5fb" stroke="#d0dbea" stroke-width="1"/>
+                <text x="790" y="325" text-anchor="middle" fill="#0b2b4e" font-size="11" font-weight="600">Otras instituciones</text>
+                <text x="790" y="345" text-anchor="middle" fill="#4a5c72" font-size="10">DDRR · INRA · Impuestos</text>
+            </svg>
+            <p class="svg-caption">Figura 2. Servicios web geográficos publicados por el GeoServer del GAMLP: WMS, WFS, WCS y CSW, con sus clientes potenciales.</p>
+        </div>
+
+        <h3><i class="fas fa-exchange-alt"></i> Comparativa de Servicios Web Geográficos</h3>
+
+        <div class="table-responsive">
+            <table>
+                <tr><th>Servicio</th><th>Nombre completo</th><th>¿Qué devuelve?</th><th>Uso en catastro</th></tr>
+                <tr><td><strong>WMS</strong></td><td>Web Map Service</td><td>Una imagen del mapa (PNG, JPEG)</td><td>Visualización del Mapa Catastral en el navegador.</td></tr>
+                <tr><td><strong>WFS</strong></td><td>Web Feature Service</td><td>Vectores (GML, GeoJSON) con geometría y atributos</td><td>Descarga de predios para análisis en QGIS o AutoCAD.</td></tr>
+                <tr><td><strong>WCS</strong></td><td>Web Coverage Service</td><td>Datos ráster (imágenes satelitales, MDT)</td><td>Acceso a imágenes satelitales y modelos digitales de elevación.</td></tr>
+                <tr><td><strong>CSW</strong></td><td>Catalogue Service for the Web</td><td>Metadatos (ISO 19115/19139)</td><td>Búsqueda de capas y datos catastrales disponibles.</td></tr>
+            </table>
+        </div>
+
+        <h3><i class="fas fa-code"></i> Ejemplo de Petición WFS para un Predio Paceño</h3>
+
+        <p>Una petición WFS permite obtener la geometría y los atributos de un predio directamente desde el <strong>GeoServer del GAMLP</strong>. Por ejemplo, para obtener el predio con código catastral <code>5-6-7</code>:</p>
+
+        <div class="code-block">
+            <span class="hl">GET</span> https://sitservicios.lapaz.bo/geoserver/wfs?<br>
+            &nbsp;&nbsp;service=WFS<br>
+            &nbsp;&nbsp;&version=2.0.0<br>
+            &nbsp;&nbsp;&request=GetFeature<br>
+            &nbsp;&nbsp;&typeName=catastro:predios<br>
+            &nbsp;&CQL_FILTER=codigo_catastral='5-6-7'<br>
+            &nbsp;&outputFormat=application/json
+        </div>
+
+        <p>El servidor devuelve un archivo JSON con la geometría del polígono del predio (coordenadas UTM), más los atributos: titular, matrícula, avalúo, uso de suelo y nivel de riesgo. Este resultado puede cargarse directamente en QGIS, AutoCAD Map 3D o cualquier cliente WFS compatible con los estándares del OGC.</p>
+
+        <h3><i class="fas fa-server"></i> GeoServer del GAMLP: El Servidor de Mapas Oficial</h3>
+
+        <p>El <strong>GeoServer del GAMLP</strong> es el componente del SIT que publica los servicios web geográficos oficiales del municipio. Está implementado sobre <strong>GeoServer</strong>, un servidor de código abierto ampliamente utilizado a nivel mundial para publicar datos geoespaciales bajo los estándares del OGC. A través de su interfaz de administración, los técnicos del GAMLP gestionan las capas, los estilos y los permisos de acceso a los datos catastrales.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                <h4>Capas Publicadas</h4>
+                <p>Predios catastrales, manzanas, distritos catastrales, zonas de riesgo, uso de suelos (LUSU), red geodésica, cartografía geológica 2025.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
+                <h4>Control de Acceso</h4>
+                <p>Permite definir permisos por capa: algunas son de acceso público (Mapa Catastral) y otras restringidas a funcionarios del GAMLP.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-code"></i></div>
+                <h4>Estándares OGC</h4>
+                <p>Publica servicios WMS, WFS, WCS y WMTS bajo los estándares del Open Geospatial Consortium, garantizando interoperabilidad.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                <h4>Administración Web</h4>
+                <p>Interfaz web de administración accesible en <code>sitservicios.lapaz.bo/geoserver/web/</code>, con gestión de espacios de trabajo, almacenes de datos y capas.</p>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-info-circle" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave:</strong> El GeoServer del GAMLP es la pieza que permite que el catastro paceño sea <strong>interoperable</strong>. Cualquier institución (Derechos Reales, INRA, Impuestos Internos) o ciudadano con las credenciales adecuadas puede consumir los servicios WMS/WFS y obtener la información catastral directamente desde la fuente oficial, sin necesidad de intermediarios.</p>
+        </div>
+
+        <div class="cta-buttons">
+            <a href="https://sitservicios.lapaz.bo/geoserver/web/?6" target="_blank" class="map-link"><i class="fas fa-server"></i> Abrir GeoServer del GAMLP</a>
+            <a href="https://www.ogc.org/" target="_blank" class="map-link"><i class="fas fa-external-link-alt"></i> Sitio oficial del OGC</a>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO B -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico B: Servicios Web Geográficos</h4>
+            <p><strong>Caso real:</strong> La Secretaría Municipal de Planificación del GAMLP necesita analizar la relación entre el uso de suelo (LUSU) y el nivel de riesgo de deslizamiento en el macrodistrito Cotahuma. Para ello, un analista SIG debe descargar las capas de predios y riesgos desde el <strong>GeoServer del GAMLP</strong>.</p>
+            <p><strong>Preguntas:</strong></p>
+            <ol>
+                <li>¿Qué servicio web geográfico del OGC debe usar el analista para <strong>visualizar</strong> el Mapa Catastral en su navegador sin instalar software SIG? ¿Qué tipo de archivo devuelve?</li>
+                <li>¿Qué servicio web geográfico debe usar para <strong>descargar las geometrías y atributos</strong> de los predios y cargarlos en QGIS para hacer geoprocesamiento? ¿Qué formatos puede devolver?</li>
+                <li>Si el analista necesita acceder a las <strong>imágenes satelitales de alta resolución</strong> que utiliza el SITEC, ¿qué servicio web geográfico del OGC sería el más adecuado? ¿Por qué?</li>
+                <li>El analista quiere saber <strong>qué capas están disponibles</strong> en el GeoServer del GAMLP antes de hacer sus peticiones. ¿Qué servicio web geográfico debe usar para consultar el catálogo de metadatos? ¿Qué norma ISO define los metadatos que debe buscar?</li>
+            </ol>
+            <p><strong>Respuestas esperadas:</strong></p>
+            <ul>
+                <li>1. Debe usar un <strong>WMS (Web Map Service)</strong>, que devuelve una <strong>imagen del mapa</strong> (PNG o JPEG) que puede visualizarse en el navegador sin software SIG.</li>
+                <li>2. Debe usar un <strong>WFS (Web Feature Service)</strong>, que devuelve <strong>vectores</strong> en formato GML o GeoJSON, con geometría y atributos, que pueden cargarse en QGIS para geoprocesamiento.</li>
+                <li>3. Debe usar un <strong>WCS (Web Coverage Service)</strong>, que está diseñado específicamente para devolver <strong>datos ráster</strong> como imágenes satelitales y modelos digitales de elevación (MDT).</li>
+                <li>4. Debe usar un <strong>CSW (Catalogue Service for the Web)</strong> para consultar el catálogo de metadatos del GeoServer del GAMLP. Los metadatos deben estar definidos según las normas <strong>ISO 19115</strong> (metadatos geográficos) e <strong>ISO 19139</strong> (implementación XML de ISO 19115).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ==================== TAB C: GEMELOS DIGITALES ==================== -->
+    <div id="tabC" class="tab-content">
+        <h2><i class="fas fa-cube" style="color:#1a4b7a; margin-right: 12px;"></i>3. Gemelos Digitales</h2>
+
+        <p>Un <strong>gemelo digital urbano</strong> (digital twin) es una <strong>réplica digital dinámica</strong> de una ciudad o territorio, que integra datos catastrales, urbanísticos, ambientales y sociales en un modelo tridimensional interactivo. A diferencia de un simple modelo 3D estático, un gemelo digital se actualiza continuamente con datos en tiempo real y permite <strong>simular escenarios</strong> para la toma de decisiones.</p>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Diferencia clave:</strong> Un <strong>modelo 3D</strong> es una representación estática de la realidad. Un <strong>gemelo digital</strong> es una representación dinámica que se alimenta de datos en tiempo real (sensores, satélites, IoT) y permite simular escenarios futuros: ¿qué pasa si llueve 100 mm en una hora? ¿Cómo afecta un nuevo edificio a la sombra del vecindario? ¿Dónde evacuar en caso de deslizamiento?</p>
+        </div>
+
+        <h3><i class="fas fa-cubes"></i> Componentes de un Gemelo Digital Urbano</h3>
+
+        <!-- DIAGRAMA SVG: COMPONENTES DEL GEMELO DIGITAL -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Centro -->
+                <circle cx="450" cy="180" r="70" fill="#0b2b4e"/>
+                <text x="450" y="170" text-anchor="middle" fill="white" font-size="14" font-weight="700">GEMELO</text>
+                <text x="450" y="190" text-anchor="middle" fill="white" font-size="14" font-weight="700">DIGITAL</text>
+                <text x="450" y="210" text-anchor="middle" fill="#b8cde0" font-size="10">Réplica dinámica</text>
+
+                <!-- Componente 1: Datos catastrales -->
+                <rect x="30" y="40" width="220" height="80" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                <text x="140" y="68" text-anchor="middle" fill="#0d47a1" font-size="12" font-weight="700">DATOS CATASTRALES</text>
+                <text x="140" y="88" text-anchor="middle" fill="#3a5a7a" font-size="10">Predios, códigos, titulares</text>
+                <text x="140" y="105" text-anchor="middle" fill="#3a5a7a" font-size="10">Fichas A/B/C, avalúos</text>
+
+                <!-- Componente 2: Datos 3D -->
+                <rect x="650" y="40" width="220" height="80" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="760" y="68" text-anchor="middle" fill="#2e7d32" font-size="12" font-weight="700">MODELO 3D</text>
+                <text x="760" y="88" text-anchor="middle" fill="#4e6e50" font-size="10">Volumetría de edificaciones</text>
+                <text x="760" y="105" text-anchor="middle" fill="#4e6e50" font-size="10">MDT, MDE, pendientes</text>
+
+                <!-- Componente 3: Datos de riesgo -->
+                <rect x="30" y="280" width="220" height="80" rx="12" fill="#fdecea" stroke="#c62828" stroke-width="2"/>
+                <text x="140" y="308" text-anchor="middle" fill="#b71c1c" font-size="12" font-weight="700">DATOS DE RIESGO</text>
+                <text x="140" y="328" text-anchor="middle" fill="#7a3a3a" font-size="10">Deslizamientos históricos</text>
+                <text x="140" y="345" text-anchor="middle" fill="#7a3a3a" font-size="10">Inundaciones, pendientes</text>
+
+                <!-- Componente 4: Sensores IoT -->
+                <rect x="650" y="280" width="220" height="80" rx="12" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+                <text x="760" y="308" text-anchor="middle" fill="#4a148c" font-size="12" font-weight="700">SENSORES IoT</text>
+                <text x="760" y="328" text-anchor="middle" fill="#5a3a6a" font-size="10">Datos en tiempo real</text>
+                <text x="760" y="345" text-anchor="middle" fill="#5a3a6a" font-size="10">Lluvia, humedad, movimiento</text>
+
+                <!-- Flechas -->
+                <line x1="250" y1="80" x2="380" y2="140" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="5,3"/>
+                <line x1="650" y1="80" x2="520" y2="140" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="5,3"/>
+                <line x1="250" y1="320" x2="380" y2="240" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="5,3"/>
+                <line x1="650" y1="320" x2="520" y2="240" stroke="#1a4b7a" stroke-width="2" stroke-dasharray="5,3"/>
+            </svg>
+            <p class="svg-caption">Figura 3. Componentes de un gemelo digital urbano aplicado al catastro: datos catastrales, modelo 3D, datos de riesgo y sensores IoT.</p>
+        </div>
+
+        <h3><i class="fas fa-city"></i> Casos de Referencia en Latinoamérica</h3>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-building"></i></div>
+                <h4>Medellín, Colombia</h4>
+                <p>En 2025, Medellín entregó oficialmente su <strong>Gemelo Digital</strong>, un proyecto que integra datos catastrales, urbanísticos, ambientales y sociales en un modelo tridimensional interactivo. Permite simular escenarios de riesgo, planificar infraestructura, anticipar emergencias y tomar decisiones más informadas. Medellín se perfila como referente único en Latinoamérica.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-map"></i></div>
+                <h4>Bogotá, Colombia</h4>
+                <p>La <strong>Unidad Administrativa Especial de Catastro Distrital (UAECD)</strong> de Bogotá avanza en la implementación de un <strong>piloto de gemelo digital urbano</strong>. Utiliza modelos digitales de terreno (MDT), modelos digitales de elevación (MDE) y volumetrías como insumos fundamentales, permitiendo la visualización desde una representación agregada a nivel de manzana hasta el detalle granular de construcciones individuales.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-cube"></i></div>
+                <h4>Potencial para La Paz</h4>
+                <p>El GAMLP ya ha dado pasos fundamentales con el <strong>SITEC</strong>, que permite trabajar con información territorial <strong>tridimensional (3D)</strong> y relevar <strong>140 hectáreas por día</strong>. Un gemelo digital de La Paz permitiría simular deslizamientos en laderas, planificar evacuaciones y evaluar el impacto de nuevas construcciones en zonas de riesgo.</p>
+            </div>
+        </div>
+
+        <h3><i class="fas fa-mountain"></i> Aplicaciones del Gemelo Digital en La Paz</h3>
+
+        <div class="table-responsive">
+            <table>
+                <tr><th>Aplicación</th><th>Descripción</th><th>Datos que integraría</th></tr>
+                <tr><td><strong>Simulación de deslizamientos</strong></td><td>Modelar el comportamiento del terreno ante lluvias intensas en laderas.</td><td>MDT, geología, pendientes, datos de lluvia en tiempo real.</td></tr>
+                <tr><td><strong>Planificación de evacuación</strong></td><td>Identificar rutas de escape y zonas seguras en caso de emergencia.</td><td>Predios, vías, densidad poblacional, riesgo.</td></tr>
+                <tr><td><strong>Evaluación de sombras</strong></td><td>Analizar el impacto de nuevas edificaciones en la iluminación del vecindario.</td><td>Volumetría 3D, posición solar, LUSU.</td></tr>
+                <tr><td><strong>Gestión tributaria</strong></td><td>Verificar construcciones no declaradas y actualizar avalúos.</td><td>Fichas catastrales, imágenes satelitales, volumen 3D.</td></tr>
+                <tr><td><strong>Planificación de infraestructura</strong></td><td>Evaluar el impacto de nuevas vías, hospitales o escuelas.</td><td>Predios, uso de suelo, red vial, servicios básicos.</td></tr>
+            </table>
+        </div>
+
+        <div class="highlight-box">
+            <p><i class="fas fa-satellite" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Conexión con el SITEC y el GeoServer:</strong> El SITEC del GAMLP ya sienta las bases para un gemelo digital de La Paz. Al integrar imágenes satelitales de alta resolución, drones e inteligencia geoespacial, y permitir trabajar con información territorial 3D, el SITEC proporciona los datos necesarios. El <strong>GeoServer del GAMLP</strong> es el canal por el cual esos datos se publican y consumen mediante servicios web estándar (WMS, WFS, WCS), facilitando su integración en el gemelo digital.</p>
+        </div>
+
+        <h3><i class="fas fa-road"></i> Hoja de Ruta para un Gemelo Digital en La Paz</h3>
+
+        <!-- DIAGRAMA SVG: HOJA DE RUTA -->
+        <div class="svg-diagram">
+            <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowR" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#1a4b7a"/>
+                    </marker>
+                </defs>
+
+                <!-- Fase 1 -->
+                <rect x="30" y="60" width="180" height="80" rx="12" fill="#0b2b4e"/>
+                <text x="120" y="88" text-anchor="middle" fill="white" font-size="12" font-weight="600">FASE 1</text>
+                <text x="120" y="108" text-anchor="middle" fill="#b8cde0" font-size="10">Datos catastrales</text>
+                <text x="120" y="125" text-anchor="middle" fill="#b8cde0" font-size="10">georreferenciados</text>
+
+                <line x1="210" y1="100" x2="250" y2="100" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowR)"/>
+
+                <!-- Fase 2 -->
+                <rect x="260" y="60" width="180" height="80" rx="12" fill="#1a4b7a"/>
+                <text x="350" y="88" text-anchor="middle" fill="white" font-size="12" font-weight="600">FASE 2</text>
+                <text x="350" y="108" text-anchor="middle" fill="#b8cde0" font-size="10">Modelo 3D</text>
+                <text x="350" y="125" text-anchor="middle" fill="#b8cde0" font-size="10">volumetría de edificaciones</text>
+
+                <line x1="440" y1="100" x2="480" y2="100" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowR)"/>
+
+                <!-- Fase 3 -->
+                <rect x="490" y="60" width="180" height="80" rx="12" fill="#2c6e9e"/>
+                <text x="580" y="88" text-anchor="middle" fill="white" font-size="12" font-weight="600">FASE 3</text>
+                <text x="580" y="108" text-anchor="middle" fill="#d4e4f5" font-size="10">Integración de datos</text>
+                <text x="580" y="125" text-anchor="middle" fill="#d4e4f5" font-size="10">de riesgo y sensores</text>
+
+                <line x1="670" y1="100" x2="710" y2="100" stroke="#1a4b7a" stroke-width="2" marker-end="url(#arrowR)"/>
+
+                <!-- Fase 4 -->
+                <rect x="720" y="60" width="150" height="80" rx="12" fill="#3d8ec9"/>
+                <text x="795" y="88" text-anchor="middle" fill="white" font-size="12" font-weight="600">FASE 4</text>
+                <text x="795" y="108" text-anchor="middle" fill="#e8f0fe" font-size="10">Simulación</text>
+                <text x="795" y="125" text-anchor="middle" fill="#e8f0fe" font-size="10">y toma de decisiones</text>
+            </svg>
+            <p class="svg-caption">Figura 4. Hoja de ruta para implementar un gemelo digital en La Paz: desde datos catastrales hasta simulación y decisiones.</p>
+        </div>
+
+        <!-- EJERCICIO PRÁCTICO C -->
+        <div class="exercise-box">
+            <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico C: Gemelos Digitales</h4>
+            <p><strong>Caso real:</strong> La Secretaría Municipal de Resiliencia y Gestión de Vulnerabilidades (SMRGV) del GAMLP quiere implementar un <strong>gemelo digital</strong> para simular el impacto de lluvias intensas en las laderas de la zona Sur, específicamente en el área de <strong>Bajo Llojeta</strong>, donde ocurrió el deslizamiento de noviembre de 2024.</p>
+            <p><strong>Preguntas:</strong></p>
+            <ol>
+                <li>¿Qué datos del catastro del GAMLP se necesitarían como insumo fundamental para construir el gemelo digital de Bajo Llojeta? Menciona al menos tres.</li>
+                <li>¿Qué componente del SITEC proporcionaría la información 3D necesaria para el modelo digital del terreno (MDT) y la volumetría de las edificaciones?</li>
+                <li>Una vez construido el gemelo digital, ¿qué tipo de simulaciones permitiría realizar para la gestión de riesgos en Bajo Llojeta? Menciona al menos dos.</li>
+                <li>¿Qué diferencia hay entre el modelo 3D que ya permite el SITEC y un gemelo digital completo? ¿Qué componente adicional necesita el gemelo digital para ser "dinámico"?</li>
+            </ol>
+            <p><strong>Respuestas esperadas:</strong></p>
+            <ul>
+                <li>1. Datos del catastro: <strong>geometría de predios</strong> (polígonos georreferenciados), <strong>fichas catastrales</strong> (superficie, número de plantas, tipo de construcción), <strong>datos de riesgo</strong> (Atlas Integral del Riesgo, deslizamientos históricos), <strong>cartografía geológica 2025</strong> (pendientes, tipos de suelo).</li>
+                <li>2. El componente de <strong>imágenes satelitales de alta resolución y drones</strong> del SITEC, que genera modelos digitales de terreno (MDT), modelos digitales de elevación (MDE) y volumetrías de edificaciones.</li>
+                <li>3. Simulaciones: <strong>simulación de deslizamiento</strong> ante diferentes niveles de lluvia; <strong>planificación de rutas de evacuación</strong>; <strong>evaluación del impacto de nuevas construcciones</strong> en la estabilidad del terreno; <strong>priorización de obras de mitigación</strong>.</li>
+                <li>4. El modelo 3D del SITEC es una <strong>representación estática</strong> del territorio. Un gemelo digital completo es <strong>dinámico</strong> porque se alimenta de <strong>sensores IoT en tiempo real</strong> (lluvia, humedad, movimiento del suelo) y permite <strong>simular escenarios futuros</strong> mediante modelos predictivos.</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p><i class="fas fa-info-circle"></i> Presentación elaborada con fines educativos. Fuentes oficiales: GAMLP (relanzamiento de la Plataforma Catastral y presentación de SITEC, julio 2026; Memoria Institucional 2010-2020; Mapa Catastral; SIT; FDRC v2.0.7; GeoServer del GAMLP), Open Geospatial Consortium (OGC), IGAC (Boletín Horizontes N° 1, 2025), Esri Colombia (Gemelo Digital de Medellín), UAECD (Gemelo Digital de Bogotá), y estándares ISO 19115/19139.</p>
+        <p style="margin-top: 8px;">Los enlaces a mapas interactivos, plataformas y documentos son recursos oficiales del Gobierno Autónomo Municipal de La Paz (GAMLP) y de las instituciones mencionadas.</p>
+    </footer>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabContent, tabBtn;
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) { tabContent[i].classList.remove("active"); }
+        tabBtn = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tabBtn.length; i++) { tabBtn[i].classList.remove("active"); }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.tab-btn').classList.add('active');
+        document.querySelector('.tab-content').classList.add('active');
+    });
+</script>
+</body>
+</html>
