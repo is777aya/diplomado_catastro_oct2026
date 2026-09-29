@@ -109,7 +109,7 @@
     <header>
         <h1><i class="fas fa-database"></i> Bases de Datos Espaciales y Gestión Predial</h1>
         <p>Aplicación al catastro del municipio de La Paz, Bolivia</p>
-        <div class="badge"><i class="fas fa-server"></i> Presentación Técnica Interactiva · GAMLP</div>
+        <div class="badge"><i class="fas fa-server"></i> Unidad 5: Bases de Datos Espaciales y Gestión Predial </div>
     </header>
 
     <div class="tabs">
@@ -123,12 +123,12 @@
     <div id="tabA" class="tab-content active">
         <h2><i class="fas fa-database" style="color:#1a4b7a; margin-right: 12px;"></i>1. Bases de Datos Espaciales y Gestión Predial</h2>
 
-        <p>Una <strong>base de datos espacial</strong> es un sistema que almacena y gestiona información geográfica (geometrías de predios, manzanas, distritos) junto con información alfanumérica (titulares, avalúos, códigos catastrales). A diferencia de una base de datos tradicional, una base de datos espacial permite realizar consultas como "¿qué predios están a menos de 100 metros de un río?" o "¿qué manzanas tienen más de 50 predios?"[reference:0].</p>
+        <p>Una <strong>base de datos espacial</strong> es un sistema que almacena y gestiona información geográfica (geometrías de predios, manzanas, distritos) junto con información alfanumérica (titulares, avalúos, códigos catastrales). A diferencia de una base de datos tradicional, una base de datos espacial permite realizar consultas como "¿qué predios están a menos de 100 metros de un río?" o "¿qué manzanas tienen más de 50 predios?".</p>
 
-        <p>En el GAMLP, la gestión predial se apoya en el <strong>Sistema de Información Territorial (SIT)</strong>, una herramienta informática modular y de acceso simultáneo, dinámico e inmediato que permite realizar los procesos de administración territorial con celeridad y oportunidad. El SIT cuenta con módulos específicos para catastro, administración territorial, riesgos, levantamientos y estadísticas municipales[reference:1].</p>
+        <p>En el GAMLP, la gestión predial se apoya en el <strong>Sistema de Información Territorial (SIT)</strong>, una herramienta informática modular y de acceso simultáneo, dinámico e inmediato que permite realizar los procesos de administración territorial con celeridad y oportunidad. El SIT cuenta con módulos específicos para catastro, administración territorial, riesgos, levantamientos y estadísticas municipales.</p>
 
         <div class="highlight-box">
-            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> La <strong>geodatabase catastral</strong> del GAMLP es el almacenamiento físico de la información geográfica cuyo propósito es permitir la ubicación espacial y georreferenciada de los predios. Es la base sobre la cual operan el Mapa Catastral, el FDRC y el SITEC[reference:2].</p>
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> La <strong>geodatabase catastral</strong> del GAMLP es el almacenamiento físico de la información geográfica cuyo propósito es permitir la ubicación espacial y georreferenciada de los predios. Es la base sobre la cual operan el Mapa Catastral, el FDRC y el SITEC.</p>
         </div>
 
         <h3><i class="fas fa-cubes"></i> Componentes de una Base de Datos Espacial Catastral</h3>
@@ -181,14 +181,14 @@
 
         <h3><i class="fas fa-tasks"></i> Gestión Predial: Del Levantamiento al Registro</h3>
 
-        <p>La gestión predial en el GAMLP sigue un flujo estructurado que comienza con el levantamiento en campo y culmina con la incorporación del predio a la base de datos catastral. El <strong>Formulario Digital de Registro Catastral (FDRC)</strong> es la herramienta que automatiza el dibujo en AutoCAD y facilita el registro catastral, permitiendo adjuntar información técnica, legal y gráfica (mapa y fotografías). A partir de estos datos se puede generar el modelo 3D y la impresión de la Ficha Catastral vigente[reference:3].</p>
+        <p>La gestión predial en el GAMLP sigue un flujo estructurado que comienza con el levantamiento en campo y culmina con la incorporación del predio a la base de datos catastral. El <strong>Formulario Digital de Registro Catastral (FDRC)</strong> es la herramienta que automatiza el dibujo en AutoCAD y facilita el registro catastral, permitiendo adjuntar información técnica, legal y gráfica (mapa y fotografías). A partir de estos datos se puede generar el modelo 3D y la impresión de la Ficha Catastral vigente.</p>
 
         <div class="table-responsive">
             <table>
                 <tr><th>Etapa</th><th>Herramienta</th><th>Producto</th></tr>
                 <tr><td><strong>1. Levantamiento en campo</strong></td><td>Estación Total + GNSS + Red Geodésica Satelital La Paz</td><td>Puntos de control con coordenadas UTM</td></tr>
                 <tr><td><strong>2. Procesamiento digital</strong></td><td>FDRC (Formulario Digital de Registro Catastral) v2.0.7</td><td>Dibujo en AutoCAD georreferenciado + modelo 3D</td></tr>
-                <tr><td><strong>3. Registro catastral</strong></td><td>SERCATv2 / SIT</td><td>Predio incorporado a la geodatabase catastral</td></tr>
+                <tr><td><strong>3. Registro catastral</strong></td><td>SERCAT / SIT</td><td>Predio incorporado a la geodatabase catastral</td></tr>
                 <tr><td><strong>4. Certificación</strong></td><td>Plataforma de Atención Catastral</td><td>Certificado de Registro Catastral</td></tr>
             </table>
         </div>
@@ -212,10 +212,10 @@
             </ol>
             <p><strong>Respuestas esperadas:</strong></p>
             <ul>
-                <li>1. El <strong>componente alfanumérico</strong> está incompleto (falta el titular). Ambos componentes deben estar vinculados porque la geometría sin titularidad no permite emitir certificación catastral. La Ley Municipal de Catastro exige que el catastro comprenda datos económicos y jurídicos, incluyendo titularidad[reference:4].</li>
-                <li>2. El <strong>Mapa Catastral del GAMLP</strong>, que permite buscar por código catastral o dirección y superponer capas del SIT[reference:5].</li>
-                <li>3. El <strong>FDRC (Formulario Digital de Registro Catastral)</strong>, que permite adjuntar información técnica, legal y gráfica (mapa y fotografías)[reference:6].</li>
-                <li>4. Se usaría la <strong>Ficha C (Propiedad Horizontal – Unidad)</strong> y se activaría el campo de <strong>Subpredio</strong> (últimos 4 dígitos de la codificación catastral)[reference:7].</li>
+                <li>1. El <strong>componente alfanumérico</strong> está incompleto (falta el titular). Ambos componentes deben estar vinculados porque la geometría sin titularidad no permite emitir certificación catastral. La Ley Municipal de Catastro exige que el catastro comprenda datos económicos y jurídicos, incluyendo titularidad.</li>
+                <li>2. El <strong>Mapa Catastral del GAMLP</strong>, que permite buscar por código catastral o dirección y superponer capas del SIT.</li>
+                <li>3. El <strong>FDRC (Formulario Digital de Registro Catastral)</strong>, que permite adjuntar información técnica, legal y gráfica (mapa y fotografías).</li>
+                <li>4. Se usaría la <strong>Ficha C (Propiedad Horizontal – Unidad)</strong> y se activaría el campo de <strong>Subpredio</strong> (últimos 4 dígitos de la codificación catastral).</li>
             </ul>
         </div>
     </div>
@@ -224,9 +224,9 @@
     <div id="tabB" class="tab-content">
         <h2><i class="fas fa-layer-group" style="color:#1a4b7a; margin-right: 12px;"></i>2. Geodatabases</h2>
 
-        <p>Una <strong>geodatabase</strong> (base de datos geográfica) es una estructura de almacenamiento que organiza datos espaciales y alfanuméricos en un sistema gestor de bases de datos relacionales. A diferencia de un simple archivo shapefile, una geodatabase permite definir <strong>reglas de integridad topológica</strong>, crear <strong>relaciones entre tablas</strong>, gestionar <strong>dominios de valores</strong> y mantener <strong>metadatos</strong> asociados a cada elemento[reference:8].</p>
+        <p>Una <strong>geodatabase</strong> (base de datos geográfica) es una estructura de almacenamiento que organiza datos espaciales y alfanuméricos en un sistema gestor de bases de datos relacionales. A diferencia de un simple archivo shapefile, una geodatabase permite definir <strong>reglas de integridad topológica</strong>, crear <strong>relaciones entre tablas</strong>, gestionar <strong>dominios de valores</strong> y mantener <strong>metadatos</strong> asociados a cada elemento.</p>
 
-        <p>En el contexto del catastro paceño, la geodatabase catastral es el almacenamiento físico de la información geográfica cuyo propósito es permitir la ubicación espacial y georreferenciada de los predios. Es la base sobre la cual operan el Mapa Catastral, el FDRC y el SITEC[reference:9].</p>
+        <p>En el contexto del catastro paceño, la geodatabase catastral es el almacenamiento físico de la información geográfica cuyo propósito es permitir la ubicación espacial y georreferenciada de los predios. Es la base sobre la cual operan el Mapa Catastral, el FDRC y el SITEC.</p>
 
         <div class="highlight-box">
             <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Diferencia clave:</strong> Un <strong>shapefile</strong> almacena solo geometría y una tabla de atributos plana. Una <strong>geodatabase</strong> almacena geometría, atributos, relaciones entre tablas, reglas de integridad, dominios de valores y metadatos. Para un catastro multifinalitario como el del GAMLP, la geodatabase es indispensable.</p>
@@ -277,7 +277,7 @@
 
         <h3><i class="fas fa-shield-halved"></i> Reglas de Integridad Topológica en la Geodatabase</h3>
 
-        <p>Una de las ventajas fundamentales de trabajar con una geodatabase es la posibilidad de definir <strong>reglas de integridad topológica</strong> que garantizan la coherencia geométrica de los datos catastrales. Estas reglas se verifican automáticamente cada vez que se modifica o agrega un predio[reference:10].</p>
+        <p>Una de las ventajas fundamentales de trabajar con una geodatabase es la posibilidad de definir <strong>reglas de integridad topológica</strong> que garantizan la coherencia geométrica de los datos catastrales. Estas reglas se verifican automáticamente cada vez que se modifica o agrega un predio.</p>
 
         <div class="table-responsive">
             <table>
@@ -291,7 +291,7 @@
         </div>
 
         <div class="highlight-box">
-            <p><i class="fas fa-info-circle" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave:</strong> La <strong>tolerancia topológica</strong> estándar en geodatabases catastrales es de <strong>0.001 metros</strong>. Esto significa que dos vértices separados por menos de 1 milímetro se consideran el mismo punto[reference:11].</p>
+            <p><i class="fas fa-info-circle" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave:</strong> La <strong>tolerancia topológica</strong> estándar en geodatabases catastrales es de <strong>0.001 metros</strong>. Esto significa que dos vértices separados por menos de 1 milímetro se consideran el mismo punto.</p>
         </div>
 
         <h3><i class="fas fa-database"></i> Gestores de Bases de Datos Utilizados</h3>
@@ -302,7 +302,7 @@
             <div class="card">
                 <div class="card-icon"><i class="fas fa-elephant"></i></div>
                 <h4>PostgreSQL + PostGIS</h4>
-                <p>El estándar de facto para bases de datos espaciales de código abierto. PostGIS añade soporte para objetos geográficos, permitiendo almacenar y consultar geometrías de predios, manzanas y distritos. Compatible con QGIS y AutoCAD Map 3D[reference:12].</p>
+                <p>El estándar de facto para bases de datos espaciales de código abierto. PostGIS añade soporte para objetos geográficos, permitiendo almacenar y consultar geometrías de predios, manzanas y distritos. Compatible con QGIS y AutoCAD Map 3D.</p>
             </div>
             <div class="card">
                 <div class="card-icon"><i class="fas fa-building"></i></div>
@@ -337,7 +337,7 @@
                 <li>1. Feature datasets: <strong>Catastro</strong> (predios, manzanas, distritos), <strong>Riesgos</strong> (zonas de riesgo, deslizamientos históricos), <strong>Red Geodésica</strong> (vértices geodésicos), <strong>Servicios</strong> (vías, redes de agua, alcantarillado).</li>
                 <li>2. Reglas topológicas: <strong>No superposición</strong> (predios no se solapan), <strong>No huecos</strong> (no hay espacios vacíos entre predios), <strong>Contenido dentro</strong> (predio dentro de manzana), <strong>Linderos coincidentes</strong> (límites entre vecinos coinciden).</li>
                 <li>3. Se viola la regla de <strong>No superposición</strong>. El sistema debería <strong>rechazar</strong> la incorporación del predio y emitir un error indicando que la geometría se superpone con el predio vecino. El profesional externo debe corregir el dibujo antes de reintentar.</li>
-                <li>4. Se recomendaría <strong>PostgreSQL + PostGIS</strong> por ser de código abierto, compatible con QGIS y AutoCAD Map 3D, y ampliamente utilizado en catastro latinoamericano[reference:13].</li>
+                <li>4. Se recomendaría <strong>PostgreSQL + PostGIS</strong> por ser de código abierto, compatible con QGIS y AutoCAD Map 3D, y ampliamente utilizado en catastro latinoamericano.</li>
             </ul>
         </div>
     </div>
@@ -346,9 +346,9 @@
     <div id="tabC" class="tab-content">
         <h2><i class="fas fa-project-diagram" style="color:#1a4b7a; margin-right: 12px;"></i>3. Modelo de Datos Predial</h2>
 
-        <p>El <strong>modelo de datos predial</strong> es la representación estructurada de toda la información que describe un predio: su geometría, su titularidad, su valor económico, su uso de suelo y su nivel de riesgo. En el GAMLP, el modelo de datos predial se materializa en la <strong>Ficha Catastral</strong>, que recoge los componentes físico, jurídico y económico del inmueble[reference:14].</p>
+        <p>El <strong>modelo de datos predial</strong> es la representación estructurada de toda la información que describe un predio: su geometría, su titularidad, su valor económico, su uso de suelo y su nivel de riesgo. En el GAMLP, el modelo de datos predial se materializa en la <strong>Ficha Catastral</strong>, que recoge los componentes físico, jurídico y económico del inmueble.</p>
 
-        <p>El modelo de datos predial del GAMLP se estructura en torno a la <strong>codificación catastral de 6 campos</strong>, que actúa como clave primaria (PK) en la base de datos y permite vincular todas las tablas relacionadas[reference:15].</p>
+        <p>El modelo de datos predial del GAMLP se estructura en torno a la <strong>codificación catastral de 6 campos</strong>, que actúa como clave primaria (PK) en la base de datos y permite vincular todas las tablas relacionadas.</p>
 
         <div class="highlight-box">
             <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> La codificación catastral oficial del GAMLP tiene <strong>6 campos numéricos</strong>: <code>2 | 01 | 038 | 0549 | 0001 | 0000</code>. Esta codificación es la <strong>clave primaria</strong> que vincula la geometría del predio con toda su información alfanumérica (titular, avalúo, uso de suelo, riesgo).</p>
@@ -492,7 +492,7 @@
             </ol>
             <p><strong>Respuestas esperadas:</strong></p>
             <ul>
-                <li>1. Se activa el campo de <strong>Subpredio</strong> (últimos 4 dígitos). Los subpredios se numerarían <code>0001</code>, <code>0002</code>, ..., <code>0010</code> para los 10 departamentos[reference:16].</li>
+                <li>1. Se activa el campo de <strong>Subpredio</strong> (últimos 4 dígitos). Los subpredios se numerarían <code>0001</code>, <code>0002</code>, ..., <code>0010</code> para los 10 departamentos.</li>
                 <li>2. Se crearía una tabla adicional de <strong>Propiedad Horizontal</strong> con campos: ID PH (PK), Código Catastral Matriz (FK), N° de unidades, Superficie total construida, Coeficiente de copropiedad, etc.</li>
                 <li>3. La hipoteca se registraría en la tabla de <strong>Restricciones (RRR)</strong>, vinculada al <code>LA_BAUnit</code> del departamento mediante el Código Catastral completo (<code>...0003</code>). La restricción tiene tipo "Hipoteca", beneficiario "Banco Unión" y fecha de inscripción.</li>
                 <li>4. En una vivienda unifamiliar, la relación Titular-Predio es <strong>1:N</strong> (un titular puede tener varios predios). En un edificio en PH, la relación es <strong>N:M</strong> (varios titulares comparten el mismo terreno matriz, pero cada uno es propietario exclusivo de su unidad). Esto requiere una tabla intermedia de <strong>copropiedad</strong>.</li>
@@ -506,10 +506,10 @@
 
         <p>La <strong>integridad</strong> de la información catastral se refiere a la coherencia, exactitud y completitud de los datos. La <strong>actualización</strong> es el proceso continuo de mantener la base de datos catastral alineada con la realidad del territorio. Ambos conceptos son fundamentales para que el catastro cumpla su función multifinalitaria.</p>
 
-        <p>La Ley Municipal de Catastro de La Paz (N° 58/2013) establece en su Artículo 4, inciso c), que una de las características del catastro es que "comprende la recopilación, procesamiento y conservación de los datos necesarios para organizar y mantener actualizados el conjunto de datos que describen los bienes inmuebles, atendiendo a sus características económicas y jurídicas"[reference:17].</p>
+        <p>La Ley Municipal de Catastro de La Paz (N° 58/2013) establece en su Artículo 4, inciso c), que una de las características del catastro es que "comprende la recopilación, procesamiento y conservación de los datos necesarios para organizar y mantener actualizados el conjunto de datos que describen los bienes inmuebles, atendiendo a sus características económicas y jurídicas".</p>
 
         <div class="highlight-box">
-            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> El <strong>SITEC</strong> (Sistema de Inteligencia Territorial y Estrategia Catastral), presentado en julio de 2026, permite relevar aproximadamente <strong>140 hectáreas por día</strong> mediante imágenes satelitales de alta resolución y drones. Esta información se contrasta con los registros catastrales existentes para identificar con precisión las características reales de cada inmueble y garantizar una administración tributaria basada en criterios de equidad[reference:18].</p>
+            <p><i class="fas fa-lightbulb" style="color:#1a4b7a; margin-right: 8px;"></i> <strong>Dato clave de La Paz:</strong> El <strong>SITEC</strong> (Sistema de Inteligencia Territorial y Estrategia Catastral), presentado en julio de 2026, permite relevar aproximadamente <strong>140 hectáreas por día</strong> mediante imágenes satelitales de alta resolución y drones. Esta información se contrasta con los registros catastrales existentes para identificar con precisión las características reales de cada inmueble y garantizar una administración tributaria basada en criterios de equidad.</p>
         </div>
 
         <h3><i class="fas fa-shield-halved"></i> Dimensiones de la Integridad Catastral</h3>
@@ -567,22 +567,22 @@
             <div class="card">
                 <div class="card-icon"><i class="fas fa-satellite"></i></div>
                 <h4>SITEC (2026)</h4>
-                <p>Sistema de Inteligencia Territorial y Estrategia Catastral que integra imágenes satelitales de alta resolución, drones e inteligencia geoespacial. Permite relevar <strong>140 hectáreas por día</strong> y contrastar la información con los registros catastrales existentes[reference:19].</p>
+                <p>Sistema de Inteligencia Territorial y Estrategia Catastral que integra imágenes satelitales de alta resolución, drones e inteligencia geoespacial. Permite relevar <strong>140 hectáreas por día</strong> y contrastar la información con los registros catastrales existentes</p>
             </div>
             <div class="card">
                 <div class="card-icon"><i class="fas fa-file-signature"></i></div>
                 <h4>FDRC v2.0.7</h4>
-                <p>Formulario Digital de Registro Catastral actualizado al 16 de enero de 2024. Permite a profesionales externos registrar predios con información técnica, legal y gráfica, generando el modelo 3D y la Ficha Catastral[reference:20].</p>
+                <p>Formulario Digital de Registro Catastral actualizado al 16 de enero de 2024. Permite a profesionales externos registrar predios con información técnica, legal y gráfica, generando el modelo 3D y la Ficha Catastral.</p>
             </div>
             <div class="card">
                 <div class="card-icon"><i class="fas fa-edit"></i></div>
                 <h4>Modificación de Datos</h4>
-                <p>Trámite que permite a los propietarios actualizar la información de sus predios cuando existen mutaciones o transformaciones físicas (nuevas construcciones, ampliaciones, demoliciones) o modificaciones legales[reference:21].</p>
+                <p>Trámite que permite a los propietarios actualizar la información de sus predios cuando existen mutaciones o transformaciones físicas (nuevas construcciones, ampliaciones, demoliciones) o modificaciones legales.</p>
             </div>
             <div class="card">
                 <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
                 <h4>Actualización Anual de Zonas</h4>
-                <p>El GAMLP actualiza y mantiene anualmente el <strong>Plano de Zonas Homogéneas y Zonas de Valor</strong>, que se utiliza para el cálculo del valor catastral dentro del área urbana del municipio[reference:22].</p>
+                <p>El GAMLP actualiza y mantiene anualmente el <strong>Plano de Zonas Homogéneas y Zonas de Valor</strong>, que se utiliza para el cálculo del valor catastral dentro del área urbana del municipio.</p>
             </div>
         </div>
 
@@ -636,7 +636,7 @@
                 <tr><td><strong>Predios superpuestos</strong></td><td>Errores en levantamientos topográficos o digitalización.</td><td>Reglas topológicas de <strong>No superposición</strong> en la geodatabase.</td></tr>
                 <tr><td><strong>Huecos entre predios</strong></td><td>Linderos no coincidentes o predios no registrados.</td><td>Regla topológica de <strong>No huecos</strong> + verificación con imágenes satelitales.</td></tr>
                 <tr><td><strong>Datos desactualizados</strong></td><td>Construcciones nuevas no declaradas o demoliciones.</td><td>Contraste con imágenes de <strong>SITEC</strong> + trámite de <strong>Modificación de Datos</strong>.</td></tr>
-                <tr><td><strong>Inconsistencia entre catastro y DDRR</strong></td><td>Diferencias entre el registro catastral y el registro de derechos.</td><td>Acta de Consensos GAMLP-DDRR y Acta de Entendimiento GAMLP-DDRR[reference:23].</td></tr>
+                <tr><td><strong>Inconsistencia entre catastro y DDRR</strong></td><td>Diferencias entre el registro catastral y el registro de derechos.</td><td>Acta de Consensos GAMLP-DDRR y Acta de Entendimiento GAMLP-DDRR.</td></tr>
                 <tr><td><strong>Titulares fallecidos o datos incorrectos</strong></td><td>Falta de actualización del componente jurídico.</td><td>Trámite de <strong>Modificación de Datos</strong> con documentación legal actualizada.</td></tr>
             </table>
         </div>
@@ -667,8 +667,8 @@
             <ul>
                 <li>1. <strong>5-6-7:</strong> Violación de <strong>No superposición</strong> (dimensión: consistencia). <strong>5-6-12:</strong> Violación de <strong>Exactitud jurídica</strong> (dimensión: actualidad). <strong>Manzana 6:</strong> Violación de <strong>No huecos</strong> (dimensión: completitud). <strong>5-6-15:</strong> Violación de <strong>Exactitud física</strong> (dimensión: actualidad).</li>
                 <li>2. El sistema debería <strong>rechazar</strong> cualquier modificación que genere la superposición y emitir un error. La corrección se realiza en el <strong>FDRC</strong> o en AutoCAD, ajustando los vértices del predio para que los linderos coincidan.</li>
-                <li>3. El <strong>SITEC</strong> permite contrastar las imágenes satelitales con los registros catastrales. Al detectar la diferencia, se genera una alerta y se notifica al propietario para que inicie el trámite de <strong>Modificación de Datos</strong>[reference:24].</li>
-                <li>4. El heredero debe iniciar el trámite de <strong>Modificación de Datos (Bienes Inmuebles)</strong> presentando: Testimonio de propiedad o título ejecutorial, Certificado Catastral, y documentación legal que acredite la sucesión (declaratoria de herederos)[reference:25].</li>
+                <li>3. El <strong>SITEC</strong> permite contrastar las imágenes satelitales con los registros catastrales. Al detectar la diferencia, se genera una alerta y se notifica al propietario para que inicie el trámite de <strong>Modificación de Datos</strong>.</li>
+                <li>4. El heredero debe iniciar el trámite de <strong>Modificación de Datos (Bienes Inmuebles)</strong> presentando: Testimonio de propiedad o título ejecutorial, Certificado Catastral, y documentación legal que acredite la sucesión (declaratoria de herederos).</li>
             </ul>
         </div>
     </div>
