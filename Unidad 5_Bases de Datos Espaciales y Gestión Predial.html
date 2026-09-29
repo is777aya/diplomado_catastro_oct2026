@@ -282,11 +282,11 @@
         <div class="table-responsive">
             <table>
                 <tr><th>Regla Topológica</th><th>Descripción</th><th>Ejemplo en La Paz</th></tr>
-                <tr><td><strong>No superposición</strong></td><td>Dos predios no pueden ocupar la misma área.</td><td>El predio 5-6-7 y el 5-6-8 no pueden solaparse.</td></tr>
-                <tr><td><strong>No huecos</strong></td><td>No deben existir espacios vacíos entre predios.</td><td>La manzana 0549 debe estar completamente cubierta por predios.</td></tr>
-                <tr><td><strong>Contenido dentro</strong></td><td>Cada predio debe estar contenido dentro de su manzana.</td><td>El predio 5-6-7 debe estar dentro de la manzana 6 del distrito 5.</td></tr>
-                <tr><td><strong>Linderos coincidentes</strong></td><td>Los límites entre predios vecinos deben coincidir exactamente.</td><td>El lado norte del predio 5-6-7 coincide con el lado sur del 5-6-8.</td></tr>
-                <tr><td><strong>Conectividad</strong></td><td>Los vértices de predios adyacentes deben estar conectados.</td><td>El vértice V2 del predio 5-6-7 es el mismo que el V1 del 5-6-8.</td></tr>
+                <tr><td><strong>No superposición</strong></td><td>Dos predios no pueden ocupar la misma área.</td><td>El predio 12-10-15 y el 12-10-16 no pueden solaparse.</td></tr>
+                <tr><td><strong>No huecos</strong></td><td>No deben existir espacios vacíos entre predios.</td><td>La manzana 33-103 debe estar completamente cubierta por predios.</td></tr>
+                <tr><td><strong>Contenido dentro</strong></td><td>Cada predio debe estar contenido dentro de su manzana.</td><td>El predio 8-384-1 debe estar dentro de la manzana 384 del distrito 8.</td></tr>
+                <tr><td><strong>Linderos coincidentes</strong></td><td>Los límites entre predios vecinos deben coincidir exactamente.</td><td>El lado norte del predio 14-54-6 coincide con el lado sur del 14-54-7.</td></tr>
+                <tr><td><strong>Conectividad</strong></td><td>Los vértices de predios adyacentes deben estar conectados.</td><td>El vértice V2 del predio 14-40-42 es el mismo que el V1 del 14-40-41.</td></tr>
             </table>
         </div>
 
@@ -649,23 +649,23 @@
         <!-- EJERCICIO PRÁCTICO D -->
         <div class="exercise-box">
             <h4><i class="fas fa-pencil-alt"></i> Ejercicio Práctico D: Integridad y Actualización Catastral</h4>
-            <p><strong>Caso real:</strong> Eres el supervisor catastral del GAMLP. Durante una auditoría interna, detectas los siguientes problemas en la geodatabase del Distrito 5:</p>
+            <p><strong>Caso real:</strong> Eres el supervisor catastral del GAMLP. Durante una auditoría interna, detectas los siguientes problemas en la geodatabase del Distrito 31:</p>
             <ul>
-                <li><strong>Predio 5-6-7:</strong> Su geometría se superpone en un 8% con el predio 5-6-8.</li>
-                <li><strong>Predio 5-6-12:</strong> Su titular falleció hace 3 años y el predio sigue a su nombre.</li>
-                <li><strong>Manzana 6:</strong> Existe un hueco de 15 m² entre los predios 5-6-9 y 5-6-10.</li>
-                <li><strong>Predio 5-6-15:</strong> Tiene un área construida registrada de 80 m², pero en la imagen satelital del SITEC se observa una ampliación que llega a 120 m².</li>
+                <li><strong>Predio 31-1071-6:</strong> Su geometría se superpone en un 8% con el predio 31-1071-5.</li>
+                <li><strong>Predio 31-1147-1:</strong> Su titular falleció hace 3 años y el predio sigue a su nombre.</li>
+                <li><strong>Manzana 1129:</strong> Existe un hueco de 15 m² entre los predios 31-1129-2 y 31-1129-14</li>
+                <li><strong>Predio 34-159-4:</strong> Tiene un área construida registrada de 80 m², pero en la imagen DRON del SITEC se observa una ampliación que llega a 120 m².</li>
             </ul>
             <p><strong>Preguntas:</strong></p>
             <ol>
                 <li>¿Qué <strong>regla de integridad</strong> se viola en cada caso? Clasifica cada problema según la dimensión (exactitud, completitud, consistencia, actualidad).</li>
-                <li>Para el predio 5-6-7, ¿qué debería hacer el sistema automáticamente al detectar la superposición? ¿Qué herramienta del GAMLP permite corregir la geometría?</li>
-                <li>Para el predio 5-6-15, ¿qué mecanismo de actualización del GAMLP permitiría detectar y corregir la diferencia entre el área registrada y el área real?</li>
+                <li>Para el predio 31-1071-6, ¿qué debería hacer el sistema automáticamente al detectar la superposición? ¿Qué herramienta del GAMLP permite corregir la geometría?</li>
+                <li>Para el predio 34-159-4, ¿qué mecanismo de actualización del GAMLP permitiría detectar y corregir la diferencia entre el área registrada y el área real?</li>
                 <li>Para el caso del titular fallecido, ¿qué trámite debe iniciar el heredero y qué documentos debe presentar?</li>
             </ol>
             <p><strong>Respuestas esperadas:</strong></p>
             <ul>
-                <li>1. <strong>5-6-7:</strong> Violación de <strong>No superposición</strong> (dimensión: consistencia). <strong>5-6-12:</strong> Violación de <strong>Exactitud jurídica</strong> (dimensión: actualidad). <strong>Manzana 6:</strong> Violación de <strong>No huecos</strong> (dimensión: completitud). <strong>5-6-15:</strong> Violación de <strong>Exactitud física</strong> (dimensión: actualidad).</li>
+                <li>1. <strong>31-1071-6:</strong> Violación de <strong>No superposición</strong> (dimensión: consistencia). <strong>31-1147-1:</strong> Violación de <strong>Exactitud jurídica</strong> (dimensión: actualidad). <strong>Manzana 6:</strong> Violación de <strong>No huecos</strong> (dimensión: completitud). <strong>5-6-15:</strong> Violación de <strong>Exactitud física</strong> (dimensión: actualidad).</li>
                 <li>2. El sistema debería <strong>rechazar</strong> cualquier modificación que genere la superposición y emitir un error. La corrección se realiza en el <strong>FDRC</strong> o en AutoCAD, ajustando los vértices del predio para que los linderos coincidan.</li>
                 <li>3. El <strong>SITEC</strong> permite contrastar las imágenes satelitales con los registros catastrales. Al detectar la diferencia, se genera una alerta y se notifica al propietario para que inicie el trámite de <strong>Modificación de Datos</strong>.</li>
                 <li>4. El heredero debe iniciar el trámite de <strong>Modificación de Datos (Bienes Inmuebles)</strong> presentando: Testimonio de propiedad o título ejecutorial, Certificado Catastral, y documentación legal que acredite la sucesión (declaratoria de herederos).</li>
